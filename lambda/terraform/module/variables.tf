@@ -12,8 +12,6 @@ variable "lambda_logs_name" {}
 
 variable "handler" {}
 
-variable "query_api_source_arn" {}
-
 variable "service_name" {}
 
 variable "aws_account_id" {}
