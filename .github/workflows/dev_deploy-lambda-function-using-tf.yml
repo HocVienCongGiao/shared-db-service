@@ -1,0 +1,20 @@
+name: Deploy Lambda Functions using Terraform
+
+on:
+  push:
+    branches:
+      - development
+
+jobs:
+  push_dev:
+    runs-on: ubuntu-latest
+    env:
+      TFE_TOKEN: ${{ secrets.TFE_TOKEN }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Deploy Terraform Config 
+        run: |
+          chmod +x ./scripts/terraform-enterprise-push.sh
+          ./scripts/terraform-enterprise-push.sh lambda/terraform HocVienCongGiao/dev-sg-lambda-services-hvcg-shared-db-service
