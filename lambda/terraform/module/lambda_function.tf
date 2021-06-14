@@ -1,5 +1,5 @@
 resource "aws_lambda_function" "this" {
-  filename      = var.filename
+  filename      = data.archive_file.lambda.output_path
   function_name = "${var.environment}_${var.service_name}_${var.function_name}"
   role          = data.aws_iam_role.iam_for_lambda.arn
   handler       = var.handler
@@ -32,3 +32,15 @@ resource "aws_lambda_function" "this" {
     aws_cloudwatch_log_group.this
   ]
 }
+
+# ----------------------------------------------------------------------------------------------------------------------
+# AWS LAMBDA EXPECTS A DEPLOYMENT PACKAGE
+# A deployment package is a ZIP archive that contains your function code and dependencies.
+# ----------------------------------------------------------------------------------------------------------------------
+
+data "archive_file" "lambda" {
+  type        = "zip"
+  source_file = "${path.module}/../../${var.filename}.py"
+  output_path = "${path.module}/python/${var.filename}.py.zip"
+}
+
