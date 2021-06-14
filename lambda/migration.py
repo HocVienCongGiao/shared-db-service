@@ -5,7 +5,7 @@
 
 import json
 
-def lambda_handler(event, context):
+def test1(event, context):
     return {
         'statusCode': 200,
         'body': json.dumps('Hello from Lambda!')
