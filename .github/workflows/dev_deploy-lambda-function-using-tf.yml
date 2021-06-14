@@ -16,6 +16,6 @@ jobs:
 
       - name: Deploy Terraform Config 
         run: |
-          cp -R ./lambda/*.py ./lambda/terraform/python/
+          cp -R ./lambda/*.py ./lambda/terraform/module/python/
           chmod +x ./scripts/terraform-enterprise-push.sh
           ./scripts/terraform-enterprise-push.sh lambda/terraform HocVienCongGiao/dev-sg-lambda-services-hvcg-shared-db-service
