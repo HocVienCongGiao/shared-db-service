@@ -17,7 +17,7 @@ def migrate(event, context):
        backend.apply_migrations(backend.to_apply(migrations))
 
        # Rollback all migrations
-       backend.rollback_migrations(backend.to_rollback(migrations))
+       # backend.rollback_migrations(backend.to_rollback(migrations))
    
     return {
         'statusCode': 200,
