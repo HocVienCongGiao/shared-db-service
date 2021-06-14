@@ -3,7 +3,8 @@ resource "aws_lambda_function" "this" {
   function_name = "${var.environment}_${var.service_name}_${var.function_name}"
   role          = data.aws_iam_role.iam_for_lambda.arn
   handler       = var.handler
-  timeout       = 12
+  timeout       = 30
+  memory_size   = 256
 
   vpc_config {
     # Every subnet should be able to reach an EFS mount target in the same Availability Zone. Cross-AZ mounts are not permitted.
@@ -15,7 +16,7 @@ resource "aws_lambda_function" "this" {
   # For Terraform 0.11.11 and earlier, use the base64sha256() function and the file() function:
   # source_code_hash = "${base64sha256(file("lambda_function_payload.zip"))}"
   source_code_hash = filebase64sha256("${path.module}/python/${var.filename}.py.zip")
-  runtime          = "provided.al2"
+  runtime       = "python3.8"
 
   environment {
     variables = {
