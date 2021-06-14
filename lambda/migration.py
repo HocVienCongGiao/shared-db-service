@@ -11,7 +11,7 @@ from yoyo import get_backend
 backend = get_backend('postgres://hocvien_dev:123456@crossenv-hvcg.coivn3f0oomk.ap-southeast-1.rds.amazonaws.com/dev_hocvienconggiao')
 migrations = read_migrations('./migrations')
 
-def test1(event, context):
+def migrate(event, context):
     with backend.lock():
        # Apply any outstanding migrations
        backend.apply_migrations(backend.to_apply(migrations))
@@ -21,5 +21,5 @@ def test1(event, context):
    
     return {
         'statusCode': 200,
-        'body': json.dumps('Hello from Lambda with Yoyo in-code migrations!')
+        'body': json.dumps('Migration successful!')
     }
