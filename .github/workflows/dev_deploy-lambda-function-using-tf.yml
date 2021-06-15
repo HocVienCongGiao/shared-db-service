@@ -18,16 +18,12 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: 3.8
-      - name: Install dependencies
+      - name: Deploy Terraform config
         run: |
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt --target ./lambda/terraform/module/python; fi
           cp -R ./lambda/*.py ./lambda/terraform/module/python/
           cp -R ./migrations ./lambda/terraform/module/python/
-          cp -R ./shared-db-app ./lambda/terraform/module/python/
-        
-
-      - name: Deploy Terraform Config 
-        run: |
+          cp -R ./shared_db_app ./lambda/terraform/module/python/      
           chmod +x ./scripts/terraform-enterprise-push.sh
           ./scripts/terraform-enterprise-push.sh lambda/terraform HocVienCongGiao/dev-sg-lambda-services-hvcg-shared-db-service
