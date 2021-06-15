@@ -9,7 +9,7 @@
 # from yoyo import read_migrations
 # from yoyo import get_backend
 
-from shared-db-app.migration import migrate
+from shared_db_app.migration import migrate
 
 # Get environment variables
 # DB_USER = os.getenv('DB_USER') # hocvien_dev
