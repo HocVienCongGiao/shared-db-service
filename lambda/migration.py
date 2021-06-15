@@ -3,7 +3,7 @@
    a HTTP Status Code 200.
 """
 
-# import json
+import json
 # import os
 
 # from yoyo import read_migrations
