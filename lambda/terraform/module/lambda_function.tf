@@ -23,6 +23,10 @@ resource "aws_lambda_function" "this" {
       # API_KEY   = var.api_key
       # TFE_TOKEN = var.tfe_token
       LAMBDA_FUNCTION_NAME = var.function_name
+      DB_USER = var.db_user
+      DB_PASSWORD = var.db_password
+      DB_NAME = var.db_name
+
     }
   }
 
