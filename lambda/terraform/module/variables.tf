@@ -21,3 +21,7 @@ variable "aws_region" {}
 variable "environment" {}
  
 variable "filename" {}
+
+variable "db_name" {}
+variable "db_user" {}
+variable "db_password" {}
