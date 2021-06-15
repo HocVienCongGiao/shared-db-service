@@ -26,7 +26,7 @@ resource "aws_lambda_function" "this" {
       DB_USER = var.db_user
       DB_PASSWORD = var.db_password
       DB_NAME = var.db_name
-
+      DB_HOST = "crossenv-hvcg.coivn3f0oomk.ap-southeast-1.rds.amazonaws.com"
     }
   }
 
