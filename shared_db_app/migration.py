@@ -26,4 +26,4 @@ def migrate():
        # Rollback all migrations
        # backend.rollback_migrations(backend.to_rollback(migrations))
    
-    return true
+    return True
