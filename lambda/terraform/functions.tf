@@ -11,4 +11,7 @@ module "migrate" {
   aws_account_id       = var.aws_account_id
   aws_region           = var.aws_region
   environment          = var.environment
+  db_user              = var.db_user
+  db_name              = var.db_name
+  db_password          = var.db_password
 }
