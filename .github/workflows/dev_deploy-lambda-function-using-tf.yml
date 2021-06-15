@@ -10,9 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       TFE_TOKEN: ${{ secrets.TFE_TOKEN }}
-      DB_USER: hocvien_dev
-      DB_PASSWORD: 123456
-      DB_NAME: dev_hocvienconggiao
     steps:
       - name: Checkout
         uses: actions/checkout@v2
