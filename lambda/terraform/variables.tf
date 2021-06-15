@@ -25,3 +25,8 @@ variable "api_key" {
 }
 
 variable "tfe_token" {}
+
+# customised vars for shared-db-service
+variable "db_user" {}
+variable "db_name" {}
+variable "db_password" {}
