@@ -31,5 +31,5 @@ def migration_handler(event, context):
    
     return {
         'statusCode': 200,
-        'body': json.dumps('Migration successful!')
+        'body': json.dumps('Migration successful! v2')
     }

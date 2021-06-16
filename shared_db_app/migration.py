@@ -17,7 +17,7 @@ DB_HOST = os.getenv('DB_HOST') # crossenv-hvcg.coivn3f0oomk.ap-southeast-1.rds.a
 
 # PostgreSQL: database connection
 backend = get_backend("postgres://{}:{}@{}/{}".format(DB_USER, DB_PASSWORD, DB_HOST, DB_NAME))
-migrations = read_migrations('../migrations')
+migrations = read_migrations('./migrations')
 
 def migrate():
     with backend.lock():
