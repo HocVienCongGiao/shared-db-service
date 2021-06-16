@@ -20,9 +20,8 @@ RUN pip install -r ./requirements.txt --target ./lambda/terraform/module/python
 # RUN chmod +x ./scripts/package-python.sh
 # RUN ./scripts/package-python.sh
 RUN cp -R ./lambda/*.py ./lambda/terraform/module/python/
-RUN cp -R ./shared_db_app ./lambda/terraform/module/python/      
-# just for Docker to run properly
-RUN cp -R ./migrations ./lambda/terraform/module/
+RUN cp -R ./shared_db_app ./lambda/terraform/module/python/
+RUN cp -R ./migrations ./lambda/terraform/module/python/
 
 WORKDIR /usr/src/app/lambda/terraform/module/python
 
