@@ -19,7 +19,7 @@ resource "aws_api_gateway_resource" "this-proxy-query" {
 }
 
 // aws_api_gateway_method
-resource "aws_api_gateway_method" "proxy-method" {
+resource "aws_api_gateway_method" "this-proxy" {
   rest_api_id   = aws_api_gateway_rest_api.db-migration-api.id
   resource_id   = aws_api_gateway_resource.this-proxy-query.id
   http_method   = "ANY"
@@ -27,10 +27,10 @@ resource "aws_api_gateway_method" "proxy-method" {
 }
 
 // aws_api_gateway_integration
-resource "aws_api_gateway_integration" "lamda" {
+resource "aws_api_gateway_integration" "this-proxy-option" {
   rest_api_id = aws_api_gateway_rest_api.db-migration-api.id
-  resource_id = aws_api_gateway_method.proxy-method.resource_id
-  http_method = aws_api_gateway_method.proxy-method.http_method
+  resource_id = aws_api_gateway_method.this-proxy.resource_id
+  http_method = aws_api_gateway_method.this-proxy.http_method
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
 //  uri                     = var.uri // TODO need to find correct uri
@@ -43,7 +43,7 @@ Finally, you need to create an API Gateway "deployment" in order to activate the
 */
 resource "aws_api_gateway_deployment" "db-migration-api" {
   depends_on = [
-    aws_api_gateway_integration.lamda
+    aws_api_gateway_integration.this-proxy-option
   ]
 
   rest_api_id = aws_api_gateway_rest_api.db-migration-api.id
