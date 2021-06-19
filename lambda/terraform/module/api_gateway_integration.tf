@@ -1,3 +1,12 @@
+// resource aws_api_gateway_rest_api
+resource "aws_api_gateway_rest_api" "db-migration-api" {
+  name        = "${var.environment}DBMigrationApi"
+  description = "${var.environment} DB MigrationApi Api"
+  endpoint_configuration {
+    types = ["REGIONAL"]
+  }
+}
+
 // data
 data "aws_api_gateway_rest_api" "db-migration-api" {
   name = "${var.environment}DBMigrationApi"
@@ -7,15 +16,6 @@ data "aws_api_gateway_rest_api" "db-migration-api" {
 locals {
   query_api_gateway_root_resource_id    = data.aws_api_gateway_rest_api.db-migration-api.root_resource_id
   query_api_gateway_execution_arn       = "${data.aws_api_gateway_rest_api.db-migration-api.execution_arn}/*/*"
-}
-
-// resource aws_api_gateway_rest_api
-resource "aws_api_gateway_rest_api" "db-migration-api" {
-  name        = "${var.environment}DBMigrationApi"
-  description = "${var.environment} DB MigrationApi Api"
-  endpoint_configuration {
-    types = ["REGIONAL"]
-  }
 }
 
 // aws_api_gateway_resource
