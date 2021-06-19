@@ -77,7 +77,7 @@ resource "aws_api_gateway_deployment" "db-migration-api" {
 
 }
 
-resource "aws_api_gateway_stage" "query-api" {
+resource "aws_api_gateway_stage" "db-migration-api" {
   deployment_id = aws_api_gateway_deployment.db-migration-api.id
   rest_api_id   = aws_api_gateway_rest_api.db-migration-api.id
   stage_name    = "db-migration-api"
