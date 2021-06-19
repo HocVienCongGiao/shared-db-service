@@ -19,7 +19,7 @@ resource "aws_api_gateway_resource" "this-proxy-query" {
 }
 
 // aws_api_gateway_method
-resource "aws_api_gateway_method" "this-proxy" {
+resource "aws_api_gateway_method" "proxy-method" {
   rest_api_id   = aws_api_gateway_rest_api.db-migration-api.id
   resource_id   = aws_api_gateway_resource.this-proxy-query.id
   http_method   = "ANY"
@@ -27,10 +27,10 @@ resource "aws_api_gateway_method" "this-proxy" {
 }
 
 // aws_api_gateway_integration
-resource "aws_api_gateway_integration" "this-proxy-option" {
+resource "aws_api_gateway_integration" "lamda" {
   rest_api_id = aws_api_gateway_rest_api.db-migration-api.id
-  resource_id = aws_api_gateway_method.this-proxy.resource_id
-  http_method = aws_api_gateway_method.this-proxy.http_method
+  resource_id = aws_api_gateway_method.proxy-method.resource_id
+  http_method = aws_api_gateway_method.proxy-method.http_method
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
 //  uri                     = var.uri // TODO need to find correct uri
@@ -42,7 +42,9 @@ resource "aws_api_gateway_integration" "this-proxy-option" {
 Finally, you need to create an API Gateway "deployment" in order to activate the configuration and expose the API at a URL that can be used for testing:
 */
 resource "aws_api_gateway_deployment" "db-migration-api" {
-  depends_on = []
+  depends_on = [
+    aws_api_gateway_integration.lamda
+  ]
 
   rest_api_id = aws_api_gateway_rest_api.db-migration-api.id
   triggers = {
