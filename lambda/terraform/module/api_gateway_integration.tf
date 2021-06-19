@@ -7,11 +7,6 @@ resource "aws_api_gateway_rest_api" "db-migration-api" {
   }
 }
 
-// data
-data "aws_api_gateway_rest_api" "db-migration-api" {
-  name = "${var.environment}DBMigrationApi"
-}
-
 // local variable
 locals {
   query_api_gateway_root_resource_id    = data.aws_api_gateway_rest_api.db-migration-api.root_resource_id
