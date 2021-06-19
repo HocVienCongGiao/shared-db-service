@@ -9,13 +9,11 @@ resource "aws_api_gateway_rest_api" "db-migration-api" {
 
 // local variable
 locals {
-  query_api_gateway_root_resource_id    = data.aws_api_gateway_rest_api.db-migration-api.root_resource_id
-  query_api_gateway_execution_arn       = "${data.aws_api_gateway_rest_api.db-migration-api.execution_arn}/*/*"
 }
 
 // aws_api_gateway_resource
 resource "aws_api_gateway_resource" "this-proxy-query" {
-  rest_api_id = data.aws_api_gateway_rest_api.db-migration-api.id
+  rest_api_id = aws_api_gateway_rest_api.db-migration-api.id
   parent_id   = aws_api_gateway_rest_api.db-migration-api.root_resource_id
   path_part   = "{proxy+}"
 }
@@ -46,7 +44,7 @@ Finally, you need to create an API Gateway "deployment" in order to activate the
 resource "aws_api_gateway_deployment" "db-migration-api" {
   depends_on = []
 
-  rest_api_id = data.aws_api_gateway_rest_api.db-migration-api.id
+  rest_api_id = aws_api_gateway_rest_api.db-migration-api.id
   triggers = {
     # NOTE: The configuration below will satisfy ordering considerations,
     #       but not pick up all future REST API changes. More advanced patterns
@@ -79,7 +77,7 @@ resource "aws_api_gateway_deployment" "db-migration-api" {
 
 resource "aws_api_gateway_stage" "query-api" {
   deployment_id = aws_api_gateway_deployment.db-migration-api.id
-  rest_api_id   = data.aws_api_gateway_rest_api.db-migration-api.id
+  rest_api_id   = aws_api_gateway_rest_api.db-migration-api.id
   stage_name    = "db-migration-api"
 }
 
