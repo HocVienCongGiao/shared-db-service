@@ -1,3 +1,8 @@
+// data
+data "aws_api_gateway_rest_api" "db-migration-api" {
+  name = "${var.environment}DBMigrationApi"
+}
+
 // local variable
 locals {
   query_api_gateway_root_resource_id    = data.aws_api_gateway_rest_api.db-migration-api.root_resource_id
@@ -35,7 +40,8 @@ resource "aws_api_gateway_integration" "this-proxy-option" {
   http_method = aws_api_gateway_method.this-proxy.http_method
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
-  uri                     = var.uri // TODO need to find correct uri
+//  uri                     = var.uri // TODO need to find correct uri
+  uri                     = aws_lambda_function.this.invoke_arn
 }
 
 // aws_api_gateway_deployment
@@ -83,6 +89,6 @@ resource "aws_api_gateway_stage" "query-api" {
 }
 
 // output base_url
-output "query_api_base_url" {
+output "db_migration_api_base_url" {
   value = aws_api_gateway_deployment.db-migration-api.invoke_url
 }
