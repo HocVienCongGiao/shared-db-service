@@ -85,5 +85,6 @@ resource "aws_api_gateway_stage" "db-migration-api" {
 
 // output base_url
 output "db_migration_api_base_url" {
-  value = aws_api_gateway_deployment.db-migration-api.invoke_url
+//  value = aws_api_gateway_deployment.db-migration-api.invoke_url
+  value = "test-ouptput-value"
 }
