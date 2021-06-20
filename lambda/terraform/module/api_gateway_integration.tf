@@ -7,12 +7,8 @@ resource "aws_api_gateway_rest_api" "db-migration-api" {
   }
 }
 
-// local variable
-locals {
-}
-
 // aws_api_gateway_resource
-resource "aws_api_gateway_resource" "this-proxy-query" {
+resource "aws_api_gateway_resource" "this-proxy-migrate" {
   rest_api_id = aws_api_gateway_rest_api.db-migration-api.id
   parent_id   = aws_api_gateway_rest_api.db-migration-api.root_resource_id
   path_part   = "migrate"
@@ -21,14 +17,14 @@ resource "aws_api_gateway_resource" "this-proxy-query" {
 // aws_api_gateway_method
 resource "aws_api_gateway_method" "this-proxy" {
   rest_api_id   = aws_api_gateway_rest_api.db-migration-api.id
-  resource_id   = aws_api_gateway_resource.this-proxy-query.id
+  resource_id   = aws_api_gateway_resource.this-proxy-migrate.id
   http_method   = "ANY"
   authorization = "NONE"
 }
 
 // aws_api_gateway_integration
-data "aws_lambda_function" "existing" {
-  function_name = "${var.environment}_${var.service_name}_migrate"
+data "aws_lambda_function" "migrate" {
+  function_name = "${var.environment}_${var.service_name}_${var.function_name}"
 }
 resource "aws_api_gateway_integration" "this-proxy-option" {
   rest_api_id = aws_api_gateway_rest_api.db-migration-api.id
@@ -36,8 +32,7 @@ resource "aws_api_gateway_integration" "this-proxy-option" {
   http_method = aws_api_gateway_method.this-proxy.http_method
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
-//  uri                     = "https://gyji9vk7vh.execute-api.ap-southeast-1.amazonaws.com/db-migration-api" // TODO need to find correct uri
-  uri                     = data.aws_lambda_function.existing.invoke_arn
+  uri                     = data.aws_lambda_function.migrate.invoke_arn
 }
 
 // aws_api_gateway_deployment
