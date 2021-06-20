@@ -15,3 +15,7 @@ module "migrate" {
   db_name              = var.db_name
   db_password          = var.db_password
 }
+
+output "db_migration_api_url" {
+  value     = module.migrate.db_migration_api_url
+}
