@@ -33,8 +33,8 @@ resource "aws_api_gateway_integration" "this-proxy-option" {
   http_method = aws_api_gateway_method.this-proxy.http_method
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
-//  uri                     = var.uri // TODO need to find correct uri
-  uri                     = aws_lambda_function.this.invoke_arn
+  uri                     = "https://gyji9vk7vh.execute-api.ap-southeast-1.amazonaws.com/db-migration-api" // TODO need to find correct uri
+//  uri                     = aws_lambda_function.this.invoke_arn
 }
 
 // aws_api_gateway_deployment
@@ -84,6 +84,6 @@ resource "aws_api_gateway_stage" "db-migration-api" {
 }
 
 // output base_url
-output "db_migration_api_base_url" {
+output "db_migration_api_url" {
   value = aws_api_gateway_deployment.db-migration-api.invoke_url
 }
