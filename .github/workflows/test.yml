@@ -1,9 +1,10 @@
-name: Deploy Lambda Functions using Terraform
+name: Test Python
 
 on:
   push:
     branches-ingore:
       - development
+      - production
 
 jobs:
   push_dev:
