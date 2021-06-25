@@ -1,12 +1,13 @@
-name: Deploy Lambda Functions using Terraform
+name: Test Python
 
 on:
   push:
     branches-ingore:
       - development
+      - production
 
 jobs:
-  push_dev:
+  test_python:
     runs-on: ubuntu-latest
     env:
       TFE_TOKEN: ${{ secrets.TFE_TOKEN }}
