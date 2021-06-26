@@ -7,13 +7,13 @@ CREATE TABLE IF NOT EXISTS public.polity__polity_name
     id                 UUID PRIMARY KEY REFERENCES polity__polity(id),
     name               VARCHAR NOT NULL
 );
-CREATE UNIQUE INDEX IDX_polity_poility_name ON polity__polity_name (name);
+CREATE UNIQUE INDEX IF NOT EXISTS IDX_polity_poility_name ON polity__polity_name (name);
 CREATE TABLE IF NOT EXISTS public.polity__polity_person_in_charge
 (
     id                 UUID PRIMARY KEY REFERENCES polity__polity(id),
     person_in_charge   VARCHAR NOT NULL
 );
-CREATE UNIQUE INDEX IDX_polity_poility_person_in_charge ON polity__polity_person_in_charge (person_in_charge);
+CREATE INDEX IF NOT EXISTS IDX_polity_poility_person_in_charge ON polity__polity_person_in_charge (person_in_charge);
 
 
 INSERT INTO public.polity__polity (id)
@@ -48,36 +48,41 @@ CREATE VIEW polity__polity_view AS
     SELECT polity__polity.id, name, person_in_charge
     FROM polity__polity
     LEFT JOIN polity__polity_name ON polity__polity.id = polity__polity_name.id
-    LEFT JOIN polity__polity_person_in_charge ON polity__polity.id = polity__polity_person_in_charge.id
+    LEFT JOIN polity__polity_person_in_charge ON polity__polity.id = polity__polity_person_in_charge.id;
 
 
----------------------------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS public.polity__diocese
 (
-    polity_id                            UUID PRIMARY KEY REFERENCES polity__polity(id),
+    polity_id                            UUID PRIMARY KEY REFERENCES polity__polity(id)
 );
-CREATE TABLE IF NOT EXISTS public.polity__diocese_ecclesiatical_province
+CREATE TABLE IF NOT EXISTS public.polity__diocese_ecclesiastical_province
 (
     polity_id                            UUID PRIMARY KEY REFERENCES polity__polity(id),
-    ecclesiatical_province               VARCHAR NOT NULL
+    ecclesiastical_province               VARCHAR NOT NULL
 );
-CREATE UNIQUE INDEX IDX_polity_diocese_ecclesiatical_province ON polity__diocese_ecclesiatical_province (ecclesiatical_province);
+CREATE INDEX IDX_polity_diocese_ecclesiastical_province ON polity__diocese_ecclesiastical_province (ecclesiastical_province);
 
 
 INSERT INTO public.polity__diocese (polity_id)
 VALUES ('40e6215d-b5c6-4896-987c-f30f3678f608');
 
-INSERT INTO public.polity__diocese_ecclesiatical_province (polity_id, ecclesiatical_province)
+INSERT INTO public.polity__diocese_ecclesiastical_province (polity_id, ecclesiastical_province)
 VALUES ('40e6215d-b5c6-4896-987c-f30f3678f608', 'SAI GON');
 
 
+-- CREATE VIEW polity__diocese_view AS
+--     SELECT polity__diocese.polity_id, ecclesiastical_province, name, person_in_charge
+--     FROM polity__diocese
+--     LEFT JOIN polity__diocese_ecclesiastical_province ON polity__diocese.polity_id = polity__diocese_ecclesiastical_province.polity_id
+--     LEFT JOIN polity__polity ON polity__diocese.polity_id = polity__polity.id
+
+
 CREATE VIEW polity__diocese_view AS
-    SELECT polity_id, ecclesiatical_province, name, person_in_charge
-    FROM polity__diocese_ecclesiatical_province
-    LEFT JOIN polity__polity ON polity__diocese.polity_id = polity__polity.id
+    SELECT polity__diocese.polity_id, ecclesiastical_province
+    FROM polity__diocese
+    LEFT JOIN polity__diocese_ecclesiastical_province ON polity__diocese.polity_id = polity__diocese_ecclesiastical_province.polity_id;
 
-
----------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS public.polity__deanery
 (
     polity_id                 UUID PRIMARY KEY REFERENCES polity__polity(id),
