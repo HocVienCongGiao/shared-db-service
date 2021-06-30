@@ -72,10 +72,10 @@ INSERT INTO public.polity__polity_person_in_charge (id, person_in_charge)
 VALUES ('fb19b6e1-bf48-4db0-8260-3c03572136e7', 'Giuse Nguyễn Năng');
 
 INSERT INTO public.polity__polity (id, type)
-VALUES ('a8c5fcc2-e665-4220-9e09-f2f5314d282f', 'deneary');
+VALUES ('a8c5fcc2-e665-4220-9e09-f2f5314d282f', 'deanery');
 
 INSERT INTO public.polity__polity_name (id, name)
-VALUES ('a8c5fcc2-e665-4220-9e09-f2f5314d282f', 'Phu Tho');
+VALUES ('a8c5fcc2-e665-4220-9e09-f2f5314d282f', 'Phú Thọ');
 
 INSERT INTO public.polity__polity_person_in_charge (id, person_in_charge)
 VALUES ('a8c5fcc2-e665-4220-9e09-f2f5314d282f', 'Giuse Pham Ba Lam');
@@ -113,16 +113,21 @@ CREATE VIEW polity__polity_view AS
 
 
 CREATE VIEW polity__diocese_view AS
-    SELECT *
-    FROM polity__diocese;
+    SELECT polity.*, diocese.*
+    FROM polity__diocese diocese
+    LEFT JOIN polity__polity_view polity ON diocese.id = polity.id;
 
 
 CREATE VIEW polity__deanery_view AS
-    SELECT *
-    FROM polity__deanery;
+    SELECT polity.*, deanery.id
+    FROM polity__deanery deanery
+    LEFT JOIN polity__polity_view polity ON deanery.id = polity.id;
 
 
 CREATE VIEW polity__parish_view AS
-    SELECT polity__parish.id, deanery_id
-    FROM polity__parish
-    LEFT JOIN polity__parish_deanery ON polity__parish.id = polity__parish_deanery.id;
+    SELECT parish.*, deanery.*
+    FROM polity__parish parish
+    LEFT JOIN polity__parish_deanery parish_deanery ON parish.id = parish_deanery.id
+    LEFT JOIN polity__deanery_view deanery ON parish_deanery.id = deanery.id
+    
+    ;
