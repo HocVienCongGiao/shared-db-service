@@ -26,7 +26,7 @@ ON identity__user_email(email);
 CREATE TABLE IF NOT EXISTS public.identity__user_phone
 (
     id UUID PRIMARY KEY REFERENCES identity__user(id),
-    phone VARCHAR
+    phone VARCHAR NOT NULL
 );
 
 CREATE
@@ -36,7 +36,7 @@ ON identity__user_phone(phone);
 CREATE TABLE IF NOT EXISTS public.identity__user_password
 (
     id UUID PRIMARY KEY REFERENCES identity__user(id),
-    password VARCHAR
+    password VARCHAR NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS public.identity__user_enabled
