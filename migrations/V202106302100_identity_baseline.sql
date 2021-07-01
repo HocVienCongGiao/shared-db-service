@@ -12,20 +12,14 @@ CREATE TABLE IF NOT EXISTS public.identity__user_username
 CREATE TABLE IF NOT EXISTS public.identity__user_email
 (
     id UUID PRIMARY KEY REFERENCES identity__user(id),
-    email VARCHAR NOT NULL
+    email VARCHAR NOT NULL UNIQUE
 );
-
-CREATE INDEX IDX_identity__user_email
-ON identity__user_email(email);
 
 CREATE TABLE IF NOT EXISTS public.identity__user_phone
 (
     id UUID PRIMARY KEY REFERENCES identity__user(id),
-    phone VARCHAR NOT NULL
+    phone VARCHAR NOT NULL UNIQUE
 );
-
-CREATE INDEX IDX_identity__user_phone
-ON identity__user_phone(phone);
 
 CREATE TABLE IF NOT EXISTS public.identity__user_password
 (
