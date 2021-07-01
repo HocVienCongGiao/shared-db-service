@@ -52,10 +52,10 @@ INSERT INTO public.user__user_username (id, username)
 VALUES ('40e6215d-b5c6-4896-987c-f30f3678f608', 'hvcg_dev');
 
 INSERT INTO public.user__user_email (id, email)
-VALUES ('40e6215d-b5c6-4896-987c-f30f3678f608', 'hvcg_dev@gmail.com');
+VALUES ('40e6215d-b5c6-4896-987c-f30f3678f608', 'projecthocvienconggiao@gmail.com');
 
 INSERT INTO public.user__user_phone (id, phone)
-VALUES ('40e6215d-b5c6-4896-987c-f30f3678f608', '0909683979');
+VALUES ('40e6215d-b5c6-4896-987c-f30f3678f608', '+84 909683979');
 
 INSERT INTO public.user__user_password (id, password)
 VALUES ('40e6215d-b5c6-4896-987c-f30f3678f608', 'dummy_password');
