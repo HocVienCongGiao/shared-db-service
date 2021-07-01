@@ -9,18 +9,13 @@ CREATE TABLE IF NOT EXISTS public.identity__user_username
     username VARCHAR NOT NULL UNIQUE
 );
 
-CREATE
-UNIQUE INDEX IDX_identity__user_username
-ON identity__user_username(username);
-
 CREATE TABLE IF NOT EXISTS public.identity__user_email
 (
     id UUID PRIMARY KEY REFERENCES identity__user(id),
     email VARCHAR NOT NULL
 );
 
-CREATE
-UNIQUE INDEX IDX_identity__user_email
+CREATE INDEX IDX_identity__user_email
 ON identity__user_email(email);
 
 CREATE TABLE IF NOT EXISTS public.identity__user_phone
@@ -29,8 +24,7 @@ CREATE TABLE IF NOT EXISTS public.identity__user_phone
     phone VARCHAR NOT NULL
 );
 
-CREATE
-UNIQUE INDEX IDX_identity__user_phone
+CREATE INDEX IDX_identity__user_phone
 ON identity__user_phone(phone);
 
 CREATE TABLE IF NOT EXISTS public.identity__user_password
