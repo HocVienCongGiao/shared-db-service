@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - development
+      - prod
 
 jobs:
   push_dev:
@@ -24,3 +25,22 @@ jobs:
           ./scripts/package-python.sh
           chmod +x ./scripts/terraform-enterprise-push.sh
           ./scripts/terraform-enterprise-push.sh lambda/terraform HocVienCongGiao/dev-sg-lambda-services-hvcg-shared-db-service
+
+  push_prod:
+    runs-on: ubuntu-latest
+    env:
+      TFE_TOKEN: ${{ secrets.TFE_TOKEN }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        
+      - name: Set up Python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+      - name: Deploy Terraform config
+        run: |
+          chmod +x ./scripts/package-python.sh          
+          ./scripts/package-python.sh
+          chmod +x ./scripts/terraform-enterprise-push.sh
+          ./scripts/terraform-enterprise-push.sh lambda/terraform HocVienCongGiao/prod-sg-lambda-services-hvcg-shared-db-service
