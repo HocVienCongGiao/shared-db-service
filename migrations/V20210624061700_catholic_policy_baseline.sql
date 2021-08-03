@@ -17,7 +17,6 @@ CREATE TABLE IF NOT EXISTS public.polity__polity_person_in_charge
     id                 UUID PRIMARY KEY REFERENCES polity__polity(id),
     person_in_charge   VARCHAR NOT NULL
 );
-CREATE INDEX IF NOT EXISTS IDX_polity_polity_person_in_charge ON polity__polity_person_in_charge (person_in_charge);
 
 CREATE TABLE IF NOT EXISTS public.polity__province
 (
@@ -31,27 +30,18 @@ CREATE TABLE IF NOT EXISTS public.polity__diocese
     id                            UUID PRIMARY KEY REFERENCES polity__polity(id),
     province_id                   UUID NOT NULL REFERENCES polity__province(id)
 );
-CREATE INDEX IF NOT EXISTS IDX_polity_diocese_province ON polity__diocese (province_id);
 
 CREATE TABLE IF NOT EXISTS public.polity__deanery
 (
     id                 UUID PRIMARY KEY REFERENCES polity__polity(id),
     diocese_id         UUID NOT NULL REFERENCES polity__diocese(id)
 );
-CREATE UNIQUE INDEX IF NOT EXISTS IDX_polity_deanery_diocese_id ON polity__deanery (diocese_id);
-
 
 CREATE TABLE IF NOT EXISTS public.polity__parish
 (
     id                  UUID PRIMARY KEY REFERENCES polity__polity(id)
+    deanery_id          UUID NOT NULL REFERENCES polity__deanery(id)    
 );
-CREATE TABLE IF NOT EXISTS public.polity__parish_deanery
-(
-    id                  UUID PRIMARY KEY REFERENCES polity__parish(id),
-    deanery_id          UUID NOT NULL REFERENCES polity__deanery(id)
-);
-CREATE UNIQUE INDEX IF NOT EXISTS IDX_polity_parish_deanery_id ON polity__parish_deanery (deanery_id);
-
 
 INSERT INTO public.polity__polity (id, type)
 VALUES ('3262ca15-b55f-4dcb-8c19-0f37972dfc2a', 'province');
@@ -99,11 +89,7 @@ INSERT INTO public.polity__deanery (id, diocese_id)
 VALUES ('a8c5fcc2-e665-4220-9e09-f2f5314d282f', 'fb19b6e1-bf48-4db0-8260-3c03572136e7');
 
 INSERT INTO public.polity__parish (id)
-VALUES ('369769b1-96ee-4e11-95e9-a9ed1409c043');
-
-INSERT INTO public.polity__parish_deanery (id, deanery_id)
 VALUES ('369769b1-96ee-4e11-95e9-a9ed1409c043', 'a8c5fcc2-e665-4220-9e09-f2f5314d282f');
-
 
 CREATE VIEW polity__polity_view AS
     SELECT polity__polity.id, name, person_in_charge
@@ -127,7 +113,6 @@ CREATE VIEW polity__deanery_view AS
 CREATE VIEW polity__parish_view AS
     SELECT parish.*, deanery.*
     FROM polity__parish parish
-    LEFT JOIN polity__parish_deanery parish_deanery ON parish.id = parish_deanery.id
-    LEFT JOIN polity__deanery_view deanery ON parish_deanery.id = deanery.id
+    LEFT JOIN polity__deanery_view deanery ON parish.deanery_id = deanery.id
     
     ;
