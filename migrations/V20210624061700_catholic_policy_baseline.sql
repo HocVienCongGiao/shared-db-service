@@ -113,6 +113,4 @@ CREATE VIEW polity__deanery_view AS
 CREATE VIEW polity__parish_view AS
     SELECT parish.*, deanery.*
     FROM polity__parish parish
-    LEFT JOIN polity__deanery_view deanery ON parish.deanery_id = deanery.id
-    
-    ;
+    LEFT JOIN polity__deanery_view deanery ON parish.deanery_id = deanery.id;
