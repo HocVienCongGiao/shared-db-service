@@ -6,11 +6,11 @@ resource "aws_lambda_function" "this" {
   timeout       = 120
   memory_size   = 256
 
-  vpc_config {
+ # vpc_config {
     # Every subnet should be able to reach an EFS mount target in the same Availability Zone. Cross-AZ mounts are not permitted.
-    subnet_ids         = var.subnet_ids
-    security_group_ids = var.security_group_ids
-  }
+    #subnet_ids         = var.subnet_ids
+  #  security_group_ids = var.security_group_ids
+ # }
 
   # The filebase64sha256() function is available in Terraform 0.11.12 and later
   # For Terraform 0.11.11 and earlier, use the base64sha256() function and the file() function:
