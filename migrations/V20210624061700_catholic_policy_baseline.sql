@@ -92,7 +92,7 @@ INSERT INTO public.polity__parish (id, deanery_id)
 VALUES ('369769b1-96ee-4e11-95e9-a9ed1409c043', 'a8c5fcc2-e665-4220-9e09-f2f5314d282f');
 
 CREATE VIEW polity__polity_view AS
-    SELECT polity__polity.id, type, name, person_in_charge
+    SELECT polity__polity.id, name, person_in_charge
     FROM polity__polity
     LEFT JOIN polity__polity_name ON polity__polity.id = polity__polity_name.id
     LEFT JOIN polity__polity_person_in_charge ON polity__polity.id = polity__polity_person_in_charge.id;
