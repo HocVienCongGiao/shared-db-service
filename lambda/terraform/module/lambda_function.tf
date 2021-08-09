@@ -3,7 +3,7 @@ resource "aws_lambda_function" "this" {
   function_name = "${var.environment}_${var.service_name}_${var.function_name}"
   role          = data.aws_iam_role.iam_for_lambda.arn
   handler       = var.handler
-  timeout       = 30
+  timeout       = 120
   memory_size   = 256
 
   vpc_config {
