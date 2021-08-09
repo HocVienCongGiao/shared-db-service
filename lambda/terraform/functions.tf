@@ -7,7 +7,7 @@ module "migrate" {
   lambda_logs_name     = "migrate"
   handler              = "migration.migration_handler"
   subnet_ids           = data.aws_subnet_ids.private.ids
-  security_group_ids   = tolist(data.terraform_remote_state.vpc.outputs.vpc_default_security_group_id)
+  security_group_ids   = tolist([data.terraform_remote_state.vpc.outputs.vpc_default_security_group_id])
   aws_account_id       = var.aws_account_id
   aws_region           = var.aws_region
   environment          = var.environment
