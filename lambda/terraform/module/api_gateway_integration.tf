@@ -23,16 +23,13 @@ resource "aws_api_gateway_method" "this-proxy" {
 }
 
 // aws_api_gateway_integration
-data "aws_lambda_function" "migrate" {
-  function_name = "${var.environment}_${var.service_name}_${var.function_name}"
-}
 resource "aws_api_gateway_integration" "this-proxy-option" {
   rest_api_id = aws_api_gateway_rest_api.db-migration-api.id
   resource_id = aws_api_gateway_method.this-proxy.resource_id
   http_method = aws_api_gateway_method.this-proxy.http_method
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
-  uri                     = data.aws_lambda_function.migrate.invoke_arn
+  uri                     = aws_lambda_function.this.invoke_arn
 }
 
 // aws_api_gateway_deployment
