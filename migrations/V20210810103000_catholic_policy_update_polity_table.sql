@@ -7,7 +7,7 @@ DROP VIEW polity__diocese_view;
 DROP VIEW polity__polity_view;
 
 ALTER TABLE public.polity__polity
-    ALTER COLUMN type TYPE VARCHAR;
+    ALTER COLUMN type TYPE VARCHAR(9);
 
 CREATE VIEW polity__polity_view AS
     SELECT polity__polity.id, name, person_in_charge
