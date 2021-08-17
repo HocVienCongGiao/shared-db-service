@@ -1,8 +1,8 @@
-DROP VIEW polity__parish_view;
+DROP VIEW polity__parish_view CASCADE;
 
-DROP VIEW polity__deanery_view;
+DROP VIEW polity__deanery_view CASCADE;
 
-DROP VIEW polity__diocese_view;
+DROP VIEW polity__diocese_view CASCADE;
 
 CREATE OR REPLACE VIEW polity__diocese_view AS
     SELECT polity.*, province.id province_id, province.name province_name, province.person_in_charge province_person_in_charge, province.code province_code
