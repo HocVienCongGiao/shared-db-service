@@ -1,10 +1,10 @@
-DROP VIEW polity__parish_view;
+DROP VIEW polity__parish_view CASCADE;
 
-DROP VIEW polity__deanery_view;
+DROP VIEW polity__deanery_view CASCADE;
 
-DROP VIEW polity__diocese_view;
+DROP VIEW polity__diocese_view CASCADE;
 
-DROP VIEW polity__polity_view;
+DROP VIEW polity__polity_view CASCADE;
 
 ALTER TABLE public.polity__polity
     ALTER COLUMN type TYPE VARCHAR(9);
