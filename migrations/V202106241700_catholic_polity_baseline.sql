@@ -12,6 +12,18 @@ CREATE TABLE IF NOT EXISTS public.polity__polity_name
 );
 CREATE INDEX IF NOT EXISTS IDX_polity_polity_name ON polity__polity_name (name);
 
+CREATE TABLE IF NOT EXISTS public.polity__polity_location_address
+(
+    id                 UUID PRIMARY KEY REFERENCES polity__polity(id),
+    location_address               VARCHAR NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS public.polity__polity_location_name
+(
+    id                 UUID PRIMARY KEY REFERENCES polity__polity(id),
+    location_name               VARCHAR NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS public.polity__polity_person_in_charge
 (
     id                 UUID PRIMARY KEY REFERENCES polity__polity(id),
