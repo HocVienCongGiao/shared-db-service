@@ -5,6 +5,36 @@ CREATE TABLE IF NOT EXISTS public.polity__polity
 );
 CREATE INDEX IF NOT EXISTS IDX_polity__polity_type ON polity__polity (type);
 
+CREATE TABLE IF NOT EXISTS public.polity__institute
+(
+    id                            UUID PRIMARY KEY REFERENCES polity__polity(id)
+);
+
+CREATE TABLE IF NOT EXISTS public.polity__province
+(
+    id                 UUID PRIMARY KEY REFERENCES polity__polity(id),
+    code               VARCHAR NOT NULL
+);
+CREATE UNIQUE INDEX IF NOT EXISTS IDX_polity__province_code ON polity__province (code);
+
+CREATE TABLE IF NOT EXISTS public.polity__diocese
+(
+    id                            UUID PRIMARY KEY REFERENCES polity__polity(id),
+    province_id                   UUID NOT NULL REFERENCES polity__province(id)
+);
+
+CREATE TABLE IF NOT EXISTS public.polity__deanery
+(
+    id                 UUID PRIMARY KEY REFERENCES polity__polity(id),
+    diocese_id         UUID NOT NULL REFERENCES polity__diocese(id)
+);
+
+CREATE TABLE IF NOT EXISTS public.polity__parish
+(
+    id                  UUID PRIMARY KEY REFERENCES polity__polity(id),
+    deanery_id          UUID NOT NULL REFERENCES polity__deanery(id)
+);
+
 CREATE TABLE IF NOT EXISTS public.polity__polity_name
 (
     id                 UUID PRIMARY KEY REFERENCES polity__polity(id),
@@ -34,31 +64,6 @@ CREATE TABLE IF NOT EXISTS public.polity__polity_person_in_charge
 (
     id                 UUID PRIMARY KEY REFERENCES polity__polity(id),
     person_in_charge   VARCHAR NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS public.polity__province
-(
-    id                 UUID PRIMARY KEY REFERENCES polity__polity(id),
-    code               VARCHAR NOT NULL
-);
-CREATE UNIQUE INDEX IF NOT EXISTS IDX_polity__province_code ON polity__province (code);
-
-CREATE TABLE IF NOT EXISTS public.polity__diocese
-(
-    id                            UUID PRIMARY KEY REFERENCES polity__polity(id),
-    province_id                   UUID NOT NULL REFERENCES polity__province(id)
-);
-
-CREATE TABLE IF NOT EXISTS public.polity__deanery
-(
-    id                 UUID PRIMARY KEY REFERENCES polity__polity(id),
-    diocese_id         UUID NOT NULL REFERENCES polity__diocese(id)
-);
-
-CREATE TABLE IF NOT EXISTS public.polity__parish
-(
-    id                  UUID PRIMARY KEY REFERENCES polity__polity(id),
-    deanery_id          UUID NOT NULL REFERENCES polity__deanery(id)
 );
 
 -- Giáo Tỉnh Sài Gòn
@@ -123,6 +128,39 @@ VALUES ('a8c5fcc2-e665-4220-9e09-f2f5314d282f', 'fb19b6e1-bf48-4db0-8260-3c03572
 INSERT INTO public.polity__parish (id, deanery_id)
 VALUES ('369769b1-96ee-4e11-95e9-a9ed1409c043', 'a8c5fcc2-e665-4220-9e09-f2f5314d282f');
 
+-- Institute: Dong Thanh Gia
+INSERT INTO public.polity__polity (id, type)
+VALUES ('1db3b426-83bf-4519-980c-964303c344e4', 'institute');
+
+INSERT INTO public.polity__polity_name (id, name)
+VALUES ('1db3b426-83bf-4519-980c-964303c344e4', 'Dòng Thánh Gia');
+
+INSERT INTO public.polity__polity_location_address (id, location_address)
+VALUES ('1db3b426-83bf-4519-980c-964303c344e4', '603/47 Khóm Bình Đức 3, P. Bình Đức, Long Xuyên, An Giang');
+
+INSERT INTO public.polity__polity_location_name (id, location_name)
+VALUES ('1db3b426-83bf-4519-980c-964303c344e4', 'Dòng Thánh Gia Việt Nam');
+
+INSERT INTO public.polity__polity_location_email (id, location_email)
+VALUES ('1db3b426-83bf-4519-980c-964303c344e4', 'binh@sunrise.vn');
+
+-- Institute: Dong Thanh The
+INSERT INTO public.polity__polity (id, type)
+VALUES ('36a7d729-9dd1-4e79-a73b-0329224ad6d4', 'institute');
+
+INSERT INTO public.polity__polity_name (id, name)
+VALUES ('36a7d729-9dd1-4e79-a73b-0329224ad6d4', 'Dòng Thánh Thể');
+
+INSERT INTO public.polity__polity_location_address (id, location_address)
+VALUES ('36a7d729-9dd1-4e79-a73b-0329224ad6d4', '15b, đường 4, khu phố 4, phường Bình Chiểu, quận Thủ Đức, TPHCM');
+
+INSERT INTO public.polity__polity_location_name (id, location_name)
+VALUES ('36a7d729-9dd1-4e79-a73b-0329224ad6d4', 'Dòng Thánh Thể Việt Nam');
+
+INSERT INTO public.polity__polity_location_email (id, location_email)
+VALUES ('36a7d729-9dd1-4e79-a73b-0329224ad6d4', 'peterbean410@gmail.com');
+
+-- VIEW
 CREATE VIEW polity__polity_view AS
     SELECT polity__polity.id, name, person_in_charge
     FROM polity__polity
