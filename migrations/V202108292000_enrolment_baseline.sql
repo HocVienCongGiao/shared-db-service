@@ -3,7 +3,7 @@ CREATE TABLE IF NOT EXISTS public.enrolment__specialism_instance
 (
     id                 UUID PRIMARY KEY,
     specialism_id      UUID NOT NULL REFERENCES course__program_specialism(id),
-    code               VARCHAR NOT NULL
+    code               VARCHAR NOT NULL,
     UNIQUE (specialism_id, code)
 );
 
