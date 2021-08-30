@@ -123,7 +123,7 @@ CREATE VIEW student__student_view AS
     student__student_phone.phone,
     student__student_undergraduate_school_name.school_name undergraduate_school_name,
 
-    student__student_polity.polity_id
+    student__student_polity.polity_id,
     polity.name polity_name,
     polity.location_address polity_location_address,
     polity.location_name polity_location_name,
