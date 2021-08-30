@@ -96,6 +96,15 @@ VALUES ('4d084b56-54e1-4bd2-878e-c52675497c2b', 'Cần Thơ');
 INSERT INTO public.polity__polity_person_in_charge (id, person_in_charge)
 VALUES ('4d084b56-54e1-4bd2-878e-c52675497c2b', 'Stêphanô Tri Bửu Thiên');
 
+INSERT INTO public.polity__polity_location_address (id, location_address)
+VALUES ('4d084b56-54e1-4bd2-878e-c52675497c2b', '12 Nguyễn Trãi, Ninh Kiều, Cần Thơ');
+
+INSERT INTO public.polity__polity_location_name (id, location_name)
+VALUES ('4d084b56-54e1-4bd2-878e-c52675497c2b', 'Tòa Giám Mục Cần Thơ');
+
+INSERT INTO public.polity__polity_location_email (id, location_email)
+VALUES ('4d084b56-54e1-4bd2-878e-c52675497c2b', 'binh@sunrise.vn');
+
 -- Giáo Hạt Phú Thọ
 INSERT INTO public.polity__polity (id, type)
 VALUES ('a8c5fcc2-e665-4220-9e09-f2f5314d282f', 'deanery');
@@ -144,6 +153,9 @@ VALUES ('1db3b426-83bf-4519-980c-964303c344e4', 'Dòng Thánh Gia Việt Nam');
 INSERT INTO public.polity__polity_location_email (id, location_email)
 VALUES ('1db3b426-83bf-4519-980c-964303c344e4', 'binh@sunrise.vn');
 
+INSERT INTO public.polity__institute (id)
+VALUES ('1db3b426-83bf-4519-980c-964303c344e4');
+
 -- Institute: Dong Thanh The
 INSERT INTO public.polity__polity (id, type)
 VALUES ('36a7d729-9dd1-4e79-a73b-0329224ad6d4', 'institute');
@@ -160,6 +172,8 @@ VALUES ('36a7d729-9dd1-4e79-a73b-0329224ad6d4', 'Dòng Thánh Thể Việt Nam')
 INSERT INTO public.polity__polity_location_email (id, location_email)
 VALUES ('36a7d729-9dd1-4e79-a73b-0329224ad6d4', 'peterbean410@gmail.com');
 
+INSERT INTO public.polity__institute (id)
+VALUES ('36a7d729-9dd1-4e79-a73b-0329224ad6d4');
 -- View
 CREATE VIEW polity__polity_view AS
     SELECT polity__polity.id, type, name, person_in_charge, location_name, location_email, location_address
