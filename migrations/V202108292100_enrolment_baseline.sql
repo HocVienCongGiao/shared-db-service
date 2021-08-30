@@ -76,10 +76,10 @@ INSERT INTO public.enrolment__student_specialism (id, student_id, specialism_ins
 VALUES ('7fdcd5d6-e952-4725-a64f-77d2803db352', '53f549b9-99bf-4e12-88e3-c2f868953283', 'c93d5c74-04d7-4607-b6bf-4f121065ae9e');
 
 -- View
-CREATE VIEW enrolment__student_specialism_enrolment_quick_view AS
+CREATE VIEW enrolment__student_specialism_enrolment_view AS
     SELECT ss.id student_specialism_instance_id, ss.student_id, ss.specialism_instance_progress_id progress_id, progress.level,
     course__enrolable_name.name  specialism_name,
-    student.title as student_title, 
+    student.title as student_title,
     student.christian_name, student.first_name, student.middle_name, student.last_name,
     student.date_of_birth, student.place_of_birth, student.undergraduate_school_name, student.email, student.phone,
     student.polity_name, student.polity_location_name, student.polity_location_address, student.polity_location_email

@@ -110,7 +110,10 @@ VALUES ('53f549b9-99bf-4e12-88e3-c2f868953283', 'Đại Chủng Viện Thánh Qu
 CREATE VIEW student__student_view AS
     SELECT student.*, 
     student__student_title.title,
+
+    student__student_christian_name.saint_id,
     saint__saint_display_name.display_name christian_name,
+
     student__student_first_name.first_name,
     student__student_middle_name.middle_name,
     student__student_last_name.last_name,
@@ -119,6 +122,8 @@ CREATE VIEW student__student_view AS
     student__student_email.email,
     student__student_phone.phone,
     student__student_undergraduate_school_name.school_name undergraduate_school_name,
+
+    student__student_polity.polity_id
     polity.name polity_name,
     polity.location_address polity_location_address,
     polity.location_name polity_location_name,
