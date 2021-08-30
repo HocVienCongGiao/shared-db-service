@@ -81,7 +81,7 @@ CREATE VIEW enrolment__student_specialism_enrolment_view AS
     course__enrolable_name.name  specialism_name,
     student.title as student_title, 
     student.christian_name, student.first_name, student.middle_name, student.last_name,
-    student.date_of_birth, student.place_of_birth, student.undergraduate_school_name, student.email, student.phone
+    student.date_of_birth, student.place_of_birth, student.undergraduate_school_name, student.email, student.phone,
     student.polity_name, student.polity_location_name, student.polity_location_address, student.polity_location_email
     FROM enrolment__student_specialism ss
     LEFT JOIN student__student_view student ON ss.student_id = student.id
