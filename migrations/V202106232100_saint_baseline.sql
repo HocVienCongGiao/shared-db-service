@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS public.saint__saint_feast_day
     feast_month        SMALLINT NOT NULL
 );
 
-
+-- Thánh Phêrô Tông đồ 
 INSERT INTO public.saint__saint (id)
 VALUES ('40e6215d-b5c6-4896-987c-f30f3678f608');
 
