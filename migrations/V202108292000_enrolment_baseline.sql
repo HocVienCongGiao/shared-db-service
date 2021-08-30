@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS public.enrolment__course_instance
     id                              UUID PRIMARY KEY,
     course_id                       UUID NOT NULL REFERENCES course__course(id),
     specialism_instance_progress_id UUID NOT NULL REFERENCES enrolment__specialism_instance_progress(id),
-    UNIQUE (course_id, specialism_instance_id)
+    UNIQUE (course_id, specialism_instance_progress_id)
 );
 
 CREATE TABLE IF NOT EXISTS public.enrolment__course_instance_school_year
