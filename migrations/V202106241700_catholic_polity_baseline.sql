@@ -170,6 +170,11 @@ CREATE VIEW polity__polity_view AS
     LEFT JOIN polity__polity_location_email ON polity__polity.id = polity__polity_location_email.id
     LEFT JOIN polity__polity_location_address ON polity__polity.id = polity__polity_location_address.id;
 
+CREATE VIEW polity__province_view AS
+     SELECT polity.*, province.code
+     FROM polity__province province
+     LEFT JOIN polity__polity_view polity ON province.id = polity.id;
+
 CREATE OR REPLACE VIEW polity__diocese_view AS
     SELECT polity.*, province.id province_id, province.name province_name, province.person_in_charge province_person_in_charge, province.code province_code
     FROM polity__diocese diocese
