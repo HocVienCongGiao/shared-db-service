@@ -105,3 +105,37 @@ VALUES ('53f549b9-99bf-4e12-88e3-c2f868953283', '+84 1228019700');
 
 INSERT INTO public.student__student_undergraduate_school_name (id, school_name)
 VALUES ('53f549b9-99bf-4e12-88e3-c2f868953283', 'Đại Chủng Viện Thánh Quý - Cần Thơ');
+
+-- View
+CREATE VIEW student__student_view AS
+    SELECT student.*, 
+    student__student_title.title,
+    saint__saint_display_name christian_name,
+    student__student_first_name.first_name,
+    student__student_middle_name.middle_name,
+    student__student_last_name.last_name,
+    student__student_date_of_birth.date_of_birth,
+    student__student_place_of_birth.place_of_birth,
+    student__student_email.email,
+    student__student_phone.phone,
+    student__student_undergraduate_school_name.school_name undergraduate_school_name,
+    polity.name polity_name,
+    polity.location_address polity_location_address,
+    polity.location_name polity_location_name,
+    polity.location_email polity_location_email
+    FROM student__student student
+    LEFT JOIN student__student_title ON student.id = student__student_title.id
+    LEFT JOIN student__student_first_name ON student.id = student__student_first_name.id
+    LEFT JOIN student__student_middle_name ON student.id = student__student_middle_name.id
+    LEFT JOIN student__student_last_name ON student.id = student__student_last_name.id
+    LEFT JOIN student__student_date_of_birth ON student.id = student__student_date_of_birth.id
+    LEFT JOIN student__student_place_of_birth ON student.id = student__student_place_of_birth.id
+    LEFT JOIN student__student_email ON student.id = student__student_email.id
+    LEFT JOIN student__student_phone ON student.id = student__student_phone.id
+    LEFT JOIN student__student_undergraduate_school_name ON student.id = student__student_undergraduate_school_name.id
+
+    LEFT JOIN student__student_christian_name ON student.id = student__student_christian_name.id
+    LEFT JOIN saint__saint_display_name ON student__student_christian_name.saint_id = saint__saint_display_name.id
+
+    LEFT JOIN student__student_polity ON student.id = student__student_polity.id
+    LEFT JOIN polity__polity_view polity ON student__student_polity.polity_id = polity.id

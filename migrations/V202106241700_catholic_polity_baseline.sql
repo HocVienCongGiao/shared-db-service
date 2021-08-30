@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS public.polity__polity
 (
     id                 UUID PRIMARY KEY,
-    type               CHAR(9) NOT NULL
+    type               VARCHAR(9) NOT NULL
 );
 CREATE INDEX IF NOT EXISTS IDX_polity__polity_type ON polity__polity (type);
 
@@ -160,27 +160,30 @@ VALUES ('36a7d729-9dd1-4e79-a73b-0329224ad6d4', 'Dòng Thánh Thể Việt Nam')
 INSERT INTO public.polity__polity_location_email (id, location_email)
 VALUES ('36a7d729-9dd1-4e79-a73b-0329224ad6d4', 'peterbean410@gmail.com');
 
--- VIEW
+-- View
 CREATE VIEW polity__polity_view AS
-    SELECT polity__polity.id, name, person_in_charge
+    SELECT polity__polity.id, type, name, person_in_charge, location_name, location_email, location_address
     FROM polity__polity
     LEFT JOIN polity__polity_name ON polity__polity.id = polity__polity_name.id
-    LEFT JOIN polity__polity_person_in_charge ON polity__polity.id = polity__polity_person_in_charge.id;
+    LEFT JOIN polity__polity_person_in_charge ON polity__polity.id = polity__polity_person_in_charge.id
+    LEFT JOIN polity__polity_location_name ON polity__polity.id = polity__polity_location_name.id
+    LEFT JOIN polity__polity_location_email ON polity__polity.id = polity__polity_location_email.id
+    LEFT JOIN polity__polity_location_address ON polity__polity.id = polity__polity_location_address.id;
 
-
-CREATE VIEW polity__diocese_view AS
-    SELECT polity.*, diocese.province_id
+CREATE OR REPLACE VIEW polity__diocese_view AS
+    SELECT polity.*, province.id province_id, province.name province_name, province.person_in_charge province_person_in_charge, province.code province_code
     FROM polity__diocese diocese
-    LEFT JOIN polity__polity_view polity ON diocese.id = polity.id;
+    LEFT JOIN polity__polity_view polity ON diocese.id = polity.id
+    LEFT JOIN polity__province_view province ON diocese.province_id = province.id;
 
-
-CREATE VIEW polity__deanery_view AS
-    SELECT polity.*, deanery.diocese_id
+CREATE OR REPLACE VIEW polity__deanery_view AS
+    SELECT polity.*, diocese.id diocese_id, diocese.name diocese_name, diocese.person_in_charge diocese_person_in_charge, diocese.province_id, diocese.province_name, diocese.province_person_in_charge, diocese.province_code
     FROM polity__deanery deanery
-    LEFT JOIN polity__polity_view polity ON deanery.id = polity.id;
+    LEFT JOIN polity__polity_view polity ON deanery.id = polity.id
+    LEFT JOIN polity__diocese_view diocese ON deanery.diocese_id = diocese.id;
 
-CREATE VIEW polity__parish_view AS
-    SELECT polity.*, parish.deanery_id, deanery.diocese_id
+CREATE OR REPLACE VIEW polity__parish_view AS
+    SELECT polity.*, deanery.id deanery_id, deanery.name deanery_name, deanery.person_in_charge deanery_person_in_charge, deanery.diocese_id, deanery.diocese_name, deanery.diocese_person_in_charge, deanery.province_id, deanery.province_name, deanery.province_person_in_charge, deanery.province_code
     FROM polity__parish parish
     LEFT JOIN polity__polity_view polity ON parish.id = polity.id
     LEFT JOIN polity__deanery_view deanery ON parish.deanery_id = deanery.id;
