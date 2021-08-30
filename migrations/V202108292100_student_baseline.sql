@@ -1,0 +1,107 @@
+CREATE TABLE IF NOT EXISTS public.student__student
+(
+    id                 UUID PRIMARY KEY
+);
+
+CREATE TABLE IF NOT EXISTS public.student__student_polity
+(
+    id                 UUID PRIMARY KEY REFERENCES student__student(id),
+    polity_id          UUID NOT NULL REFERENCES polity__polity(id)
+);
+
+CREATE TABLE IF NOT EXISTS public.student__student_title
+(
+    id                 UUID PRIMARY KEY REFERENCES student__student(id),
+    title              VARCHAR NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS public.student__student_christian_name
+(
+    id                 UUID PRIMARY KEY REFERENCES student__student(id),
+    saint_id           UUID NOT NULL REFERENCES saint__saint(id)
+);
+
+CREATE TABLE IF NOT EXISTS public.student__student_first_name
+(
+    id                 UUID PRIMARY KEY REFERENCES student__student(id),
+    first_name         VARCHAR NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS public.student__student_middle_name
+(
+    id                 UUID PRIMARY KEY REFERENCES student__student(id),
+    middle_name        VARCHAR NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS public.student__student_last_name
+(
+    id                 UUID PRIMARY KEY REFERENCES student__student(id),
+    last_name          VARCHAR NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS public.student__student_date_of_birth
+(
+    id                 UUID PRIMARY KEY REFERENCES student__student(id),
+    date_of_birth      DATE NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS public.student__student_place_of_birth
+(
+    id                 UUID PRIMARY KEY REFERENCES student__student(id),
+    place_of_birth     VARCHAR NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS public.student__student_email
+(
+    id                 UUID PRIMARY KEY REFERENCES student__student(id),
+    email              VARCHAR NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS public.student__student_phone
+(
+    id                 UUID PRIMARY KEY REFERENCES student__student(id),
+    phone              VARCHAR NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS public.student__student_undergraduate_school_name
+(
+    id                 UUID PRIMARY KEY REFERENCES student__student(id),
+    school_name        VARCHAR NOT NULL
+);
+
+-- Student: Nguyễn Hữu Chiến
+INSERT INTO public.student__student (id)
+VALUES ('53f549b9-99bf-4e12-88e3-c2f868953283');
+
+INSERT INTO public.student__student_polity (id, polity_id)
+VALUES ('53f549b9-99bf-4e12-88e3-c2f868953283', '4d084b56-54e1-4bd2-878e-c52675497c2b');
+
+INSERT INTO public.student__student_christian_name (id, saint_id)
+VALUES ('53f549b9-99bf-4e12-88e3-c2f868953283', '40e6215d-b5c6-4896-987c-f30f3678f608');
+
+INSERT INTO public.student__student_title (id, title)
+VALUES ('53f549b9-99bf-4e12-88e3-c2f868953283', 'PRIEST');
+
+INSERT INTO public.student__student_first_name (id, first_name)
+VALUES ('53f549b9-99bf-4e12-88e3-c2f868953283', 'Nguyễn');
+
+INSERT INTO public.student__student_middle_name (id, middle_name)
+VALUES ('53f549b9-99bf-4e12-88e3-c2f868953283', 'Hữu');
+
+INSERT INTO public.student__student_last_name (id, last_name)
+VALUES ('53f549b9-99bf-4e12-88e3-c2f868953283', 'Chiến');
+
+INSERT INTO public.student__student_date_of_birth (id, date_of_birth)
+VALUES ('53f549b9-99bf-4e12-88e3-c2f868953283', '1983-05-16');
+
+INSERT INTO public.student__student_place_of_birth (id, place_of_birth)
+VALUES ('53f549b9-99bf-4e12-88e3-c2f868953283', 'Trà Vinh');
+
+INSERT INTO public.student__student_email (id, email)
+VALUES ('53f549b9-99bf-4e12-88e3-c2f868953283', 'binh@sunrise.vn');
+
+INSERT INTO public.student__student_phone (id, phone)
+VALUES ('53f549b9-99bf-4e12-88e3-c2f868953283', '+84 1228019700');
+
+INSERT INTO public.student__student_undergraduate_school_name (id, school_name)
+VALUES ('53f549b9-99bf-4e12-88e3-c2f868953283', 'Đại Chủng Viện Thánh Quý - Cần Thơ');

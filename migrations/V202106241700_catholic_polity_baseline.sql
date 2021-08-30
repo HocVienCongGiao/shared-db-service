@@ -3,25 +3,31 @@ CREATE TABLE IF NOT EXISTS public.polity__polity
     id                 UUID PRIMARY KEY,
     type               CHAR(9) NOT NULL
 );
-CREATE INDEX IF NOT EXISTS IDX_polity_polity_type ON polity__polity (type);
+CREATE INDEX IF NOT EXISTS IDX_polity__polity_type ON polity__polity (type);
 
 CREATE TABLE IF NOT EXISTS public.polity__polity_name
 (
     id                 UUID PRIMARY KEY REFERENCES polity__polity(id),
     name               VARCHAR NOT NULL
 );
-CREATE INDEX IF NOT EXISTS IDX_polity_polity_name ON polity__polity_name (name);
+CREATE INDEX IF NOT EXISTS IDX_polity__polity_name ON polity__polity_name (name);
+
+CREATE TABLE IF NOT EXISTS public.polity__polity_location_email
+(
+    id                 UUID PRIMARY KEY REFERENCES polity__polity(id),
+   location_email      VARCHAR NOT NULL
+);
 
 CREATE TABLE IF NOT EXISTS public.polity__polity_location_address
 (
     id                 UUID PRIMARY KEY REFERENCES polity__polity(id),
-    location_address               VARCHAR NOT NULL
+    location_address   VARCHAR NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS public.polity__polity_location_name
 (
     id                 UUID PRIMARY KEY REFERENCES polity__polity(id),
-    location_name               VARCHAR NOT NULL
+    location_name      VARCHAR NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS public.polity__polity_person_in_charge
@@ -35,7 +41,7 @@ CREATE TABLE IF NOT EXISTS public.polity__province
     id                 UUID PRIMARY KEY REFERENCES polity__polity(id),
     code               VARCHAR NOT NULL
 );
-CREATE UNIQUE INDEX IF NOT EXISTS IDX_polity_province_code ON polity__province (code);
+CREATE UNIQUE INDEX IF NOT EXISTS IDX_polity__province_code ON polity__province (code);
 
 CREATE TABLE IF NOT EXISTS public.polity__diocese
 (
@@ -55,6 +61,7 @@ CREATE TABLE IF NOT EXISTS public.polity__parish
     deanery_id          UUID NOT NULL REFERENCES polity__deanery(id)
 );
 
+-- Giáo Tỉnh Sài Gòn
 INSERT INTO public.polity__polity (id, type)
 VALUES ('3262ca15-b55f-4dcb-8c19-0f37972dfc2a', 'province');
 
@@ -64,15 +71,27 @@ VALUES ('3262ca15-b55f-4dcb-8c19-0f37972dfc2a', 'Sài Gòn');
 INSERT INTO public.polity__polity_person_in_charge (id, person_in_charge)
 VALUES ('3262ca15-b55f-4dcb-8c19-0f37972dfc2a', 'Giuse Nguyễn Năng');
 
+-- Giáo Phận Sài Gòn
 INSERT INTO public.polity__polity (id, type)
 VALUES ('fb19b6e1-bf48-4db0-8260-3c03572136e7', 'diocese');
 
 INSERT INTO public.polity__polity_name (id, name)
-VALUES ('fb19b6e1-bf48-4db0-8260-3c03572136e7', 'Thành phố Hồ Chí Minh');
+VALUES ('fb19b6e1-bf48-4db0-8260-3c03572136e7', 'Sài Gòn');
 
 INSERT INTO public.polity__polity_person_in_charge (id, person_in_charge)
 VALUES ('fb19b6e1-bf48-4db0-8260-3c03572136e7', 'Giuse Nguyễn Năng');
 
+-- Giáo Phận Cần Thơ
+INSERT INTO public.polity__polity (id, type)
+VALUES ('4d084b56-54e1-4bd2-878e-c52675497c2b', 'diocese');
+
+INSERT INTO public.polity__polity_name (id, name)
+VALUES ('4d084b56-54e1-4bd2-878e-c52675497c2b', 'Cần Thơ');
+
+INSERT INTO public.polity__polity_person_in_charge (id, person_in_charge)
+VALUES ('4d084b56-54e1-4bd2-878e-c52675497c2b', 'Stêphanô Tri Bửu Thiên');
+
+-- Giáo Hạt Phú Thọ
 INSERT INTO public.polity__polity (id, type)
 VALUES ('a8c5fcc2-e665-4220-9e09-f2f5314d282f', 'deanery');
 
@@ -82,6 +101,7 @@ VALUES ('a8c5fcc2-e665-4220-9e09-f2f5314d282f', 'Phú Thọ');
 INSERT INTO public.polity__polity_person_in_charge (id, person_in_charge)
 VALUES ('a8c5fcc2-e665-4220-9e09-f2f5314d282f', 'Giuse Pham Ba Lam');
 
+-- Giáo Xứ Hòa Hưng
 INSERT INTO public.polity__polity (id, type)
 VALUES ('369769b1-96ee-4e11-95e9-a9ed1409c043', 'parish');
 
