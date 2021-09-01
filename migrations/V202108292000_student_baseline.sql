@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS public.student__student_christian_names
 (
     student_id         UUID NOT NULL REFERENCES student__student(id),
     saint_id           UUID NOT NULL REFERENCES saint__saint(id),
-    ordering           SMALLINT NOT NULL
+    ordering           SMALLINT NOT NULL,
     PRIMARY KEY(student_id, saint_id)
 );
 
