@@ -119,8 +119,6 @@ CREATE VIEW student__student_christian_name_view AS
 CREATE VIEW student__student_view AS
     SELECT student.*, 
     student__student_title.title,
-
-    student__student_christian_name.saint_id,
     student__student_christian_name_view.christian_name,
 
     student__student_first_name.first_name,
