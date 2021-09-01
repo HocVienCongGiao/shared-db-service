@@ -114,7 +114,7 @@ CREATE VIEW student__student_christian_name_view AS
     FROM student__student student
     LEFT JOIN student__student_christian_names ON student.id = student__student_christian_names.student_id
     LEFT JOIN saint__saint_display_name ON student__student_christian_names.saint_id = saint__saint_display_name.id
-    GROUP BY student.id
+    GROUP BY student.id;
 
 CREATE VIEW student__student_view AS
     SELECT student.*, 
