@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS public.enrolment__specialism_instance_progresses
 
 CREATE TABLE IF NOT EXISTS public.enrolment__specialism_instance_progress_school_year
 (
-    id                  UUID PRIMARY KEY REFERENCES enrolment__specialism_instance_progress(id),
+    id                  UUID PRIMARY KEY REFERENCES enrolment__specialism_instance_progresses(id),
     school_year         SMALLINT NOT NULL
 );
 
@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS public.enrolment__course_instance
 (
     id                              UUID PRIMARY KEY,
     course_id                       UUID NOT NULL REFERENCES course__course(id),
-    specialism_instance_progress_id UUID NOT NULL REFERENCES enrolment__specialism_instance_progress(id),
+    specialism_instance_progress_id UUID NOT NULL REFERENCES enrolment__specialism_instance_progresses(id),
     UNIQUE (course_id, specialism_instance_progress_id)
 );
 
@@ -47,7 +47,7 @@ CREATE TABLE IF NOT EXISTS public.enrolment__students_specialisms
 (
     id                      UUID PRIMARY KEY,
     student_id              UUID NOT NULL REFERENCES student__student(id),
-    specialism_instance_progress_id  UUID NOT NULL REFERENCES enrolment__specialism_instance_progress(id),
+    specialism_instance_progress_id  UUID NOT NULL REFERENCES enrolment__specialism_instance_progresses(id),
     UNIQUE (student_id, specialism_instance_progress_id)
 );
 
