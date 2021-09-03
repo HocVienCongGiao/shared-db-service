@@ -1,3 +1,7 @@
+-- Enable extensions
+CREATE EXTENSION IF NOT EXISTS unaccent ;
+
+-- For example-service
 CREATE TABLE foo (id INT, bar VARCHAR(20));
 CREATE TABLE IF NOT EXISTS public.example__author_initial
 (
