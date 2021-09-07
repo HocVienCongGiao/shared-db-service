@@ -5,25 +5,25 @@ CREATE TABLE IF NOT EXISTS public.identity__user
 
 CREATE TABLE IF NOT EXISTS public.identity__user_username
 (
-    id UUID PRIMARY KEY REFERENCES identity__user(id),
+    id UUID PRIMARY KEY REFERENCES identity__user(id) ON DELETE CASCADE,
     username VARCHAR NOT NULL UNIQUE
 );
 
 CREATE TABLE IF NOT EXISTS public.identity__user_email
 (
-    id UUID PRIMARY KEY REFERENCES identity__user(id),
+    id UUID PRIMARY KEY REFERENCES identity__user(id) ON DELETE CASCADE,
     email VARCHAR NOT NULL UNIQUE
 );
 
 CREATE TABLE IF NOT EXISTS public.identity__user_phone
 (
-    id UUID PRIMARY KEY REFERENCES identity__user(id),
+    id UUID PRIMARY KEY REFERENCES identity__user(id) ON DELETE CASCADE,
     phone VARCHAR NOT NULL UNIQUE
 );
 
 CREATE TABLE IF NOT EXISTS public.identity__user_enabled
 (
-    id UUID PRIMARY KEY REFERENCES identity__user(id),
+    id UUID PRIMARY KEY REFERENCES identity__user(id) ON DELETE CASCADE,
     enabled bool NOT NULL
 );
 
@@ -36,8 +36,8 @@ CREATE TABLE IF NOT EXISTS public.identity__group
 CREATE TABLE IF NOT EXISTS public.identity__users_groups
 (
     id       UUID PRIMARY KEY,
-    user_id  UUID REFERENCES identity__user (id),
-    group_id UUID REFERENCES identity__group (id),
+    user_id  UUID REFERENCES identity__user (id) ON DELETE CASCADE,
+    group_id UUID REFERENCES identity__group (id) ON DELETE CASCADE,
     UNIQUE (user_id, group_id)
 );
 
@@ -90,4 +90,4 @@ FROM identity__user
          LEFT JOIN identity__user_phone
                    ON identity__user.id = identity__user_phone.id
          LEFT JOIN identity__user_enabled
-                   ON identity__user.id = identity__user_enabled.id
+                   ON identity__user.id = identity__user_enabled.id;

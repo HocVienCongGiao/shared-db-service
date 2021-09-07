@@ -2,7 +2,7 @@
 CREATE TABLE IF NOT EXISTS public.enrolment__specialism_instance
 (
     id                 UUID PRIMARY KEY,
-    specialism_id      UUID NOT NULL REFERENCES course__program_specialism(id),
+    specialism_id      UUID NOT NULL REFERENCES course__program_specialism(id) ON DELETE CASCADE,
     code               VARCHAR NOT NULL,
     UNIQUE (specialism_id, code)
 );
@@ -10,14 +10,14 @@ CREATE TABLE IF NOT EXISTS public.enrolment__specialism_instance
 CREATE TABLE IF NOT EXISTS public.enrolment__specialism_instance_progresses
 (
     id                      UUID PRIMARY KEY,
-    specialism_instance_id  UUID NOT NULL REFERENCES enrolment__specialism_instance(id),
+    specialism_instance_id  UUID NOT NULL REFERENCES enrolment__specialism_instance(id) ON DELETE CASCADE,
     level                   SMALLINT NOT NULL,
     UNIQUE (specialism_instance_id, level)
 );
 
 CREATE TABLE IF NOT EXISTS public.enrolment__specialism_instance_progress_school_year
 (
-    id                  UUID PRIMARY KEY REFERENCES enrolment__specialism_instance_progresses(id),
+    id                  UUID PRIMARY KEY REFERENCES enrolment__specialism_instance_progresses(id) ON DELETE CASCADE,
     school_year         SMALLINT NOT NULL
 );
 
@@ -25,20 +25,20 @@ CREATE TABLE IF NOT EXISTS public.enrolment__specialism_instance_progress_school
 CREATE TABLE IF NOT EXISTS public.enrolment__course_instance
 (
     id                              UUID PRIMARY KEY,
-    course_id                       UUID NOT NULL REFERENCES course__course(id),
-    specialism_instance_progress_id UUID NOT NULL REFERENCES enrolment__specialism_instance_progresses(id),
+    course_id                       UUID NOT NULL REFERENCES course__course(id) ON DELETE CASCADE,
+    specialism_instance_progress_id UUID NOT NULL REFERENCES enrolment__specialism_instance_progresses(id) ON DELETE CASCADE,
     UNIQUE (course_id, specialism_instance_progress_id)
 );
 
 CREATE TABLE IF NOT EXISTS public.enrolment__course_instance_school_year
 (
-    id                 UUID PRIMARY KEY REFERENCES enrolment__course_instance(id),
+    id                 UUID PRIMARY KEY REFERENCES enrolment__course_instance(id) ON DELETE CASCADE,
     school_year        SMALLINT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS public.enrolment__course_instance_semester
 (
-    id                 UUID PRIMARY KEY REFERENCES enrolment__course_instance(id),
+    id                 UUID PRIMARY KEY REFERENCES enrolment__course_instance(id) ON DELETE CASCADE,
     semester           SMALLINT NOT NULL
 );
 
@@ -46,8 +46,8 @@ CREATE TABLE IF NOT EXISTS public.enrolment__course_instance_semester
 CREATE TABLE IF NOT EXISTS public.enrolment__students_specialisms
 (
     id                      UUID PRIMARY KEY,
-    student_id              UUID NOT NULL REFERENCES student__student(id),
-    specialism_instance_progress_id  UUID NOT NULL REFERENCES enrolment__specialism_instance_progresses(id),
+    student_id              UUID NOT NULL REFERENCES student__student(id) ON DELETE CASCADE,
+    specialism_instance_progress_id  UUID NOT NULL REFERENCES enrolment__specialism_instance_progresses(id) ON DELETE CASCADE,
     UNIQUE (student_id, specialism_instance_progress_id)
 );
 

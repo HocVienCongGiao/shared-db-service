@@ -5,69 +5,69 @@ CREATE TABLE IF NOT EXISTS public.student__student
 
 CREATE TABLE IF NOT EXISTS public.student__student_polity
 (
-    id                 UUID PRIMARY KEY REFERENCES student__student(id),
-    polity_id          UUID NOT NULL REFERENCES polity__polity(id)
+    id                 UUID PRIMARY KEY REFERENCES student__student(id) ON DELETE CASCADE,
+    polity_id          UUID NOT NULL REFERENCES polity__polity(id) ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS public.student__student_title
 (
-    id                 UUID PRIMARY KEY REFERENCES student__student(id),
+    id                 UUID PRIMARY KEY REFERENCES student__student(id) ON DELETE CASCADE,
     title              VARCHAR NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS public.student__student_christian_names
 (
-    student_id         UUID NOT NULL REFERENCES student__student(id),
-    saint_id           UUID NOT NULL REFERENCES saint__saint(id),
+    student_id         UUID NOT NULL REFERENCES student__student(id) ON DELETE CASCADE,
+    saint_id           UUID NOT NULL REFERENCES saint__saint(id) ON DELETE CASCADE,
     ordering           SMALLINT NOT NULL,
     PRIMARY KEY(student_id, saint_id)
 );
 
 CREATE TABLE IF NOT EXISTS public.student__student_first_name
 (
-    id                 UUID PRIMARY KEY REFERENCES student__student(id),
+    id                 UUID PRIMARY KEY REFERENCES student__student(id) ON DELETE CASCADE,
     first_name         VARCHAR NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS public.student__student_middle_name
 (
-    id                 UUID PRIMARY KEY REFERENCES student__student(id),
+    id                 UUID PRIMARY KEY REFERENCES student__student(id) ON DELETE CASCADE,
     middle_name        VARCHAR NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS public.student__student_last_name
 (
-    id                 UUID PRIMARY KEY REFERENCES student__student(id),
+    id                 UUID PRIMARY KEY REFERENCES student__student(id) ON DELETE CASCADE,
     last_name          VARCHAR NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS public.student__student_date_of_birth
 (
-    id                 UUID PRIMARY KEY REFERENCES student__student(id),
+    id                 UUID PRIMARY KEY REFERENCES student__student(id) ON DELETE CASCADE,
     date_of_birth      DATE NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS public.student__student_place_of_birth
 (
-    id                 UUID PRIMARY KEY REFERENCES student__student(id),
+    id                 UUID PRIMARY KEY REFERENCES student__student(id) ON DELETE CASCADE,
     place_of_birth     VARCHAR NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS public.student__student_email
 (
-    id                 UUID PRIMARY KEY REFERENCES student__student(id),
+    id                 UUID PRIMARY KEY REFERENCES student__student(id) ON DELETE CASCADE,
     email              VARCHAR NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS public.student__student_phone
 (
-    id                 UUID PRIMARY KEY REFERENCES student__student(id),
+    id                 UUID PRIMARY KEY REFERENCES student__student(id) ON DELETE CASCADE,
     phone              VARCHAR NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS public.student__student_undergraduate_school_name
 (
-    id                 UUID PRIMARY KEY REFERENCES student__student(id),
+    id                 UUID PRIMARY KEY REFERENCES student__student(id) ON DELETE CASCADE,
     school_name        VARCHAR NOT NULL
 );
 

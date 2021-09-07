@@ -7,39 +7,39 @@ CREATE TABLE IF NOT EXISTS public.course__enrolable
 -- type: program
 CREATE TABLE IF NOT EXISTS public.course__program
 (
-    id                 UUID PRIMARY KEY REFERENCES course__enrolable(id)
+    id                 UUID PRIMARY KEY REFERENCES course__enrolable(id) ON DELETE CASCADE
 );
 
 -- type: specialism
 CREATE TABLE IF NOT EXISTS public.course__program_specialism
 (
-    id                 UUID PRIMARY KEY REFERENCES course__enrolable(id),
-    program_id         UUID NOT NULL REFERENCES course__program(id)
+    id                 UUID PRIMARY KEY REFERENCES course__enrolable(id) ON DELETE CASCADE,
+    program_id         UUID NOT NULL REFERENCES course__program(id) ON DELETE CASCADE
 );
 
 -- type: course
 CREATE TABLE IF NOT EXISTS public.course__course
 (
-    id                  UUID PRIMARY KEY REFERENCES course__enrolable(id)
+    id                  UUID PRIMARY KEY REFERENCES course__enrolable(id) ON DELETE CASCADE
 );
 
 -- course__enrolable_ properties
 CREATE TABLE IF NOT EXISTS public.course__enrolable_code
 (
-    id                 UUID PRIMARY KEY REFERENCES course__enrolable(id),
+    id                 UUID PRIMARY KEY REFERENCES course__enrolable(id) ON DELETE CASCADE,
     code               VARCHAR NOT NULL
 );
 CREATE UNIQUE INDEX IF NOT EXISTS IDX_course__course__enrolable_code ON course__enrolable_code (code);
 
 CREATE TABLE IF NOT EXISTS public.course__enrolable_name
 (
-    id                 UUID PRIMARY KEY REFERENCES course__enrolable(id),
+    id                 UUID PRIMARY KEY REFERENCES course__enrolable(id) ON DELETE CASCADE,
     name               VARCHAR NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS public.course__enrolable_ects
 (
-    id                 UUID PRIMARY KEY REFERENCES course__enrolable(id),
+    id                 UUID PRIMARY KEY REFERENCES course__enrolable(id) ON DELETE CASCADE,
     ects               SMALLINT NOT NULL
 );
 
@@ -47,8 +47,8 @@ CREATE TABLE IF NOT EXISTS public.course__enrolable_ects
 CREATE TABLE IF NOT EXISTS public.course__course_program_specialism
 (
     id                  UUID PRIMARY KEY,
-    course_id           UUID NOT NULL REFERENCES course__course(id),
-    specialism_id       UUID NOT NULL REFERENCES course__program_specialism(id)
+    course_id           UUID NOT NULL REFERENCES course__course(id) ON DELETE CASCADE,
+    specialism_id       UUID NOT NULL REFERENCES course__program_specialism(id) ON DELETE CASCADE
 );
 
 -- Program: Cử Nhân Thần Học
