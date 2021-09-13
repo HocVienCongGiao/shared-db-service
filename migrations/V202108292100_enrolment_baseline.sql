@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS public.enrolment__specialism
 CREATE TABLE IF NOT EXISTS public.enrolment__specialism_enrolable
 (
     id                           UUID PRIMARY KEY REFERENCES enrolment__specialism(id) ON DELETE CASCADE,
-    enrolable_specialism_id      UUID NOT NULL REFERENCES course__specialism(id) ON DELETE CASCADE
+    enrolable_specialism_id      UUID NOT NULL REFERENCES enrolable__specialism(id) ON DELETE CASCADE
 );
 CREATE INDEX IF NOT EXISTS IDX_enrolment__specialism_enrolable_enrolable_specialism_id ON enrolment__specialism_enrolable(enrolable_specialism_id);
 
@@ -39,7 +39,7 @@ CREATE INDEX IF NOT EXISTS IDX_enrolment__course_specialism_progress_id ON enrol
 CREATE TABLE IF NOT EXISTS public.enrolment__course_enrolable
 (
     id                              UUID PRIMARY KEY,
-    course_id                       UUID NOT NULL REFERENCES course__course(id) ON DELETE CASCADE
+    course_id                       UUID NOT NULL REFERENCES enrolable__course(id) ON DELETE CASCADE
 );
 CREATE INDEX IF NOT EXISTS IDX_enrolment__course_enrolable_course_id ON enrolment__course_enrolable(course_id);
 
@@ -100,7 +100,7 @@ VALUES ('7fdcd5d6-e952-4725-a64f-77d2803db352', '53f549b9-99bf-4e12-88e3-c2f8689
 -- View
 CREATE VIEW enrolment__student_specialism_enrolment_view AS
     SELECT ss.id student_specialism_id, ss.student_id, ss.specialism_progress_id progress_id, progress.level,
-    course__enrolable_name.name  specialism_name,
+    enrolable__enrolable_name.name  specialism_name,
     student.title as student_title,
     student.christian_name, student.first_name, student.middle_name, student.last_name,
     student.date_of_birth, student.place_of_birth, student.undergraduate_school_name, student.email, student.phone,
@@ -111,5 +111,5 @@ CREATE VIEW enrolment__student_specialism_enrolment_view AS
     LEFT JOIN enrolment__specialism_progress progress ON ss.specialism_progress_id = progress.id
     LEFT JOIN enrolment__specialism specialism ON progress.specialism_id = specialism.id
     LEFT JOIN enrolment__specialism_enrolable specialism_enrolable ON specialism.id = specialism_enrolable.id
-    LEFT JOIN course__enrolable enrolable ON  specialism_enrolable.enrolable_specialism_id = enrolable.id
-    LEFT JOIN course__enrolable_name ON enrolable.id = course__enrolable_name.id;
+    LEFT JOIN enrolable__enrolable enrolable ON  specialism_enrolable.enrolable_specialism_id = enrolable.id
+    LEFT JOIN enrolable__enrolable_name ON enrolable.id = enrolable__enrolable_name.id;
