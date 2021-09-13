@@ -16,8 +16,7 @@ CREATE TABLE IF NOT EXISTS public.course__specialism
     id                 UUID PRIMARY KEY REFERENCES course__enrolable(id) ON DELETE CASCADE,
     program_id         UUID NOT NULL REFERENCES course__program(id) ON DELETE CASCADE
 );
-CREATE INDEX IF NOT EXISTS IDX_course__specialism_program_id ON CREATE TABLE IF NOT EXISTS public.course__specialism
- (program_id);
+CREATE INDEX IF NOT EXISTS IDX_course__specialism_program_id ON course__specialism(program_id);
 
 -- type: course
 CREATE TABLE IF NOT EXISTS public.course__course
@@ -33,7 +32,7 @@ CREATE TABLE IF NOT EXISTS public.course__enrolable_phase
     phase_name         VARCHAR NOT NULL,
     UNIQUE (enrolable_id, phase_name)
 );
-CREATE INDEX IF NOT EXISTS IDX_course__enrolable_phase_enrolable_id ON CREATE TABLE IF NOT EXISTS public.course__enrolable_phase
+CREATE INDEX IF NOT EXISTS IDX_course__enrolable_phase_enrolable_id ON course__enrolable_phase
  (enrolable_id);
 
 CREATE TABLE IF NOT EXISTS public.course__enrolable_phase_level
@@ -50,6 +49,8 @@ CREATE TABLE IF NOT EXISTS public.course__enrolable_phase_assignment
     phase_id           UUID NOT NULL REFERENCES course__enrolable_phase(id) ON DELETE CASCADE,
     UNIQUE (enrolable_id, phase_id)
 );
+CREATE INDEX IF NOT EXISTS IDX_course__enrolable_phase_assignment_enrolable_id ON course__enrolable_phase_assignment(enrolable_id);
+CREATE INDEX IF NOT EXISTS IDX_course__enrolable_phase_assignment_phase_id ON course__enrolable_phase_assignment(phase_id);
 
 -- course__enrolable_ properties
 CREATE TABLE IF NOT EXISTS public.course__enrolable_code
@@ -78,6 +79,8 @@ CREATE TABLE IF NOT EXISTS public.course__course_program
     course_id           UUID NOT NULL REFERENCES course__course(id) ON DELETE CASCADE,
     specialism_id       UUID NOT NULL REFERENCES course__program(id) ON DELETE CASCADE
 );
+CREATE UNIQUE INDEX IF NOT EXISTS IDX_course__course_program_course_id ON course__course_program (course_id);
+CREATE UNIQUE INDEX IF NOT EXISTS IDX_course__course_program_specialism_id ON course__course_program (specialism_id);
 
 -- N-N cardinality between course and program_specialism
 CREATE TABLE IF NOT EXISTS public.course__course_specialism
@@ -86,6 +89,8 @@ CREATE TABLE IF NOT EXISTS public.course__course_specialism
     course_id           UUID NOT NULL REFERENCES course__course(id) ON DELETE CASCADE,
     specialism_id       UUID NOT NULL REFERENCES course__specialism(id) ON DELETE CASCADE
 );
+CREATE UNIQUE INDEX IF NOT EXISTS IDX_course__course_specialism_course_id ON course__course_specialism (course_id);
+CREATE UNIQUE INDEX IF NOT EXISTS IDX_course__course_specialism_specialism_id ON course__course_specialism (specialism_id);
 
 -- Program: Cử Nhân Thần Học
 INSERT INTO public.course__enrolable (id, type)
