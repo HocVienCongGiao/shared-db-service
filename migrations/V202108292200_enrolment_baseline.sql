@@ -119,10 +119,6 @@ CREATE TABLE IF NOT EXISTS public.enrolment__students_courses
 CREATE INDEX IF NOT EXISTS IDX_enrolment__students_courses ON enrolment__students_courses(student_id);
 CREATE INDEX IF NOT EXISTS IDX_enrolment__students_courses ON enrolment__students_courses(course_id);
 
--- Program Instance
-CREATE TABLE IF NOT EXISTS public.enrolment__program
-(
-    id                 UUID PRIMARY KEY,
-    code               VARCHAR NOT NULL
-);
 
+-- Program: STL
+INSERT INTO public.enrolment__program (id, code) VALUES ('ec645abf-bc55-413c-a4c7-c55ff701d080', 'STL-K1');
