@@ -128,5 +128,10 @@ INSERT INTO public.enrolment__program_enrolable (id, enrolable_program_id) VALUE
 -- Program: STL - Specialism: Tín Lý
 INSERT INTO public.enrolment__specialism (id, program_id) VALUES ('d4643c5e-d0fb-4826-b6e9-c9217a682b11', 'ec645abf-bc55-413c-a4c7-c55ff701d080');
  
-
 INSERT INTO public.enrolment__specialism_enrolable (id, enrolable_specialism_id) VALUES ('d4643c5e-d0fb-4826-b6e9-c9217a682b11','4eb07b8e-33dc-4e15-85b5-b6024613df20');
+
+-- Degree: STL
+INSERT INTO public.enrolment__degree (id, program_id) VALUES ('c2776d7b-213a-471a-8174-ccf04d550ac1', 'ec645abf-bc55-413c-a4c7-c55ff701d080');
+
+-- Degree: STL - Specialism: Tín Lý
+INSERT INTO public.enrolment__degree_specialism (id, specialism_id) VALUES ('c2776d7b-213a-471a-8174-ccf04d550ac1', 'd4643c5e-d0fb-4826-b6e9-c9217a682b11');
