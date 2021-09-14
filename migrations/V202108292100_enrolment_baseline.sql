@@ -118,30 +118,3 @@ CREATE TABLE IF NOT EXISTS public.enrolment__students_courses
 );
 CREATE INDEX IF NOT EXISTS IDX_enrolment__students_courses ON enrolment__students_courses(student_id);
 CREATE INDEX IF NOT EXISTS IDX_enrolment__students_courses ON enrolment__students_courses(course_id);
-
--- Program: STL  
-INSERT INTO public.enrolment__program (id, code) VALUES ('ec645abf-bc55-413c-a4c7-c55ff701d080', 'STL-K1');
-
-INSERT INTO public.enrolment__program_enrolable (id, enrolable_program_id) VALUES ('ec645abf-bc55-413c-a4c7-c55ff701d080', 'be738e71-0023-40f6-a3e4-7e2a5bde0a75');
-
--- Program: STL - Specialism: Tín Lý
-INSERT INTO public.enrolment__specialism (id, program_id) VALUES ('d4643c5e-d0fb-4826-b6e9-c9217a682b11', 'ec645abf-bc55-413c-a4c7-c55ff701d080');
-
-INSERT INTO public.enrolment__specialism_enrolable (id, enrolable_specialism_id) VALUES ('d4643c5e-d0fb-4826-b6e9-c9217a682b11','4eb07b8e-33dc-4e15-85b5-b6024613df20');
-
--- Degree: STL
-INSERT INTO public.enrolment__degree (id, program_id) VALUES ('c2776d7b-213a-471a-8174-ccf04d550ac1', 'ec645abf-bc55-413c-a4c7-c55ff701d080');
-
--- Degree: STL - Specialism: Tín Lý
-INSERT INTO public.enrolment__degree_specialism (id, specialism_id) VALUES ('c2776d7b-213a-471a-8174-ccf04d550ac1', 'd4643c5e-d0fb-4826-b6e9-c9217a682b11');
-
--- Degree: STL - Specialism: Tín Lý - Level: 1
-INSERT INTO public.enrolment__degree_progress (id, degree_id, level) VALUES ('58dc9f23-81f5-46d5-8026-bbc640f52a64', 'c2776d7b-213a-471a-8174-ccf04d550ac1', 1);
-
--- Degree: STL - Specialism: Tín Lý - Level: 1 - SchoolYear: 2016
-INSERT INTO public.enrolment__degree_progress_school_year (id, school_year) VALUES ('58dc9f23-81f5-46d5-8026-bbc640f52a64', 2016);
-
--- Degree: STL - Specialism: Tín Lý - Level: 1 - SchoolYear: 2016 - Student: Nguyễn Hữu Chiến
-INSERT INTO public.enrolment__students_progresses (id, student_id, degree_progress_id) VALUES ('2f9bd80a-2b68-4c30-9250-e847b13f2b32', '53f549b9-99bf-4e12-88e3-c2f868953283', '58dc9f23-81f5-46d5-8026-bbc640f52a64');
-
--- View
