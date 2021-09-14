@@ -79,4 +79,4 @@ CREATE VIEW saint__saint_view AS
     LEFT JOIN saint__saint_vietnamese_name ON saint__saint.id = saint__saint_vietnamese_name.id
     LEFT JOIN saint__saint_display_name ON saint__saint.id = saint__saint_display_name.id
     LEFT JOIN saint__saint_gender ON saint__saint.id = saint__saint_gender.id
-    LEFT JOIN saint__saint_feast_day ON saint__saint.id = saint__saint_feast_day.id
+    LEFT JOIN saint__saint_feast_day ON saint__saint.id = saint__saint_feast_day.id;
