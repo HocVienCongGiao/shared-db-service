@@ -124,3 +124,8 @@ CREATE INDEX IF NOT EXISTS IDX_enrolment__students_courses ON enrolment__student
 INSERT INTO public.enrolment__program (id, code) VALUES ('ec645abf-bc55-413c-a4c7-c55ff701d080', 'STL-K1');
 
 INSERT INTO public.enrolment__program_enrolable (id, enrolable_program_id) VALUES ('ec645abf-bc55-413c-a4c7-c55ff701d080', 'be738e71-0023-40f6-a3e4-7e2a5bde0a75');
+
+-- Program: STL - Specialism: Tín Lý
+INSERT INTO public.enrolment__specialism (id, program_id) VALUES ('d4643c5e-d0fb-4826-b6e9-c9217a682b11', 'ec645abf-bc55-413c-a4c7-c55ff701d080');
+
+INSERT INTO public.enrolment__specialism_enrolable (id, enrolable_specialism_id) VALUES ('d4643c5e-d0fb-4826-b6e9-c9217a682b11','4eb07b8e-33dc-4e15-85b5-b6024613df20');
