@@ -78,6 +78,13 @@ CREATE TABLE IF NOT EXISTS public.enrolable__program_specialism_code
 );
 CREATE INDEX IF NOT EXISTS IDX_enrolable__program_specialism_code ON enrolable__program_specialism_code(code);
 
+CREATE TABLE IF NOT EXISTS public.enrolable__program_specialism_name
+(
+    id         UUID PRIMARY KEY REFERENCES enrolable__program_specialism(id) ON DELETE CASCADE,
+    name       VARCHAR NOT NULL
+);
+CREATE INDEX IF NOT EXISTS IDX_enrolable__program_specialism_name ON enrolable__program_specialism_name(name);
+
 -- N-N cardinality between course and program
 CREATE TABLE IF NOT EXISTS public.enrolable__courses_programs
 (
@@ -145,12 +152,18 @@ VALUES ('90205738-a4d5-4c9f-8cab-9b7a6b2da4ed', 'be738e71-0023-40f6-a3e4-7e2a5bd
 INSERT INTO public.enrolable__program_specialism_code (id, code)
 VALUES ('90205738-a4d5-4c9f-8cab-9b7a6b2da4ed', 'TK');
 
+INSERT INTO public.enrolable__program_specialism_name (id, name)
+VALUES ('90205738-a4d5-4c9f-8cab-9b7a6b2da4ed', 'Thánh Kinh');
+
 -- Specialism: Thạc Sĩ Thần Học - Tín Lý
 INSERT INTO public.enrolable__program_specialism (id, program_id)
 VALUES ('4eb07b8e-33dc-4e15-85b5-b6024613df20', 'be738e71-0023-40f6-a3e4-7e2a5bde0a75');
 
 INSERT INTO public.enrolable__program_specialism_code (id, code)
 VALUES ('4eb07b8e-33dc-4e15-85b5-b6024613df20', 'TL');
+
+INSERT INTO public.enrolable__program_specialism_name (id, name)
+VALUES ('4eb07b8e-33dc-4e15-85b5-b6024613df20', 'Tín Lý');
 
 -- View
 CREATE VIEW enrolable__enrolable_view AS
