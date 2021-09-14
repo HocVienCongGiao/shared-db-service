@@ -122,3 +122,5 @@ CREATE INDEX IF NOT EXISTS IDX_enrolment__students_courses ON enrolment__student
 
 -- Program: STL
 INSERT INTO public.enrolment__program (id, code) VALUES ('ec645abf-bc55-413c-a4c7-c55ff701d080', 'STL-K1');
+
+INSERT INTO public.enrolment__program_enrolable (id, enrolable_program_id) VALUES ('ec645abf-bc55-413c-a4c7-c55ff701d080', 'be738e71-0023-40f6-a3e4-7e2a5bde0a75');
