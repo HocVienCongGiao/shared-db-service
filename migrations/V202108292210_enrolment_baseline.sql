@@ -142,3 +142,7 @@ INSERT INTO public.enrolment__degree_progress (id, degree_id, level) VALUES ('58
 
 -- Degree: STL - Specialism: Tín Lý - Level: 1 - SchoolYear: 2016
 INSERT INTO public.enrolment__degree_progress_school_year (id, school_year) VALUES ('58dc9f23-81f5-46d5-8026-bbc640f52a64', 2016);
+
+-- Degree: STL - Specialism: Tín Lý - Level: 1 - SchoolYear: 2016 - Student: Nguyễn Hữu Chiến
+INSERT INTO public.enrolment__students_progresses (id, student_id, degree_progress_id) VALUES ('2f9bd80a-2b68-4c30-9250-e847b13f2b32', '53f549b9-99bf-4e12-88e3-c2f868953283', '58dc9f23-81f5-46d5-8026-bbc640f52a64');
+
