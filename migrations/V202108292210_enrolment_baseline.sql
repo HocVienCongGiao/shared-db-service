@@ -135,3 +135,10 @@ INSERT INTO public.enrolment__degree (id, program_id) VALUES ('c2776d7b-213a-471
 
 -- Degree: STL - Specialism: Tín Lý
 INSERT INTO public.enrolment__degree_specialism (id, specialism_id) VALUES ('c2776d7b-213a-471a-8174-ccf04d550ac1', 'd4643c5e-d0fb-4826-b6e9-c9217a682b11');
+
+
+-- Degree: STL - Specialism: Tín Lý - Level: 1
+INSERT INTO public.enrolment__degree_progress (id, degree_id, level) VALUES ('58dc9f23-81f5-46d5-8026-bbc640f52a64', 'c2776d7b-213a-471a-8174-ccf04d550ac1', 1);
+
+-- Degree: STL - Specialism: Tín Lý - Level: 1 - SchoolYear: 2016
+INSERT INTO public.enrolment__degree_progress_school_year (id, school_year) VALUES ('58dc9f23-81f5-46d5-8026-bbc640f52a64', 2016);
