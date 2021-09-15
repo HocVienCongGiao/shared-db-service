@@ -154,3 +154,15 @@ VALUES ('58dc9f23-81f5-46d5-8026-bbc640f52a64', 2016);
 INSERT INTO public.enrolment__students_progresses (id, student_id, degree_progress_id) 
 VALUES ('2f9bd80a-2b68-4c30-9250-e847b13f2b32', '53f549b9-99bf-4e12-88e3-c2f868953283', '58dc9f23-81f5-46d5-8026-bbc640f52a64');
 
+-- View
+ CREATE VIEW enrolment__degree_view AS
+     SELECT degree.id, degree.program_id AS program_id, es.id AS specialism_id, CONCAT(enrolable_name.name,' - ', psn.name) AS name,
+            enrolable_program_id, enrolable_specialism_id
+        FROM enrolment__degree degree
+         LEFT JOIN enrolment__program_enrolable epe ON degree.program_id = epe.id
+         LEFT JOIN enrolable__enrolable_name enrolable_name ON epe.enrolable_program_id = enrolable_name.id
+         LEFT JOIN enrolment__degree_specialism eds ON degree.id = eds.id
+         LEFT JOIN enrolment__specialism es ON eds.specialism_id = es.id
+         LEFT JOIN enrolment__specialism_enrolable ese ON es.id = ese.id
+         LEFT JOIN enrolable__program_specialism_name psn ON ese.enrolable_specialism_id = psn.id;
+
