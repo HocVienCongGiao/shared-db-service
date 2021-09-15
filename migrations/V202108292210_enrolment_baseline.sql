@@ -166,3 +166,17 @@ VALUES ('2f9bd80a-2b68-4c30-9250-e847b13f2b32', '53f549b9-99bf-4e12-88e3-c2f8689
          LEFT JOIN enrolment__specialism_enrolable ese ON es.id = ese.id
          LEFT JOIN enrolable__program_specialism_name psn ON ese.enrolable_specialism_id = psn.id;
 
+CREATE VIEW enrolment__student_degree_enrolment_view AS
+     SELECT ss.id student_specialism_id, ss.student_id, ss.degree_progress_id progress_id, progress.level,
+     degree.name degree_name, epsn.name specialism_name,
+     student.title as student_title,
+     student.christian_name, student.first_name, student.middle_name, student.last_name,
+     student.date_of_birth, student.place_of_birth, student.undergraduate_school_name, student.email, student.phone,
+     student.polity_name, student.polity_location_name, student.polity_location_address, student.polity_location_email
+     FROM enrolment__students_progresses ss
+     LEFT JOIN student__student_view student ON ss.student_id = student.id
+     LEFT JOIN enrolment__degree_progress progress ON ss.degree_progress_id = progress.id
+     LEFT JOIN enrolment__degree_view degree ON progress.degree_id = degree.id
+     LEFT JOIN enrolment__specialism_enrolable specialism_enrolable ON degree.specialism_id = specialism_enrolable.id
+     LEFT JOIN enrolable__program_specialism_name epsn ON specialism_enrolable.enrolable_specialism_id = epsn.id;
+     
