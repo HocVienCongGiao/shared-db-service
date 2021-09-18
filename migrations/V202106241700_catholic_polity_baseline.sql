@@ -125,6 +125,7 @@ VALUES ('369769b1-96ee-4e11-95e9-a9ed1409c043', 'Hòa Hưng');
 INSERT INTO public.polity__polity_person_in_charge (id, person_in_charge)
 VALUES ('369769b1-96ee-4e11-95e9-a9ed1409c043', 'Giuse Pham Ba Lam');
 
+-- Sub-Entities
 INSERT INTO public.polity__province (id, code)
 VALUES ('3262ca15-b55f-4dcb-8c19-0f37972dfc2a', 'SAI_GON');
 
