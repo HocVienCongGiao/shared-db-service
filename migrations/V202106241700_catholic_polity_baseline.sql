@@ -132,6 +132,9 @@ VALUES ('3262ca15-b55f-4dcb-8c19-0f37972dfc2a', 'SAI_GON');
 INSERT INTO public.polity__diocese (id, province_id)
 VALUES ('fb19b6e1-bf48-4db0-8260-3c03572136e7', '3262ca15-b55f-4dcb-8c19-0f37972dfc2a');
 
+INSERT INTO public.polity__diocese (id, province_id)
+VALUES ('4d084b56-54e1-4bd2-878e-c52675497c2b', '3262ca15-b55f-4dcb-8c19-0f37972dfc2a');
+
 INSERT INTO public.polity__deanery (id, diocese_id)
 VALUES ('a8c5fcc2-e665-4220-9e09-f2f5314d282f', 'fb19b6e1-bf48-4db0-8260-3c03572136e7');
 
