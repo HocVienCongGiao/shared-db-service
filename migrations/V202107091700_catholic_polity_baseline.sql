@@ -76,6 +76,36 @@ VALUES ('3262ca15-b55f-4dcb-8c19-0f37972dfc2a', 'Sài Gòn');
 INSERT INTO public.polity__polity_person_in_charge (id, person_in_charge)
 VALUES ('3262ca15-b55f-4dcb-8c19-0f37972dfc2a', 'Giuse Nguyễn Năng');
 
+INSERT INTO public.polity__province (id, code)
+VALUES ('3262ca15-b55f-4dcb-8c19-0f37972dfc2a', 'SAI_GON');
+
+
+-- Giáo Tỉnh Hà Nội
+INSERT INTO public.polity__polity (id, type)
+VALUES ('ea8ab7a2-4065-4dd6-88c7-f037427e84cc', 'province');
+
+INSERT INTO public.polity__polity_name (id, name)
+VALUES ('ea8ab7a2-4065-4dd6-88c7-f037427e84cc', 'Hà Nội');
+
+INSERT INTO public.polity__polity_person_in_charge (id, person_in_charge)
+VALUES ('ea8ab7a2-4065-4dd6-88c7-f037427e84cc', 'Giuse Vũ Văn Thiên');
+
+INSERT INTO public.polity__province (id, code)
+VALUES ('ea8ab7a2-4065-4dd6-88c7-f037427e84cc', 'HA_NOI');
+
+-- Giáo Tỉnh Huế
+INSERT INTO public.polity__polity (id, type)
+VALUES ('496603d8-df71-4444-8794-98dad88c4c30', 'province');
+
+INSERT INTO public.polity__polity_name (id, name)
+VALUES ('496603d8-df71-4444-8794-98dad88c4c30', 'Huế');
+
+INSERT INTO public.polity__polity_person_in_charge (id, person_in_charge)
+VALUES ('496603d8-df71-4444-8794-98dad88c4c30', 'Giuse Nguyễn Chí Linh');
+
+INSERT INTO public.polity__province (id, code)
+VALUES ('496603d8-df71-4444-8794-98dad88c4c30', 'HUE');
+
 -- Giáo Phận Sài Gòn
 INSERT INTO public.polity__polity (id, type)
 VALUES ('fb19b6e1-bf48-4db0-8260-3c03572136e7', 'diocese');
@@ -85,6 +115,9 @@ VALUES ('fb19b6e1-bf48-4db0-8260-3c03572136e7', 'Sài Gòn');
 
 INSERT INTO public.polity__polity_person_in_charge (id, person_in_charge)
 VALUES ('fb19b6e1-bf48-4db0-8260-3c03572136e7', 'Giuse Nguyễn Năng');
+
+INSERT INTO public.polity__diocese (id, province_id)
+VALUES ('fb19b6e1-bf48-4db0-8260-3c03572136e7', '3262ca15-b55f-4dcb-8c19-0f37972dfc2a');
 
 -- Giáo Phận Cần Thơ
 INSERT INTO public.polity__polity (id, type)
@@ -105,6 +138,9 @@ VALUES ('4d084b56-54e1-4bd2-878e-c52675497c2b', 'Tòa Giám Mục Cần Thơ');
 INSERT INTO public.polity__polity_location_email (id, location_email)
 VALUES ('4d084b56-54e1-4bd2-878e-c52675497c2b', 'binh@sunrise.vn');
 
+INSERT INTO public.polity__diocese (id, province_id)
+VALUES ('4d084b56-54e1-4bd2-878e-c52675497c2b', '3262ca15-b55f-4dcb-8c19-0f37972dfc2a');
+
 -- Giáo Hạt Phú Thọ
 INSERT INTO public.polity__polity (id, type)
 VALUES ('a8c5fcc2-e665-4220-9e09-f2f5314d282f', 'deanery');
@@ -115,6 +151,9 @@ VALUES ('a8c5fcc2-e665-4220-9e09-f2f5314d282f', 'Phú Thọ');
 INSERT INTO public.polity__polity_person_in_charge (id, person_in_charge)
 VALUES ('a8c5fcc2-e665-4220-9e09-f2f5314d282f', 'Giuse Pham Ba Lam');
 
+INSERT INTO public.polity__deanery (id, diocese_id)
+VALUES ('a8c5fcc2-e665-4220-9e09-f2f5314d282f', 'fb19b6e1-bf48-4db0-8260-3c03572136e7');
+
 -- Giáo Xứ Hòa Hưng
 INSERT INTO public.polity__polity (id, type)
 VALUES ('369769b1-96ee-4e11-95e9-a9ed1409c043', 'parish');
@@ -124,19 +163,6 @@ VALUES ('369769b1-96ee-4e11-95e9-a9ed1409c043', 'Hòa Hưng');
 
 INSERT INTO public.polity__polity_person_in_charge (id, person_in_charge)
 VALUES ('369769b1-96ee-4e11-95e9-a9ed1409c043', 'Giuse Pham Ba Lam');
-
--- Sub-Entities
-INSERT INTO public.polity__province (id, code)
-VALUES ('3262ca15-b55f-4dcb-8c19-0f37972dfc2a', 'SAI_GON');
-
-INSERT INTO public.polity__diocese (id, province_id)
-VALUES ('fb19b6e1-bf48-4db0-8260-3c03572136e7', '3262ca15-b55f-4dcb-8c19-0f37972dfc2a');
-
-INSERT INTO public.polity__diocese (id, province_id)
-VALUES ('4d084b56-54e1-4bd2-878e-c52675497c2b', '3262ca15-b55f-4dcb-8c19-0f37972dfc2a');
-
-INSERT INTO public.polity__deanery (id, diocese_id)
-VALUES ('a8c5fcc2-e665-4220-9e09-f2f5314d282f', 'fb19b6e1-bf48-4db0-8260-3c03572136e7');
 
 INSERT INTO public.polity__parish (id, deanery_id)
 VALUES ('369769b1-96ee-4e11-95e9-a9ed1409c043', 'a8c5fcc2-e665-4220-9e09-f2f5314d282f');
