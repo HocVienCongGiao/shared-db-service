@@ -110,15 +110,18 @@ VALUES ('53f549b9-99bf-4e12-88e3-c2f868953283', 'Đại Chủng Viện Thánh Qu
 
 -- View
 CREATE VIEW student__student_christian_name_view AS
-    SELECT student.id as student_id, string_agg(saint__saint_display_name.display_name, ' ' ORDER BY student__student_christian_names.ordering) as christian_name       
+    SELECT student.id as student_id,
+    array_agg(saint__saint_display_name.id ORDER BY student__student_christian_names.ordering) as saint_ids,
+    string_agg(saint__saint_display_name.display_name, ' ' ORDER BY student__student_christian_names.ordering) as christian_name
     FROM student__student student
     LEFT JOIN student__student_christian_names ON student.id = student__student_christian_names.student_id
     LEFT JOIN saint__saint_display_name ON student__student_christian_names.saint_id = saint__saint_display_name.id
     GROUP BY student.id;
 
 CREATE VIEW student__student_view AS
-    SELECT student.*, 
+    SELECT student.*,
     student__student_title.title,
+    student__student_christian_name_view.saint_ids,
     student__student_christian_name_view.christian_name,
 
     student__student_first_name.first_name,
