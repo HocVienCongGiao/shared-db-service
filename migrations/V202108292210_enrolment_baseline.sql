@@ -68,6 +68,13 @@ CREATE TABLE IF NOT EXISTS public.enrolment__degree_progress_school_year
 );
 CREATE INDEX IF NOT EXISTS IDX_enrolment__degree_progress_school_year ON enrolment__degree_progress_school_year(school_year);
 
+CREATE TABLE IF NOT EXISTS public.enrolment__degree_progress_semester
+(
+    id                  UUID PRIMARY KEY REFERENCES enrolment__degree_progress_school_year(id) ON DELETE CASCADE,
+    semester            SMALLINT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS IDX_enrolment__degree_progress_semester ON enrolment__degree_progress_semester(semester);
+
 -- Course Instance
 CREATE TABLE IF NOT EXISTS public.enrolment__course
 (
@@ -149,6 +156,10 @@ VALUES ('58dc9f23-81f5-46d5-8026-bbc640f52a64', 'c2776d7b-213a-471a-8174-ccf04d5
 -- Degree: STL - Specialism: Tín Lý - Level: 1 - SchoolYear: 2016
 INSERT INTO public.enrolment__degree_progress_school_year (id, school_year) 
 VALUES ('58dc9f23-81f5-46d5-8026-bbc640f52a64', 2016);
+
+-- Degree: STL - Specialism: Tín Lý - Level: 1 - SchoolYear: 2016 - Semester: 1
+INSERT INTO public.enrolment__degree_progress_semester (id, semester) 
+VALUES ('58dc9f23-81f5-46d5-8026-bbc640f52a64', 1);
 
 -- Degree: STL - Specialism: Tín Lý - Level: 1 - SchoolYear: 2016 - Student: Nguyễn Hữu Chiến
 INSERT INTO public.enrolment__students_progresses (id, student_id, degree_progress_id) 
