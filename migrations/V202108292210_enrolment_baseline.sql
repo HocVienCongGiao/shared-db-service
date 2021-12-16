@@ -46,10 +46,10 @@ CREATE INDEX IF NOT EXISTS IDX_enrolment__degree_specialism_specialism_id ON enr
 
 CREATE TABLE IF NOT EXISTS public.enrolment__degree_code
 (
-    id                 UUID PRIMARY KEY,
-    specialism_id      UUID NOT NULL REFERENCES enrolment__specialism(id) ON DELETE CASCADE
+    id                 UUID PRIMARY KEY REFERENCES enrolment__degree (id) ON DELETE CASCADE,
+    code               VARCHAR NOT NULL
 );
-CREATE INDEX IF NOT EXISTS IDX_enrolment__degree_specialism_specialism_id ON enrolment__degree_specialism (specialism_id);
+CREATE INDEX IF NOT EXISTS IDX_enrolment__degree_specialism_code ON enrolment__degree_code(code);
 
 -- Degree Progress
 CREATE TABLE IF NOT EXISTS public.enrolment__degree_progress
@@ -86,24 +86,10 @@ CREATE INDEX IF NOT EXISTS IDX_enrolment__course_degree_progress_id ON enrolment
 -- Course enrolable
 CREATE TABLE IF NOT EXISTS public.enrolment__course_enrolable
 (
-    id                              UUID PRIMARY KEY,
+    id                              UUID PRIMARY KEY REFERENCES enrolment__course(id) ON DELETE CASCADE,
     enrolable_course_id             UUID NOT NULL REFERENCES enrolable__course(id) ON DELETE CASCADE
 );
 CREATE INDEX IF NOT EXISTS IDX_enrolment__course_enrolable_course_id ON enrolment__course_enrolable(enrolable_course_id);
-
-CREATE TABLE IF NOT EXISTS public.enrolment__course_school_year
-(
-    id                 UUID PRIMARY KEY REFERENCES enrolment__course(id) ON DELETE CASCADE,
-    school_year        SMALLINT NOT NULL
-);
-CREATE INDEX IF NOT EXISTS IDX_enrolment__course_school_year_school_year ON enrolment__course_school_year(school_year);
-
-CREATE TABLE IF NOT EXISTS public.enrolment__course_semester
-(
-    id                 UUID PRIMARY KEY REFERENCES enrolment__course(id) ON DELETE CASCADE,
-    semester           SMALLINT NOT NULL
-);
-CREATE INDEX IF NOT EXISTS IDX_enrolment__course_semester_semester ON enrolment__course_semester(semester);
 
 -- Student Enrolment
 CREATE TABLE IF NOT EXISTS public.enrolment__students_progresses
@@ -128,21 +114,21 @@ CREATE INDEX IF NOT EXISTS IDX_enrolment__students_courses ON enrolment__student
 
 
 -- Program: STL
-INSERT INTO public.enrolment__program (id, code) 
+INSERT INTO public.enrolment__program (id, code)
 VALUES ('ec645abf-bc55-413c-a4c7-c55ff701d080', 'STL-K1');
 
-INSERT INTO public.enrolment__program_enrolable (id, enrolable_program_id) 
+INSERT INTO public.enrolment__program_enrolable (id, enrolable_program_id)
 VALUES ('ec645abf-bc55-413c-a4c7-c55ff701d080', 'be738e71-0023-40f6-a3e4-7e2a5bde0a75');
 
 -- Program: STL - Specialism: Tín Lý
-INSERT INTO public.enrolment__specialism (id, program_id) 
+INSERT INTO public.enrolment__specialism (id, program_id)
 VALUES ('d4643c5e-d0fb-4826-b6e9-c9217a682b11', 'ec645abf-bc55-413c-a4c7-c55ff701d080');
- 
-INSERT INTO public.enrolment__specialism_enrolable (id, enrolable_specialism_id) 
+
+INSERT INTO public.enrolment__specialism_enrolable (id, enrolable_specialism_id)
 VALUES ('d4643c5e-d0fb-4826-b6e9-c9217a682b11','4eb07b8e-33dc-4e15-85b5-b6024613df20');
 
 -- Degree: STL
-INSERT INTO public.enrolment__degree (id, program_id) 
+INSERT INTO public.enrolment__degree (id, program_id)
 VALUES ('c2776d7b-213a-471a-8174-ccf04d550ac1', 'ec645abf-bc55-413c-a4c7-c55ff701d080');
 
 -- Degree: STL - Specialism: Tín Lý
@@ -150,19 +136,32 @@ INSERT INTO public.enrolment__degree_specialism (id, specialism_id) VALUES ('c27
 
 
 -- Degree: STL - Specialism: Tín Lý - Level: 1
-INSERT INTO public.enrolment__degree_progress (id, degree_id, level) 
+INSERT INTO public.enrolment__degree_progress (id, degree_id, level)
 VALUES ('58dc9f23-81f5-46d5-8026-bbc640f52a64', 'c2776d7b-213a-471a-8174-ccf04d550ac1', 1);
 
 -- Degree: STL - Specialism: Tín Lý - Level: 1 - SchoolYear: 2016
-INSERT INTO public.enrolment__degree_progress_school_year (id, school_year) 
+INSERT INTO public.enrolment__degree_progress_school_year (id, school_year)
 VALUES ('58dc9f23-81f5-46d5-8026-bbc640f52a64', 2016);
 
 -- Degree: STL - Specialism: Tín Lý - Level: 1 - SchoolYear: 2016 - Semester: 1
-INSERT INTO public.enrolment__degree_progress_semester (id, semester) 
+INSERT INTO public.enrolment__degree_progress_semester (id, semester)
 VALUES ('58dc9f23-81f5-46d5-8026-bbc640f52a64', 1);
 
+-- Course: ... - Degree: STL - Specialism: Tín Lý - Level: 1 - SchoolYear: 2016 - Semester: 1
+INSERT INTO public.enrolment__course (id, degree_progress_id)
+VALUES ('31930404-7dee-456c-8bde-d4549d27b4d3', '58dc9f23-81f5-46d5-8026-bbc640f52a64');
+
+-- Course: Thần Học Căn Bản - Catalog: Môn học bắt buộc - Degree: STL
+INSERT INTO public.enrolment__course_enrolable(id, enrolable_course_id)
+VALUES ('31930404-7dee-456c-8bde-d4549d27b4d3', '0ea5cfa4-4dbc-4f48-b857-58881f88591f');
+
+-- TODO: khởi tạo enrolment mới
+-- Course: Phương Pháp Nghiên Cứu Kinh Thánh
+-- INSERT INTO public.enrolment__course_enrolable(id, enrolable_course_id)
+-- VALUES ('', '0ea5cfa4-4dbc-4f48-b857-58881f88591f');
+
 -- Degree: STL - Specialism: Tín Lý - Level: 1 - SchoolYear: 2016 - Student: Nguyễn Hữu Chiến
-INSERT INTO public.enrolment__students_progresses (id, student_id, degree_progress_id) 
+INSERT INTO public.enrolment__students_progresses (id, student_id, degree_progress_id)
 VALUES ('2f9bd80a-2b68-4c30-9250-e847b13f2b32', '53f549b9-99bf-4e12-88e3-c2f868953283', '58dc9f23-81f5-46d5-8026-bbc640f52a64');
 
 -- View

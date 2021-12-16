@@ -92,8 +92,7 @@ CREATE TABLE IF NOT EXISTS public.enrolable__courses_programs
     course_id           UUID NOT NULL REFERENCES enrolable__course(id) ON DELETE CASCADE,
     program_id       UUID NOT NULL REFERENCES enrolable__program(id) ON DELETE CASCADE
 );
-CREATE UNIQUE INDEX IF NOT EXISTS IDX_enrolable__courses_programs_course_id ON enrolable__courses_programs (course_id);
-CREATE UNIQUE INDEX IF NOT EXISTS IDX_enrolable__courses_programs_program_id ON enrolable__courses_programs (program_id);
+CREATE UNIQUE INDEX IF NOT EXISTS IDX_enrolable__courses_programs_courses_programs ON enrolable__courses_programs (course_id, program_id);
 
 -- N-N cardinality between course and specialism
 CREATE TABLE IF NOT EXISTS public.enrolable__courses_specialisms
@@ -102,8 +101,26 @@ CREATE TABLE IF NOT EXISTS public.enrolable__courses_specialisms
     course_id           UUID NOT NULL REFERENCES enrolable__course(id) ON DELETE CASCADE,
     specialism_id       UUID NOT NULL REFERENCES enrolable__program_specialism(id) ON DELETE CASCADE
 );
-CREATE UNIQUE INDEX IF NOT EXISTS IDX_enrolable__courses_specialisms_course_id ON enrolable__courses_specialisms (course_id);
-CREATE UNIQUE INDEX IF NOT EXISTS IDX_enrolable__courses_specialisms_specialism_id ON enrolable__courses_specialisms (specialism_id);
+CREATE UNIQUE INDEX IF NOT EXISTS IDX_enrolable__courses_specialisms_courses_program_specialisms ON enrolable__courses_specialisms (course_id, specialism_id);
+
+-- catalog
+CREATE TABLE IF NOT EXISTS public.enrolable__catalog
+(
+    id              UUID PRIMARY KEY,
+    name            VARCHAR NOT NULL
+
+);
+CREATE UNIQUE INDEX IF NOT EXISTS IDX_enrolable__catalog_name ON enrolable__catalog (name);
+
+-- N-N cardinality between catalog and enrolable
+CREATE TABLE IF NOT EXISTS public.enrolable__enrolables_catalogs
+(
+    id                  UUID PRIMARY KEY,
+    enrolable_id        UUID NOT NULL REFERENCES enrolable__enrolable(id) ON DELETE CASCADE,
+    catalog_id          UUID NOT NULL REFERENCES enrolable__catalog(id) ON DELETE CASCADE
+);
+CREATE UNIQUE INDEX IF NOT EXISTS IDX_enrolable__enrolables_catalogs_enrolables_catalogs ON enrolable__enrolables_catalogs (enrolable_id, catalog_id);
+
 
 -- Program: Cử Nhân Thần Học
 INSERT INTO public.enrolable__enrolable (id, type)
@@ -164,6 +181,66 @@ VALUES ('4eb07b8e-33dc-4e15-85b5-b6024613df20', 'TL');
 
 INSERT INTO public.enrolable__program_specialism_name (id, name)
 VALUES ('4eb07b8e-33dc-4e15-85b5-b6024613df20', 'Tín Lý');
+
+-- Course: Phương Pháp Nghiên Cứu Kinh Thánh
+INSERT INTO public.enrolable__enrolable (id, type)
+VALUES ('0ea5cfa4-4dbc-4f48-b857-58881f88591f', 'course');
+
+INSERT INTO public.enrolable__enrolable_name (id, name)
+VALUES ('0ea5cfa4-4dbc-4f48-b857-58881f88591f', 'Phương Pháp Nghiên Cứu Kinh Thánh');
+
+INSERT INTO public.enrolable__enrolable_code (id, code)
+VALUES ('0ea5cfa4-4dbc-4f48-b857-58881f88591f', 'RES500');
+
+INSERT INTO public.enrolable__enrolable_ects (id, ects)
+VALUES ('0ea5cfa4-4dbc-4f48-b857-58881f88591f', 3);
+
+INSERT INTO public.enrolable__course (id)
+VALUES ('0ea5cfa4-4dbc-4f48-b857-58881f88591f');
+
+-- Course: Phương Pháp Nghiên Cứu Kinh Thánh - Thạc Sĩ Thần Học
+INSERT INTO public.enrolable__courses_programs (id, course_id, program_id)
+VALUES ('b0752284-816c-4d57-b9ca-7196e8358f6f', '0ea5cfa4-4dbc-4f48-b857-58881f88591f', 'be738e71-0023-40f6-a3e4-7e2a5bde0a75');
+
+-- Course: Phương Pháp Nghiên Cứu Kinh Thánh - Thánh Kinh
+INSERT INTO public.enrolable__courses_specialisms (id, course_id, specialism_id)
+VALUES ('b0752284-816c-4d57-b9ca-7196e8358f6f', '0ea5cfa4-4dbc-4f48-b857-58881f88591f', '90205738-a4d5-4c9f-8cab-9b7a6b2da4ed');
+
+-- Course: Thần Học Căn Bản
+INSERT INTO public.enrolable__enrolable (id, type)
+VALUES ('df210b85-1e31-4511-87d9-42d7879ba7b8', 'course');
+
+INSERT INTO public.enrolable__enrolable_name (id, name)
+VALUES ('df210b85-1e31-4511-87d9-42d7879ba7b8', 'Thần Học Căn Bản');
+
+INSERT INTO public.enrolable__enrolable_code (id, code)
+VALUES ('df210b85-1e31-4511-87d9-42d7879ba7b8', 'THF501');
+
+INSERT INTO public.enrolable__enrolable_ects (id, ects)
+VALUES ('df210b85-1e31-4511-87d9-42d7879ba7b8', 3);
+
+INSERT INTO public.enrolable__course (id)
+VALUES ('df210b85-1e31-4511-87d9-42d7879ba7b8');
+
+-- Course: Thần Học Căn Bản - Thạc Sĩ Thần Học
+INSERT INTO public.enrolable__courses_programs (id, course_id, program_id)
+VALUES ('b268ecdd-ba0c-48f6-ad84-96cb6d8b7aa6', 'df210b85-1e31-4511-87d9-42d7879ba7b8', 'be738e71-0023-40f6-a3e4-7e2a5bde0a75');
+
+-- Course: Thần Học Căn Bản - Tín Lý
+INSERT INTO public.enrolable__courses_specialisms (id, course_id, specialism_id)
+VALUES ('b268ecdd-ba0c-48f6-ad84-96cb6d8b7aa6', 'df210b85-1e31-4511-87d9-42d7879ba7b8', '4eb07b8e-33dc-4e15-85b5-b6024613df20');
+
+-- Catalog: Môn học bắt buộc
+INSERT INTO public.enrolable__catalog (id, name)
+VALUES ('48dafd1d-239d-4289-b98a-6aad623b5295', 'Môn học bắt buộc');
+
+-- Catalog: Môn học bắt buộc - Thần Học Căn Bản
+INSERT INTO public.enrolable__enrolables_catalogs (id, catalog_id, enrolable_id)
+VALUES ('67f031df-4247-48db-81c7-251fb3fefdd5', '48dafd1d-239d-4289-b98a-6aad623b5295', 'df210b85-1e31-4511-87d9-42d7879ba7b8');
+
+-- Catalog: Môn học bắt buộc - Thần Học Căn Bản
+INSERT INTO public.enrolable__enrolables_catalogs (id, catalog_id, enrolable_id)
+VALUES ('30b5fd14-a08b-4f84-85e3-6e157210895b', '48dafd1d-239d-4289-b98a-6aad623b5295', '0ea5cfa4-4dbc-4f48-b857-58881f88591f');
 
 -- View
 CREATE VIEW enrolable__enrolable_view AS
