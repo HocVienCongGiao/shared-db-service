@@ -91,6 +91,20 @@ CREATE TABLE IF NOT EXISTS public.enrolment__course_enrolable
 );
 CREATE INDEX IF NOT EXISTS IDX_enrolment__course_enrolable_course_id ON enrolment__course_enrolable(enrolable_course_id);
 
+CREATE TABLE IF NOT EXISTS public.enrolment__course_school_year
+(
+    id                 UUID PRIMARY KEY REFERENCES enrolment__course(id) ON DELETE CASCADE,
+    school_year        SMALLINT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS IDX_enrolment__course_school_year_school_year ON enrolment__course_school_year(school_year);
+
+CREATE TABLE IF NOT EXISTS public.enrolment__course_semester
+(
+    id                 UUID PRIMARY KEY REFERENCES enrolment__course(id) ON DELETE CASCADE,
+    semester           SMALLINT NOT NULL
+);
+CREATE INDEX IF NOT EXISTS IDX_enrolment__course_semester_semester ON enrolment__course_semester(semester);
+
 -- Student Enrolment
 CREATE TABLE IF NOT EXISTS public.enrolment__students_progresses
 (
@@ -155,6 +169,14 @@ VALUES ('31930404-7dee-456c-8bde-d4549d27b4d3', '58dc9f23-81f5-46d5-8026-bbc640f
 INSERT INTO public.enrolment__course_enrolable(id, enrolable_course_id)
 VALUES ('31930404-7dee-456c-8bde-d4549d27b4d3', '0ea5cfa4-4dbc-4f48-b857-58881f88591f');
 
+-- Course: Thần Học Căn Bản - Catalog: Môn học bắt buộc - Degree: STL - School year: 2016
+INSERT INTO public.enrolment__course_school_year(id, school_year)
+VALUES ('31930404-7dee-456c-8bde-d4549d27b4d3', '2016');
+
+-- Course: Thần Học Căn Bản - Catalog: Môn học bắt buộc - Degree: STL - Semester: 1
+INSERT INTO public.enrolment__course_semester(id, semester)
+VALUES ('31930404-7dee-456c-8bde-d4549d27b4d3', '1');
+
 -- TODO: khởi tạo enrolment mới
 -- Course: Phương Pháp Nghiên Cứu Kinh Thánh
 -- INSERT INTO public.enrolment__course_enrolable(id, enrolable_course_id)
@@ -189,4 +211,21 @@ CREATE VIEW enrolment__student_degree_enrolment_view AS
      LEFT JOIN enrolment__degree_view degree ON progress.degree_id = degree.id
      LEFT JOIN enrolment__specialism_enrolable specialism_enrolable ON degree.specialism_id = specialism_enrolable.id
      LEFT JOIN enrolable__program_specialism_name epsn ON specialism_enrolable.enrolable_specialism_id = epsn.id;
+
+CREATE VIEW enrolment__course_view AS
+SELECT ec.id                                        course_id,
+       enrolable__enrolable_code.code            as course_code,
+       enrolable__enrolable_ects.ects            as course_ects,
+       enrolable__enrolable_name.name            as course_name,
+       enrolment__course_school_year.school_year as school_year,
+       enrolment__course_semester.semester       as semester
+FROM enrolment__course ec
+         LEFT JOIN enrolment__course_enrolable on ec.id = enrolment__course_enrolable.id
+         LEFT JOIN enrolment__course_school_year on ec.id = enrolment__course_school_year.id
+         LEFT JOIN enrolment__course_semester on enrolment__course_school_year.id = enrolment__course_semester.id
+         LEFT JOIN enrolable__course on enrolment__course_enrolable.enrolable_course_id = enrolable__course.id
+         LEFT JOIN enrolable__enrolable on enrolable__course.id = enrolable__enrolable.id
+         LEFT JOIN enrolable__enrolable_code on enrolable__enrolable.id = enrolable__enrolable_code.id
+         LEFT JOIN enrolable__enrolable_ects on enrolable__enrolable.id = enrolable__enrolable_ects.id
+         LEFT JOIN enrolable__enrolable_name on enrolable__enrolable.id = enrolable__enrolable_name.id
      
