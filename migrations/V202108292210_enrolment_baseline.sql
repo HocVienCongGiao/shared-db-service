@@ -100,7 +100,7 @@ CREATE INDEX IF NOT EXISTS IDX_enrolment__course_school_year_school_year ON enro
 
 CREATE TABLE IF NOT EXISTS public.enrolment__course_semester
 (
-    id                 UUID PRIMARY KEY REFERENCES enrolment__course(id) ON DELETE CASCADE,
+    id                 UUID PRIMARY KEY REFERENCES enrolment__course_school_year(id) ON DELETE CASCADE,
     semester           SMALLINT NOT NULL
 );
 CREATE INDEX IF NOT EXISTS IDX_enrolment__course_semester_semester ON enrolment__course_semester(semester);
@@ -177,11 +177,6 @@ VALUES ('31930404-7dee-456c-8bde-d4549d27b4d3', '2016');
 INSERT INTO public.enrolment__course_semester(id, semester)
 VALUES ('31930404-7dee-456c-8bde-d4549d27b4d3', '1');
 
--- TODO: khởi tạo enrolment mới
--- Course: Phương Pháp Nghiên Cứu Kinh Thánh
--- INSERT INTO public.enrolment__course_enrolable(id, enrolable_course_id)
--- VALUES ('', '0ea5cfa4-4dbc-4f48-b857-58881f88591f');
-
 -- Degree: STL - Specialism: Tín Lý - Level: 1 - SchoolYear: 2016 - Student: Nguyễn Hữu Chiến
 INSERT INTO public.enrolment__students_progresses (id, student_id, degree_progress_id)
 VALUES ('2f9bd80a-2b68-4c30-9250-e847b13f2b32', '53f549b9-99bf-4e12-88e3-c2f868953283', '58dc9f23-81f5-46d5-8026-bbc640f52a64');
@@ -189,7 +184,7 @@ VALUES ('2f9bd80a-2b68-4c30-9250-e847b13f2b32', '53f549b9-99bf-4e12-88e3-c2f8689
 -- TODO: Add new enrolment for specialism Tin Ly
 -- Course: Thần Học Căn Bản - SchoolYear: 2016 - Semester: 1 - Student: Nguyễn Hữu Chiến
 INSERT INTO public.enrolment__students_courses (id, student_id, course_id)
-VALUES ('2f9bd80a-2b68-4c30-9250-e847b13f2b32', '53f549b9-99bf-4e12-88e3-c2f868953283', '');
+VALUES ('2f9bd80a-2b68-4c30-9250-e847b13f2b32', '53f549b9-99bf-4e12-88e3-c2f868953283', '31930404-7dee-456c-8bde-d4549d27b4d3');
 
 -- View
  CREATE VIEW enrolment__degree_view AS
@@ -218,21 +213,51 @@ CREATE VIEW enrolment__student_degree_enrolment_view AS
      LEFT JOIN enrolable__program_specialism_name epsn ON specialism_enrolable.enrolable_specialism_id = epsn.id;
 
 CREATE VIEW enrolment__course_view AS
-SELECT ec.id                                        course_id,
+SELECT ec.id                                     as course_id,
        enrolable__enrolable_code.code            as course_code,
        enrolable__enrolable_ects.ects            as course_ects,
        enrolable__enrolable_name.name            as course_name,
+       enrolment__course_school_year.id          as school_year_id,
        enrolment__course_school_year.school_year as school_year,
-       enrolment__course_semester.semester       as semester
+       enrolment__course_semester.semester       as semester,
+       enrolable__catalog.id                     as course_catalog_id,
+       enrolable__catalog.name                   as course_catalog,
+       eep.id                                    as phase_id,
+       eep.phase_name                            as phase_name,
+       eepl.level                                as phase_level,
+       program                                   as program_id,
+       program_name.name                         as program_name,
+       program_code.code                         as program_code,
+       eps.id                                    as specialism_id,
+       epsn.name                                 as specialism_name,
+       epsc.code                                 as specialism_code
 FROM enrolment__course ec
-         LEFT JOIN enrolment__course_enrolable on ec.id = enrolment__course_enrolable.id
+         LEFT JOIN enrolment__course_enrolable ece on ec.id = ece.id
          LEFT JOIN enrolment__course_school_year on ec.id = enrolment__course_school_year.id
          LEFT JOIN enrolment__course_semester on enrolment__course_school_year.id = enrolment__course_semester.id
-         LEFT JOIN enrolable__course on enrolment__course_enrolable.enrolable_course_id = enrolable__course.id
+         LEFT JOIN enrolable__course on ece.enrolable_course_id = enrolable__course.id
+         LEFT JOIN enrolable__courses_programs ecp on enrolable__course.id = ecp.course_id
+         LEFT JOIN enrolable__program on ecp.program_id = enrolable__program.id
+         LEFT JOIN enrolable__enrolable program on enrolable__program.id = program.id
+         LEFT JOIN enrolable__enrolable_name program_name on program.id = program_name.id
+         LEFT JOIN enrolable__enrolable_code program_code on program.id = program_code.id
+         LEFT JOIN enrolable__courses_specialisms ecs on enrolable__course.id = ecs.course_id
+         LEFT JOIN enrolable__program_specialism eps on ecs.specialism_id = eps.id
+         LEFT JOIN enrolable__program_specialism_code epsc on eps.id = epsc.id
+         LEFT JOIN enrolable__program_specialism_name epsn on eps.id = epsn.id
          LEFT JOIN enrolable__enrolable on enrolable__course.id = enrolable__enrolable.id
          LEFT JOIN enrolable__enrolable_code on enrolable__enrolable.id = enrolable__enrolable_code.id
          LEFT JOIN enrolable__enrolable_ects on enrolable__enrolable.id = enrolable__enrolable_ects.id
          LEFT JOIN enrolable__enrolable_name on enrolable__enrolable.id = enrolable__enrolable_name.id
+         LEFT JOIN enrolable__enrolables_catalogs eec on enrolable__enrolable.id = eec.enrolable_id
+         LEFT JOIN enrolable__catalog on eec.catalog_id = enrolable__catalog.id
+         LEFT JOIN enrolable__enrolable_phase_assignment eepa on enrolable__enrolable.id = eepa.enrolable_id
+         LEFT JOIN enrolable__enrolable_phase eep on eepa.phase_id = eep.id
+         LEFT JOIN enrolable__enrolable_phase_level eepl on eep.id = eepl.id
+
+
+CREATE VIEW enrolment__student_course_enrolment_view AS
+SELECT
 
 
      
