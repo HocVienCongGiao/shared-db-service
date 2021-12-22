@@ -186,6 +186,11 @@ VALUES ('31930404-7dee-456c-8bde-d4549d27b4d3', '1');
 INSERT INTO public.enrolment__students_progresses (id, student_id, degree_progress_id)
 VALUES ('2f9bd80a-2b68-4c30-9250-e847b13f2b32', '53f549b9-99bf-4e12-88e3-c2f868953283', '58dc9f23-81f5-46d5-8026-bbc640f52a64');
 
+-- TODO: Add new enrolment for specialism Tin Ly
+-- Course: Thần Học Căn Bản - SchoolYear: 2016 - Semester: 1 - Student: Nguyễn Hữu Chiến
+INSERT INTO public.enrolment__students_courses (id, student_id, course_id)
+VALUES ('2f9bd80a-2b68-4c30-9250-e847b13f2b32', '53f549b9-99bf-4e12-88e3-c2f868953283', '');
+
 -- View
  CREATE VIEW enrolment__degree_view AS
      SELECT degree.id, degree.program_id AS program_id, es.id AS specialism_id, CONCAT(enrolable_name.name,' - ', psn.name) AS name,
@@ -228,4 +233,6 @@ FROM enrolment__course ec
          LEFT JOIN enrolable__enrolable_code on enrolable__enrolable.id = enrolable__enrolable_code.id
          LEFT JOIN enrolable__enrolable_ects on enrolable__enrolable.id = enrolable__enrolable_ects.id
          LEFT JOIN enrolable__enrolable_name on enrolable__enrolable.id = enrolable__enrolable_name.id
+
+
      
