@@ -162,6 +162,10 @@ VALUES ('be738e71-0023-40f6-a3e4-7e2a5bde0a75', 'STL');
 INSERT INTO public.enrolable__program (id)
 VALUES ('be738e71-0023-40f6-a3e4-7e2a5bde0a75');
 
+--- Phase: Năm chuẩn bị - Program: Thạc Sĩ Thần Học
+INSERT INTO public.enrolable__enrolable_phase (id, enrolable_id, phase_name)
+VALUES ('c78693e8-2969-406d-952b-a977b7990a10', 'be738e71-0023-40f6-a3e4-7e2a5bde0a75', 'Năm chuẩn bị');
+
 -- Specialism: Thạc Sĩ Thần Học - Thánh Kinh
 INSERT INTO public.enrolable__program_specialism (id, program_id)
 VALUES ('90205738-a4d5-4c9f-8cab-9b7a6b2da4ed', 'be738e71-0023-40f6-a3e4-7e2a5bde0a75');
@@ -202,9 +206,13 @@ VALUES ('0ea5cfa4-4dbc-4f48-b857-58881f88591f');
 INSERT INTO public.enrolable__courses_programs (id, course_id, program_id)
 VALUES ('b0752284-816c-4d57-b9ca-7196e8358f6f', '0ea5cfa4-4dbc-4f48-b857-58881f88591f', 'be738e71-0023-40f6-a3e4-7e2a5bde0a75');
 
--- Course: Phương Pháp Nghiên Cứu Kinh Thánh - Thánh Kinh
+-- Course: Phương Pháp Nghiên Cứu Kinh Thánh - Specialism: Thánh Kinh
 INSERT INTO public.enrolable__courses_specialisms (id, course_id, specialism_id)
 VALUES ('b0752284-816c-4d57-b9ca-7196e8358f6f', '0ea5cfa4-4dbc-4f48-b857-58881f88591f', '90205738-a4d5-4c9f-8cab-9b7a6b2da4ed');
+
+-- Course: Phương Pháp Nghiên Cứu Kinh Thánh - Specialism: Thánh Kinh - Phase: Năm chuẩn bị
+INSERT INTO public.enrolable__enrolable_phase_assignment (id, enrolable_id, phase_id)
+VALUES ('6480da6d-16cb-439a-8807-bf1819710ca8', '0ea5cfa4-4dbc-4f48-b857-58881f88591f', 'c78693e8-2969-406d-952b-a977b7990a10');
 
 -- Course: Thần Học Căn Bản
 INSERT INTO public.enrolable__enrolable (id, type)
@@ -230,6 +238,10 @@ VALUES ('b268ecdd-ba0c-48f6-ad84-96cb6d8b7aa6', 'df210b85-1e31-4511-87d9-42d7879
 INSERT INTO public.enrolable__courses_specialisms (id, course_id, specialism_id)
 VALUES ('b268ecdd-ba0c-48f6-ad84-96cb6d8b7aa6', 'df210b85-1e31-4511-87d9-42d7879ba7b8', '4eb07b8e-33dc-4e15-85b5-b6024613df20');
 
+-- Course: Thần Học Căn Bản - Specialism: Tín lý - Phase: Năm chuẩn bị
+INSERT INTO public.enrolable__enrolable_phase_assignment (id, enrolable_id, phase_id)
+VALUES ('7ad0cb46-1def-4a88-92b4-2b98bc3ec06d', 'df210b85-1e31-4511-87d9-42d7879ba7b8', 'c78693e8-2969-406d-952b-a977b7990a10');
+
 -- Catalog: Môn học bắt buộc
 INSERT INTO public.enrolable__catalog (id, name)
 VALUES ('48dafd1d-239d-4289-b98a-6aad623b5295', 'Môn học bắt buộc');
@@ -238,6 +250,7 @@ VALUES ('48dafd1d-239d-4289-b98a-6aad623b5295', 'Môn học bắt buộc');
 INSERT INTO public.enrolable__enrolables_catalogs (id, catalog_id, enrolable_id)
 VALUES ('67f031df-4247-48db-81c7-251fb3fefdd5', '48dafd1d-239d-4289-b98a-6aad623b5295', 'df210b85-1e31-4511-87d9-42d7879ba7b8');
 
+-- TODO: fix me
 -- Catalog: Môn học bắt buộc - Thần Học Căn Bản
 INSERT INTO public.enrolable__enrolables_catalogs (id, catalog_id, enrolable_id)
 VALUES ('30b5fd14-a08b-4f84-85e3-6e157210895b', '48dafd1d-239d-4289-b98a-6aad623b5295', '0ea5cfa4-4dbc-4f48-b857-58881f88591f');
