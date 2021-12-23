@@ -262,3 +262,37 @@ CREATE VIEW enrolable__enrolable_view AS
     LEFT JOIN enrolable__enrolable_code ON enrolable__enrolable.id = enrolable__enrolable_code.id
     LEFT JOIN enrolable__enrolable_name ON enrolable__enrolable.id = enrolable__enrolable_name.id
     LEFT JOIN enrolable__enrolable_ects ON enrolable__enrolable.id = enrolable__enrolable_ects.id;
+
+CREATE VIEW enrolable__program_view AS
+SELECT ep.id, code, name
+FROM enrolable__program ep
+         LEFT JOIN enrolable__enrolable_view ON ep.id = enrolable__enrolable_view.id
+WHERE enrolable__enrolable_view.type = 'program';
+
+CREATE VIEW enrolable__specialism_view AS
+SELECT eps.id, epsc.code, epsn.name, program.id as program_id, program.code as program_code, program.name as program_name
+FROM enrolable__program_specialism eps
+         LEFT JOIN enrolable__program_specialism_code epsc on eps.id = epsc.id
+         LEFT JOIN enrolable__program_specialism_name epsn on eps.id = epsn.id
+         LEFT JOIN enrolable__program_view program on eps.program_id = program.id;
+
+CREATE VIEW enrolable__course_view AS
+SELECT course.id,
+       course.code,
+       course.name,
+       course.ects,
+       program.id   as program_id,
+       program.code as program_code,
+       program.name as program_name,
+       eep.id                                    as phase_id,
+       eep.phase_name                            as phase_name,
+       eepl.level                                as phase_level
+FROM enrolable__enrolable_view course
+         LEFT JOIN enrolable__courses_programs ON course.id = enrolable__courses_programs.course_id
+         LEFT JOIN enrolable__program_view program ON enrolable__courses_programs.program_id = program.id
+         LEFT JOIN enrolable__enrolables_catalogs eec on course.id = eec.enrolable_id
+         LEFT JOIN enrolable__catalog on eec.catalog_id = enrolable__catalog.id
+         LEFT JOIN enrolable__enrolable_phase_assignment eepa on course.id = eepa.enrolable_id
+         LEFT JOIN enrolable__enrolable_phase eep on eepa.phase_id = eep.id
+         LEFT JOIN enrolable__enrolable_phase_level eepl on eep.id = eepl.id
+WHERE course.type = 'course'

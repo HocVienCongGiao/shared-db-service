@@ -225,9 +225,9 @@ SELECT ec.id                                     as course_id,
        eep.id                                    as phase_id,
        eep.phase_name                            as phase_name,
        eepl.level                                as phase_level,
-       program                                   as program_id,
-       program_name.name                         as program_name,
-       program_code.code                         as program_code,
+       program.id                                   as program_id,
+       program.name                         as program_name,
+       program.code                         as program_code,
        eps.id                                    as specialism_id,
        epsn.name                                 as specialism_name,
        epsc.code                                 as specialism_code
@@ -237,10 +237,7 @@ FROM enrolment__course ec
          LEFT JOIN enrolment__course_semester on enrolment__course_school_year.id = enrolment__course_semester.id
          LEFT JOIN enrolable__course on ece.enrolable_course_id = enrolable__course.id
          LEFT JOIN enrolable__courses_programs ecp on enrolable__course.id = ecp.course_id
-         LEFT JOIN enrolable__program on ecp.program_id = enrolable__program.id
-         LEFT JOIN enrolable__enrolable program on enrolable__program.id = program.id
-         LEFT JOIN enrolable__enrolable_name program_name on program.id = program_name.id
-         LEFT JOIN enrolable__enrolable_code program_code on program.id = program_code.id
+         LEFT JOIN enrolable__program_view program on ecp.program_id = program.id
          LEFT JOIN enrolable__courses_specialisms ecs on enrolable__course.id = ecs.course_id
          LEFT JOIN enrolable__program_specialism eps on ecs.specialism_id = eps.id
          LEFT JOIN enrolable__program_specialism_code epsc on eps.id = epsc.id
@@ -256,8 +253,8 @@ FROM enrolment__course ec
          LEFT JOIN enrolable__enrolable_phase_level eepl on eep.id = eepl.id
 
 
-CREATE VIEW enrolment__student_course_enrolment_view AS
-SELECT
+-- CREATE VIEW enrolment__student_course_enrolment_view AS
+-- SELECT
 
 
      
