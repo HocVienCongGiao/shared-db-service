@@ -109,7 +109,7 @@ CREATE INDEX IF NOT EXISTS IDX_enrolment__course_semester_semester ON enrolment_
 CREATE TABLE IF NOT EXISTS public.enrolment__students_progresses
 (
     id                      UUID PRIMARY KEY,
-    student_id              UUID NOT NULL REFERENCES student__student(id) ON DELETE CASCADE,
+    student_id              UUID NOT NULL REFERENCES student__person(id) ON DELETE CASCADE,
     degree_progress_id      UUID NOT NULL REFERENCES enrolment__degree_progress(id) ON DELETE CASCADE,
     UNIQUE (student_id, degree_progress_id)
 );
@@ -119,7 +119,7 @@ CREATE INDEX IF NOT EXISTS IDX_enrolment__students_progresses_specialism_progres
 CREATE TABLE IF NOT EXISTS public.enrolment__students_courses
 (
     id                      UUID PRIMARY KEY,
-    student_id              UUID NOT NULL REFERENCES student__student(id) ON DELETE CASCADE,
+    student_id              UUID NOT NULL REFERENCES student__person(id) ON DELETE CASCADE,
     course_id               UUID NOT NULL REFERENCES enrolment__course(id) ON DELETE CASCADE,
     UNIQUE (student_id, course_id)
 );
@@ -141,12 +141,20 @@ VALUES ('d4643c5e-d0fb-4826-b6e9-c9217a682b11', 'ec645abf-bc55-413c-a4c7-c55ff70
 INSERT INTO public.enrolment__specialism_enrolable (id, enrolable_specialism_id)
 VALUES ('d4643c5e-d0fb-4826-b6e9-c9217a682b11','4eb07b8e-33dc-4e15-85b5-b6024613df20');
 
+-- Program: STL - Specialism: Thánh Kinh
+INSERT INTO public.enrolment__specialism (id, program_id)
+VALUES ('b56e4893-cbcb-46cc-9062-752afb7e81f8', 'ec645abf-bc55-413c-a4c7-c55ff701d080');
+
+INSERT INTO public.enrolment__specialism_enrolable (id, enrolable_specialism_id)
+VALUES ('b56e4893-cbcb-46cc-9062-752afb7e81f8','90205738-a4d5-4c9f-8cab-9b7a6b2da4ed');
+
 -- Degree: STL
 INSERT INTO public.enrolment__degree (id, program_id)
 VALUES ('c2776d7b-213a-471a-8174-ccf04d550ac1', 'ec645abf-bc55-413c-a4c7-c55ff701d080');
 
 -- Degree: STL - Specialism: Tín Lý
-INSERT INTO public.enrolment__degree_specialism (id, specialism_id) VALUES ('c2776d7b-213a-471a-8174-ccf04d550ac1', 'd4643c5e-d0fb-4826-b6e9-c9217a682b11');
+INSERT INTO public.enrolment__degree_specialism (id, specialism_id)
+VALUES ('c2776d7b-213a-471a-8174-ccf04d550ac1', 'd4643c5e-d0fb-4826-b6e9-c9217a682b11');
 
 
 -- Degree: STL - Specialism: Tín Lý - Level: 1
@@ -161,19 +169,40 @@ VALUES ('58dc9f23-81f5-46d5-8026-bbc640f52a64', 2016);
 INSERT INTO public.enrolment__degree_progress_semester (id, semester)
 VALUES ('58dc9f23-81f5-46d5-8026-bbc640f52a64', 1);
 
+-- Degree: STL
+INSERT INTO public.enrolment__degree (id, program_id)
+VALUES ('52b15b05-3692-4042-b45e-e7e12b9cfc5a', 'ec645abf-bc55-413c-a4c7-c55ff701d080');
+
+-- Degree: STL - Specialism: Thánh Kinh
+INSERT INTO public.enrolment__degree_specialism (id, specialism_id)
+VALUES ('52b15b05-3692-4042-b45e-e7e12b9cfc5a', 'b56e4893-cbcb-46cc-9062-752afb7e81f8');
+
+
+-- Degree: STL - Specialism: Thánh Kinh - Level: 1
+INSERT INTO public.enrolment__degree_progress (id, degree_id, level)
+VALUES ('c4836d6b-e720-49e1-a7cc-cfd70f4c9bc5', '52b15b05-3692-4042-b45e-e7e12b9cfc5a', 1);
+
+-- Degree: STL - Specialism: Thánh Kinh - Level: 1 - SchoolYear: 2016
+INSERT INTO public.enrolment__degree_progress_school_year (id, school_year)
+VALUES ('c4836d6b-e720-49e1-a7cc-cfd70f4c9bc5', 2016);
+
+-- Degree: STL - Specialism: Thánh Kinh - Level: 1 - SchoolYear: 2016 - Semester: 1
+INSERT INTO public.enrolment__degree_progress_semester (id, semester)
+VALUES ('c4836d6b-e720-49e1-a7cc-cfd70f4c9bc5', 1);
+
 -- Course: ... - Degree: STL - Specialism: Tín Lý - Level: 1 - SchoolYear: 2016 - Semester: 1
 INSERT INTO public.enrolment__course (id, degree_progress_id)
 VALUES ('31930404-7dee-456c-8bde-d4549d27b4d3', '58dc9f23-81f5-46d5-8026-bbc640f52a64');
 
--- Course: Thần Học Căn Bản - Catalog: Môn học bắt buộc - Degree: STL
+-- Course: Thần Học Căn Bản - Category: Môn học bắt buộc - Degree: STL
 INSERT INTO public.enrolment__course_enrolable(id, enrolable_course_id)
 VALUES ('31930404-7dee-456c-8bde-d4549d27b4d3', '0ea5cfa4-4dbc-4f48-b857-58881f88591f');
 
--- Course: Thần Học Căn Bản - Catalog: Môn học bắt buộc - Degree: STL - School year: 2016
+-- Course: Thần Học Căn Bản - Category: Môn học bắt buộc - Degree: STL - School year: 2016
 INSERT INTO public.enrolment__course_school_year(id, school_year)
 VALUES ('31930404-7dee-456c-8bde-d4549d27b4d3', '2016');
 
--- Course: Thần Học Căn Bản - Catalog: Môn học bắt buộc - Degree: STL - Semester: 1
+-- Course: Thần Học Căn Bản - Category: Môn học bắt buộc - Degree: STL - Semester: 1
 INSERT INTO public.enrolment__course_semester(id, semester)
 VALUES ('31930404-7dee-456c-8bde-d4549d27b4d3', '1');
 
@@ -181,7 +210,6 @@ VALUES ('31930404-7dee-456c-8bde-d4549d27b4d3', '1');
 INSERT INTO public.enrolment__students_progresses (id, student_id, degree_progress_id)
 VALUES ('2f9bd80a-2b68-4c30-9250-e847b13f2b32', '53f549b9-99bf-4e12-88e3-c2f868953283', '58dc9f23-81f5-46d5-8026-bbc640f52a64');
 
--- TODO: Add new enrolment for specialism Tin Ly
 -- Course: Thần Học Căn Bản - SchoolYear: 2016 - Semester: 1 - Student: Nguyễn Hữu Chiến
 INSERT INTO public.enrolment__students_courses (id, student_id, course_id)
 VALUES ('2f9bd80a-2b68-4c30-9250-e847b13f2b32', '53f549b9-99bf-4e12-88e3-c2f868953283', '31930404-7dee-456c-8bde-d4549d27b4d3');
@@ -214,20 +242,20 @@ CREATE VIEW enrolment__student_degree_enrolment_view AS
 
 CREATE VIEW enrolment__course_view AS
 SELECT ec.id                                     as course_id,
-       enrolable__enrolable_code.code            as course_code,
-       enrolable__enrolable_ects.ects            as course_ects,
-       enrolable__enrolable_name.name            as course_name,
+       course.code                               as course_code,
+       course.ects                               as course_ects,
+       course.name                               as course_name,
        enrolment__course_school_year.id          as school_year_id,
        enrolment__course_school_year.school_year as school_year,
        enrolment__course_semester.semester       as semester,
-       enrolable__catalog.id                     as course_catalog_id,
-       enrolable__catalog.name                   as course_catalog,
-       eep.id                                    as phase_id,
-       eep.phase_name                            as phase_name,
-       eepl.level                                as phase_level,
-       program.id                                   as program_id,
-       program.name                         as program_name,
-       program.code                         as program_code,
+       course.category_id                         as course_category_id,
+       course.category_name                       as course_category,
+       course.phase_id                           as phase_id,
+       course.phase_name                         as phase_name,
+       course.phase_level                        as phase_level,
+       program.id                                as program_id,
+       program.name                              as program_name,
+       program.code                              as program_code,
        eps.id                                    as specialism_id,
        epsn.name                                 as specialism_name,
        epsc.code                                 as specialism_code
@@ -242,19 +270,49 @@ FROM enrolment__course ec
          LEFT JOIN enrolable__program_specialism eps on ecs.specialism_id = eps.id
          LEFT JOIN enrolable__program_specialism_code epsc on eps.id = epsc.id
          LEFT JOIN enrolable__program_specialism_name epsn on eps.id = epsn.id
-         LEFT JOIN enrolable__enrolable on enrolable__course.id = enrolable__enrolable.id
-         LEFT JOIN enrolable__enrolable_code on enrolable__enrolable.id = enrolable__enrolable_code.id
-         LEFT JOIN enrolable__enrolable_ects on enrolable__enrolable.id = enrolable__enrolable_ects.id
-         LEFT JOIN enrolable__enrolable_name on enrolable__enrolable.id = enrolable__enrolable_name.id
-         LEFT JOIN enrolable__enrolables_catalogs eec on enrolable__enrolable.id = eec.enrolable_id
-         LEFT JOIN enrolable__catalog on eec.catalog_id = enrolable__catalog.id
-         LEFT JOIN enrolable__enrolable_phase_assignment eepa on enrolable__enrolable.id = eepa.enrolable_id
-         LEFT JOIN enrolable__enrolable_phase eep on eepa.phase_id = eep.id
-         LEFT JOIN enrolable__enrolable_phase_level eepl on eep.id = eepl.id
+         LEFT JOIN enrolable__course_view course on enrolable__course.id = course.id;
 
 
--- CREATE VIEW enrolment__student_course_enrolment_view AS
--- SELECT
+CREATE VIEW enrolment__student_course_enrolment_view AS
+SELECT ecv.course_id,
+       course_code,
+       course_ects,
+       course_name,
+       school_year_id,
+       school_year,
+       semester,
+       course_category_id,
+       course_category,
+       phase_id,
+       phase_name,
+       phase_level,
+       program_id,
+       program_name,
+       program_code,
+       specialism_id,
+       specialism_name,
+       specialism_code,
+       student.id as student_id,
+       student.title as student_title,
+       student.saint_ids as student_saint_ids,
+       student.christian_name as student_christian_name,
+       student.first_name as student_first_name,
+       student.middle_name as student_middle_name,
+       student.last_name as student_last_name,
+       student.date_of_birth as student_date_of_birth,
+       student.place_of_birth as student_place_of_birth,
+       student.email as student_email,
+       student.phone as student_phone,
+       student.undergraduate_school_name as student_undergraduate_school_name,
+       student.polity_id as student_polity_id,
+       student.polity_name as student_polity_name,
+       student.polity_location_address as student_polity_location_address,
+       student.polity_location_name as student_polity_location_name,
+       student.polity_location_email as student_polity_location_email
+
+FROM enrolment__students_courses
+         LEFT JOIN enrolment__course_view ecv on enrolment__students_courses.course_id = ecv.course_id
+         LEFT JOIN student__student_view student on enrolment__students_courses.student_id = student.id;
 
 
      

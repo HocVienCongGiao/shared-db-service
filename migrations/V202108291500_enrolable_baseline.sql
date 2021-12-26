@@ -103,23 +103,23 @@ CREATE TABLE IF NOT EXISTS public.enrolable__courses_specialisms
 );
 CREATE UNIQUE INDEX IF NOT EXISTS IDX_enrolable__courses_specialisms_courses_program_specialisms ON enrolable__courses_specialisms (course_id, specialism_id);
 
--- catalog
-CREATE TABLE IF NOT EXISTS public.enrolable__catalog
+-- category
+CREATE TABLE IF NOT EXISTS public.enrolable__category
 (
     id              UUID PRIMARY KEY,
     name            VARCHAR NOT NULL
 
 );
-CREATE UNIQUE INDEX IF NOT EXISTS IDX_enrolable__catalog_name ON enrolable__catalog (name);
+CREATE UNIQUE INDEX IF NOT EXISTS IDX_enrolable__category_name ON enrolable__category (name);
 
--- N-N cardinality between catalog and enrolable
-CREATE TABLE IF NOT EXISTS public.enrolable__enrolables_catalogs
+-- N-N cardinality between category and enrolable
+CREATE TABLE IF NOT EXISTS public.enrolable__enrolables_categories
 (
     id                  UUID PRIMARY KEY,
     enrolable_id        UUID NOT NULL REFERENCES enrolable__enrolable(id) ON DELETE CASCADE,
-    catalog_id          UUID NOT NULL REFERENCES enrolable__catalog(id) ON DELETE CASCADE
+    category_id          UUID NOT NULL REFERENCES enrolable__category(id) ON DELETE CASCADE
 );
-CREATE UNIQUE INDEX IF NOT EXISTS IDX_enrolable__enrolables_catalogs_enrolables_catalogs ON enrolable__enrolables_catalogs (enrolable_id, catalog_id);
+CREATE UNIQUE INDEX IF NOT EXISTS IDX_enrolable__enrolables_categories_enrolables_categories ON enrolable__enrolables_categories (enrolable_id, category_id);
 
 
 -- Program: Cử Nhân Thần Học
@@ -242,17 +242,16 @@ VALUES ('b268ecdd-ba0c-48f6-ad84-96cb6d8b7aa6', 'df210b85-1e31-4511-87d9-42d7879
 INSERT INTO public.enrolable__enrolable_phase_assignment (id, enrolable_id, phase_id)
 VALUES ('7ad0cb46-1def-4a88-92b4-2b98bc3ec06d', 'df210b85-1e31-4511-87d9-42d7879ba7b8', 'c78693e8-2969-406d-952b-a977b7990a10');
 
--- Catalog: Môn học bắt buộc
-INSERT INTO public.enrolable__catalog (id, name)
+-- Category: Môn học bắt buộc
+INSERT INTO public.enrolable__category (id, name)
 VALUES ('48dafd1d-239d-4289-b98a-6aad623b5295', 'Môn học bắt buộc');
 
--- Catalog: Môn học bắt buộc - Thần Học Căn Bản
-INSERT INTO public.enrolable__enrolables_catalogs (id, catalog_id, enrolable_id)
+-- Category: Môn học bắt buộc - Thần Học Căn Bản
+INSERT INTO public.enrolable__enrolables_categories (id, category_id, enrolable_id)
 VALUES ('67f031df-4247-48db-81c7-251fb3fefdd5', '48dafd1d-239d-4289-b98a-6aad623b5295', 'df210b85-1e31-4511-87d9-42d7879ba7b8');
 
--- TODO: fix me
--- Catalog: Môn học bắt buộc - Thần Học Căn Bản
-INSERT INTO public.enrolable__enrolables_catalogs (id, catalog_id, enrolable_id)
+-- Category: Môn học bắt buộc - Phương Pháp Nghiên Cứu Kinh Thánh
+INSERT INTO public.enrolable__enrolables_categories (id, category_id, enrolable_id)
 VALUES ('30b5fd14-a08b-4f84-85e3-6e157210895b', '48dafd1d-239d-4289-b98a-6aad623b5295', '0ea5cfa4-4dbc-4f48-b857-58881f88591f');
 
 -- View
@@ -281,17 +280,19 @@ SELECT course.id,
        course.code,
        course.name,
        course.ects,
-       program.id   as program_id,
-       program.code as program_code,
-       program.name as program_name,
-       eep.id                                    as phase_id,
-       eep.phase_name                            as phase_name,
-       eepl.level                                as phase_level
+       program.id              as program_id,
+       program.code            as program_code,
+       program.name            as program_name,
+       eep.id                  as phase_id,
+       eep.phase_name          as phase_name,
+       eepl.level              as phase_level,
+       enrolable__category.id   as category_id,
+       enrolable__category.name as category_name
 FROM enrolable__enrolable_view course
          LEFT JOIN enrolable__courses_programs ON course.id = enrolable__courses_programs.course_id
          LEFT JOIN enrolable__program_view program ON enrolable__courses_programs.program_id = program.id
-         LEFT JOIN enrolable__enrolables_catalogs eec on course.id = eec.enrolable_id
-         LEFT JOIN enrolable__catalog on eec.catalog_id = enrolable__catalog.id
+         LEFT JOIN enrolable__enrolables_categories eec on course.id = eec.enrolable_id
+         LEFT JOIN enrolable__category on eec.category_id = enrolable__category.id
          LEFT JOIN enrolable__enrolable_phase_assignment eepa on course.id = eepa.enrolable_id
          LEFT JOIN enrolable__enrolable_phase eep on eepa.phase_id = eep.id
          LEFT JOIN enrolable__enrolable_phase_level eepl on eep.id = eepl.id
