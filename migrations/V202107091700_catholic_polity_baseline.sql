@@ -141,6 +141,28 @@ VALUES ('4d084b56-54e1-4bd2-878e-c52675497c2b', 'binh@sunrise.vn');
 INSERT INTO public.polity__diocese (id, province_id)
 VALUES ('4d084b56-54e1-4bd2-878e-c52675497c2b', '3262ca15-b55f-4dcb-8c19-0f37972dfc2a');
 
+-- Giáo Phận Xuân Lộc
+INSERT INTO public.polity__polity (id, type)
+VALUES ('d7488f2b-4f2a-4427-a031-9a6b354dcdb0', 'diocese');
+
+INSERT INTO public.polity__polity_name (id, name)
+VALUES ('d7488f2b-4f2a-4427-a031-9a6b354dcdb0', 'Xuân Lộc');
+
+INSERT INTO public.polity__polity_person_in_charge (id, person_in_charge)
+VALUES ('d7488f2b-4f2a-4427-a031-9a6b354dcdb0', 'Gioan Đỗ Văn Ngân');
+
+INSERT INTO public.polity__polity_location_address (id, location_address)
+VALUES ('d7488f2b-4f2a-4427-a031-9a6b354dcdb0', '144 Đường Hùng Vương, Xuân An, Long Khánh, Đồng Nai');
+
+INSERT INTO public.polity__polity_location_name (id, location_name)
+VALUES ('d7488f2b-4f2a-4427-a031-9a6b354dcdb0', 'Nhà Thờ Chính Tòa Xuân Lộc');
+
+INSERT INTO public.polity__polity_location_email (id, location_email)
+VALUES ('d7488f2b-4f2a-4427-a031-9a6b354dcdb0', 'xuanloc@diocese.vn');
+
+INSERT INTO public.polity__diocese (id, province_id)
+VALUES ('d7488f2b-4f2a-4427-a031-9a6b354dcdb0', '3262ca15-b55f-4dcb-8c19-0f37972dfc2a');
+
 -- Giáo Hạt Phú Thọ
 INSERT INTO public.polity__polity (id, type)
 VALUES ('a8c5fcc2-e665-4220-9e09-f2f5314d282f', 'deanery');
