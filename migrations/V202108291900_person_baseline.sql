@@ -71,7 +71,7 @@ INSERT INTO public.person__person (id, type)
 VALUES ('938c9343-2f5e-4517-8d2e-8f251403d350', 'teacher');
 
 INSERT INTO public.person__person_polity (id, polity_id)
-VALUES ('938c9343-2f5e-4517-8d2e-8f251403d350', 'd7488f2b-4f2a-4427-a031-9a6b354dcdb0');
+VALUES ('938c9343-2f5e-4517-8d2e-8f251403d350', '4d084b56-54e1-4bd2-878e-c52675497c2b');
 
 INSERT INTO public.person__person_christian_names (person_id, saint_id, ordering)
 VALUES ('938c9343-2f5e-4517-8d2e-8f251403d350', '40e6215d-b5c6-4896-987c-f30f3678f608', 1);
