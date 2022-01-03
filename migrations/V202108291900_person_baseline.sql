@@ -204,7 +204,7 @@ SELECT language.id,
        person__person_foreign_language_level.code as level,
        language.person_id                         as person_id
 FROM person__person_foreign_language as language
-         LEFT JOIN person__person_foreign_language_level on language.id = person__person_foreign_language_level.id
+         LEFT JOIN person__person_foreign_language_level on language.id = person__person_foreign_language_level.id;
 
 CREATE VIEW person__person_view AS
 SELECT person.*,
