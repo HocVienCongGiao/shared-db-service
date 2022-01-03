@@ -206,7 +206,6 @@ SELECT language.id,
 FROM person__person_foreign_language as language
          LEFT JOIN person__person_foreign_language_level on language.id = person__person_foreign_language_level.id
 
-DROP VIEW IF EXISTS person__person_view;
 CREATE VIEW person__person_view AS
 SELECT person.*,
        person__person_title.title,

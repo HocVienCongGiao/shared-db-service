@@ -71,8 +71,7 @@ INSERT INTO public.student__student_undergraduate_school_name (id, school_name)
 VALUES ('53f549b9-99bf-4e12-88e3-c2f868953283', 'Đại Chủng Viện Thánh Quý - Cần Thơ');
 
 -- View
-DROP VIEW IF EXISTS student__student_view;
-CREATE VIEW student__student_view1 AS
+CREATE VIEW student__student_view AS
     SELECT student.*,
     person.title,
     person__person_christian_name_view.saint_ids,
