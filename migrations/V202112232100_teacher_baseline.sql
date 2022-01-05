@@ -3,6 +3,9 @@ CREATE TABLE IF NOT EXISTS public.teacher__person
     id UUID PRIMARY KEY REFERENCES person__person(id) ON DELETE CASCADE
 );
 
+INSERT INTO public.teacher__person (id)
+VALUES ('938c9343-2f5e-4517-8d2e-8f251403d350');
+
 
 -- View
 CREATE VIEW teacher__teacher_view AS

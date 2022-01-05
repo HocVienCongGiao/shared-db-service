@@ -94,10 +94,67 @@ CREATE TABLE IF NOT EXISTS public.person__person_foreign_language_level
     code                        VARCHAR NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS public.person__person_date_of_birth
+(
+    id                 UUID PRIMARY KEY REFERENCES person__person(id) ON DELETE CASCADE,
+    date_of_birth      DATE NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS public.person__person_place_of_birth
+(
+    id                 UUID PRIMARY KEY REFERENCES person__person(id) ON DELETE CASCADE,
+    place_of_birth     VARCHAR NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS public.person__person_email
+(
+    id                 UUID PRIMARY KEY REFERENCES person__person(id) ON DELETE CASCADE,
+    email              VARCHAR NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS public.person__person_phone
+(
+    id                 UUID PRIMARY KEY REFERENCES person__person(id) ON DELETE CASCADE,
+    phone              VARCHAR NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS public.person__person_address
+(
+    id                 UUID PRIMARY KEY REFERENCES person__person(id) ON DELETE CASCADE,
+    address              VARCHAR NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS public.person__person_educational_stage
+(
+    id                 UUID PRIMARY KEY REFERENCES person__person(id) ON DELETE CASCADE,
+    educational_stage              VARCHAR NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS public.person__person_vow_progress
+(
+    id                  UUID PRIMARY KEY REFERENCES person__person(id) ON DELETE CASCADE,
+    progress            VARCHAR NOT NULL
+);
+
 
 -- Student: Nguyễn Hữu Chiến
 INSERT INTO public.person__person (id, type)
 VALUES ('53f549b9-99bf-4e12-88e3-c2f868953283', 'student');
+
+INSERT INTO public.person__person_date_of_birth (id, date_of_birth)
+VALUES ('53f549b9-99bf-4e12-88e3-c2f868953283', '1983-05-16');
+
+INSERT INTO public.person__person_place_of_birth (id, place_of_birth)
+VALUES ('53f549b9-99bf-4e12-88e3-c2f868953283', 'Trà Vinh');
+
+INSERT INTO public.person__person_email (id, email)
+VALUES ('53f549b9-99bf-4e12-88e3-c2f868953283', 'binh@sunrise.vn');
+
+INSERT INTO public.person__person_phone (id, phone)
+VALUES ('53f549b9-99bf-4e12-88e3-c2f868953283', '+84 1228019700');
+
+INSERT INTO public.person__person_address (id, address)
+VALUES ('53f549b9-99bf-4e12-88e3-c2f868953283', '1000 CMT8 phường 3 quận Tân Bình, TP HCM');
 
 INSERT INTO public.person__person_polity (id, polity_id)
 VALUES ('53f549b9-99bf-4e12-88e3-c2f868953283', '4d084b56-54e1-4bd2-878e-c52675497c2b');
@@ -215,6 +272,10 @@ SELECT person.*,
     person__person_first_name.first_name,
     person__person_middle_name.middle_name,
     person__person_last_name.last_name,
+    person__person_date_of_birth.date_of_birth,
+    person__person_place_of_birth.place_of_birth,
+    person__person_email.email,
+    person__person_phone.phone,
     person__person_nationality.nationality,
     person__person_race.race,
     person__person_polity.polity_id,
@@ -223,6 +284,12 @@ SELECT person.*,
     polity.location_name polity_location_name,
     polity.location_email polity_location_email
     FROM person__person person
+
+    LEFT JOIN person__person_date_of_birth ON person.id = person__person_date_of_birth.id
+    LEFT JOIN person__person_place_of_birth ON person.id = person__person_place_of_birth.id
+    LEFT JOIN person__person_email ON person.id = person__person_email.id
+    LEFT JOIN person__person_phone ON person.id = person__person_phone.id
+
     LEFT JOIN person__person_title ON person.id = person__person_title.id
     LEFT JOIN person__person_first_name ON person.id = person__person_first_name.id
     LEFT JOIN person__person_middle_name ON person.id = person__person_middle_name.id

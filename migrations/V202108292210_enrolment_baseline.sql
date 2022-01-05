@@ -231,10 +231,10 @@ CREATE VIEW enrolment__student_degree_enrolment_view AS
      degree.name degree_name, epsn.name specialism_name,
      student.title as student_title,
      student.christian_name, student.first_name, student.middle_name, student.last_name,
-     student.date_of_birth, student.place_of_birth, student.undergraduate_school_name, student.email, student.phone,
+     student.date_of_birth, student.place_of_birth, student.email, student.phone,
      student.polity_name, student.polity_location_name, student.polity_location_address, student.polity_location_email
      FROM enrolment__students_progresses ss
-     LEFT JOIN student__student_view student ON ss.student_id = student.id
+     LEFT JOIN student__student_view student ON ss.student_id = student.student_id
      LEFT JOIN enrolment__degree_progress progress ON ss.degree_progress_id = progress.id
      LEFT JOIN enrolment__degree_view degree ON progress.degree_id = degree.id
      LEFT JOIN enrolment__specialism_enrolable specialism_enrolable ON degree.specialism_id = specialism_enrolable.id
@@ -292,7 +292,7 @@ SELECT ecv.course_id,
        specialism_id,
        specialism_name,
        specialism_code,
-       student.id as student_id,
+       student.student_id as student_id,
        student.title as student_title,
        student.saint_ids as student_saint_ids,
        student.christian_name as student_christian_name,
@@ -303,7 +303,6 @@ SELECT ecv.course_id,
        student.place_of_birth as student_place_of_birth,
        student.email as student_email,
        student.phone as student_phone,
-       student.undergraduate_school_name as student_undergraduate_school_name,
        student.polity_id as student_polity_id,
        student.polity_name as student_polity_name,
        student.polity_location_address as student_polity_location_address,
@@ -312,7 +311,7 @@ SELECT ecv.course_id,
 
 FROM enrolment__students_courses
          LEFT JOIN enrolment__course_view ecv on enrolment__students_courses.course_id = ecv.course_id
-         LEFT JOIN student__student_view student on enrolment__students_courses.student_id = student.id;
+         LEFT JOIN student__student_view student on enrolment__students_courses.student_id = student.student_id;
 
 
      
