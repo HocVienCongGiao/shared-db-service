@@ -84,7 +84,8 @@ CREATE TABLE IF NOT EXISTS public.person__person_foreign_language
 (
     id                          UUID PRIMARY KEY,
     person_id                   UUID NOT NULL REFERENCES person__person(id) ON DELETE CASCADE,
-    language                    VARCHAR NOT NULL
+    language                    VARCHAR NOT NULL,
+    UNIQUE (person_id, language)
 );
 
 CREATE TABLE IF NOT EXISTS public.person__person_foreign_language_level
