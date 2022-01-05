@@ -109,7 +109,7 @@ CREATE INDEX IF NOT EXISTS IDX_enrolment__course_semester_semester ON enrolment_
 CREATE TABLE IF NOT EXISTS public.enrolment__students_progresses
 (
     id                      UUID PRIMARY KEY,
-    student_id              UUID NOT NULL REFERENCES student__person(id) ON DELETE CASCADE,
+    student_id              UUID NOT NULL REFERENCES student__student(id) ON DELETE CASCADE,
     degree_progress_id      UUID NOT NULL REFERENCES enrolment__degree_progress(id) ON DELETE CASCADE,
     UNIQUE (student_id, degree_progress_id)
 );
@@ -119,7 +119,7 @@ CREATE INDEX IF NOT EXISTS IDX_enrolment__students_progresses_specialism_progres
 CREATE TABLE IF NOT EXISTS public.enrolment__students_courses
 (
     id                      UUID PRIMARY KEY,
-    student_id              UUID NOT NULL REFERENCES student__person(id) ON DELETE CASCADE,
+    student_id              UUID NOT NULL REFERENCES student__student(id) ON DELETE CASCADE,
     course_id               UUID NOT NULL REFERENCES enrolment__course(id) ON DELETE CASCADE,
     UNIQUE (student_id, course_id)
 );
@@ -208,11 +208,11 @@ VALUES ('31930404-7dee-456c-8bde-d4549d27b4d3', '1');
 
 -- Degree: STL - Specialism: Tín Lý - Level: 1 - SchoolYear: 2016 - Student: Nguyễn Hữu Chiến
 INSERT INTO public.enrolment__students_progresses (id, student_id, degree_progress_id)
-VALUES ('2f9bd80a-2b68-4c30-9250-e847b13f2b32', '53f549b9-99bf-4e12-88e3-c2f868953283', '58dc9f23-81f5-46d5-8026-bbc640f52a64');
+VALUES ('2f9bd80a-2b68-4c30-9250-e847b13f2b32', 'ccb45678-69bb-4b54-9f09-3c8ab3c30999', '58dc9f23-81f5-46d5-8026-bbc640f52a64');
 
 -- Course: Thần Học Căn Bản - SchoolYear: 2016 - Semester: 1 - Student: Nguyễn Hữu Chiến
 INSERT INTO public.enrolment__students_courses (id, student_id, course_id)
-VALUES ('2f9bd80a-2b68-4c30-9250-e847b13f2b32', '53f549b9-99bf-4e12-88e3-c2f868953283', '31930404-7dee-456c-8bde-d4549d27b4d3');
+VALUES ('2f9bd80a-2b68-4c30-9250-e847b13f2b32', 'ccb45678-69bb-4b54-9f09-3c8ab3c30999', '31930404-7dee-456c-8bde-d4549d27b4d3');
 
 -- View
  CREATE VIEW enrolment__degree_view AS
@@ -231,10 +231,10 @@ CREATE VIEW enrolment__student_degree_enrolment_view AS
      degree.name degree_name, epsn.name specialism_name,
      student.title as student_title,
      student.christian_name, student.first_name, student.middle_name, student.last_name,
-     student.date_of_birth, student.place_of_birth, student.undergraduate_school_name, student.email, student.phone,
+     student.date_of_birth, student.place_of_birth, student.email, student.phone,
      student.polity_name, student.polity_location_name, student.polity_location_address, student.polity_location_email
      FROM enrolment__students_progresses ss
-     LEFT JOIN student__student_view student ON ss.student_id = student.id
+     LEFT JOIN student__student_view student ON ss.student_id = student.student_id
      LEFT JOIN enrolment__degree_progress progress ON ss.degree_progress_id = progress.id
      LEFT JOIN enrolment__degree_view degree ON progress.degree_id = degree.id
      LEFT JOIN enrolment__specialism_enrolable specialism_enrolable ON degree.specialism_id = specialism_enrolable.id
@@ -292,7 +292,7 @@ SELECT ecv.course_id,
        specialism_id,
        specialism_name,
        specialism_code,
-       student.id as student_id,
+       student.student_id as student_id,
        student.title as student_title,
        student.saint_ids as student_saint_ids,
        student.christian_name as student_christian_name,
@@ -303,7 +303,6 @@ SELECT ecv.course_id,
        student.place_of_birth as student_place_of_birth,
        student.email as student_email,
        student.phone as student_phone,
-       student.undergraduate_school_name as student_undergraduate_school_name,
        student.polity_id as student_polity_id,
        student.polity_name as student_polity_name,
        student.polity_location_address as student_polity_location_address,
@@ -312,7 +311,7 @@ SELECT ecv.course_id,
 
 FROM enrolment__students_courses
          LEFT JOIN enrolment__course_view ecv on enrolment__students_courses.course_id = ecv.course_id
-         LEFT JOIN student__student_view student on enrolment__students_courses.student_id = student.id;
+         LEFT JOIN student__student_view student on enrolment__students_courses.student_id = student.student_id;
 
 
      
