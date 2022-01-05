@@ -1,7 +1,6 @@
 CREATE TABLE IF NOT EXISTS public.person__person
 (
-    id                  UUID PRIMARY KEY,
-    type                VARCHAR NOT NULL
+    id                  UUID PRIMARY KEY
 );
 
 CREATE TABLE IF NOT EXISTS public.person__person_polity
@@ -138,8 +137,8 @@ CREATE TABLE IF NOT EXISTS public.person__person_vow_progress
 
 
 -- Student: Nguyễn Hữu Chiến
-INSERT INTO public.person__person (id, type)
-VALUES ('53f549b9-99bf-4e12-88e3-c2f868953283', 'student');
+INSERT INTO public.person__person (id)
+VALUES ('53f549b9-99bf-4e12-88e3-c2f868953283');
 
 INSERT INTO public.person__person_date_of_birth (id, date_of_birth)
 VALUES ('53f549b9-99bf-4e12-88e3-c2f868953283', '1983-05-16');
@@ -194,8 +193,8 @@ VALUES ('2f6c0dd3-f6c7-4504-aba3-de017ad33821', 'TP.HCM');
 
 
 -- Teacher: Đỗ Văn Ngân
-INSERT INTO public.person__person (id, type)
-VALUES ('938c9343-2f5e-4517-8d2e-8f251403d350', 'teacher');
+INSERT INTO public.person__person (id)
+VALUES ('938c9343-2f5e-4517-8d2e-8f251403d350');
 
 INSERT INTO public.person__person_polity (id, polity_id)
 VALUES ('938c9343-2f5e-4517-8d2e-8f251403d350', '4d084b56-54e1-4bd2-878e-c52675497c2b');

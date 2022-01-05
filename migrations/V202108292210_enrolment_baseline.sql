@@ -109,7 +109,7 @@ CREATE INDEX IF NOT EXISTS IDX_enrolment__course_semester_semester ON enrolment_
 CREATE TABLE IF NOT EXISTS public.enrolment__students_progresses
 (
     id                      UUID PRIMARY KEY,
-    student_id              UUID NOT NULL REFERENCES student__person(id) ON DELETE CASCADE,
+    student_id              UUID NOT NULL REFERENCES student__student(id) ON DELETE CASCADE,
     degree_progress_id      UUID NOT NULL REFERENCES enrolment__degree_progress(id) ON DELETE CASCADE,
     UNIQUE (student_id, degree_progress_id)
 );
@@ -119,7 +119,7 @@ CREATE INDEX IF NOT EXISTS IDX_enrolment__students_progresses_specialism_progres
 CREATE TABLE IF NOT EXISTS public.enrolment__students_courses
 (
     id                      UUID PRIMARY KEY,
-    student_id              UUID NOT NULL REFERENCES student__person(id) ON DELETE CASCADE,
+    student_id              UUID NOT NULL REFERENCES student__student(id) ON DELETE CASCADE,
     course_id               UUID NOT NULL REFERENCES enrolment__course(id) ON DELETE CASCADE,
     UNIQUE (student_id, course_id)
 );
@@ -208,11 +208,11 @@ VALUES ('31930404-7dee-456c-8bde-d4549d27b4d3', '1');
 
 -- Degree: STL - Specialism: Tín Lý - Level: 1 - SchoolYear: 2016 - Student: Nguyễn Hữu Chiến
 INSERT INTO public.enrolment__students_progresses (id, student_id, degree_progress_id)
-VALUES ('2f9bd80a-2b68-4c30-9250-e847b13f2b32', '53f549b9-99bf-4e12-88e3-c2f868953283', '58dc9f23-81f5-46d5-8026-bbc640f52a64');
+VALUES ('2f9bd80a-2b68-4c30-9250-e847b13f2b32', 'ccb45678-69bb-4b54-9f09-3c8ab3c30999', '58dc9f23-81f5-46d5-8026-bbc640f52a64');
 
 -- Course: Thần Học Căn Bản - SchoolYear: 2016 - Semester: 1 - Student: Nguyễn Hữu Chiến
 INSERT INTO public.enrolment__students_courses (id, student_id, course_id)
-VALUES ('2f9bd80a-2b68-4c30-9250-e847b13f2b32', '53f549b9-99bf-4e12-88e3-c2f868953283', '31930404-7dee-456c-8bde-d4549d27b4d3');
+VALUES ('2f9bd80a-2b68-4c30-9250-e847b13f2b32', 'ccb45678-69bb-4b54-9f09-3c8ab3c30999', '31930404-7dee-456c-8bde-d4549d27b4d3');
 
 -- View
  CREATE VIEW enrolment__degree_view AS

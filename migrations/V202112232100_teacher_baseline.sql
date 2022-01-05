@@ -1,10 +1,11 @@
-CREATE TABLE IF NOT EXISTS public.teacher__person
+CREATE TABLE IF NOT EXISTS public.teacher__teacher
 (
-    id UUID PRIMARY KEY REFERENCES person__person(id) ON DELETE CASCADE
+    id        UUID PRIMARY KEY,
+    person_id UUID REFERENCES person__person (id) ON DELETE CASCADE
 );
 
-INSERT INTO public.teacher__person (id)
-VALUES ('938c9343-2f5e-4517-8d2e-8f251403d350');
+INSERT INTO public.teacher__teacher (id, person_id)
+VALUES ('1f21cfab-7850-452a-b871-3d1a875e6766', '938c9343-2f5e-4517-8d2e-8f251403d350');
 
 
 -- View
@@ -22,7 +23,7 @@ CREATE VIEW teacher__teacher_view AS
     polity.location_address polity_location_address,
     polity.location_name polity_location_name,
     polity.location_email polity_location_email
-    FROM teacher__person teacher
+    FROM teacher__teacher teacher
     LEFT JOIN person__person_title ON teacher.id = person__person_title.id
     LEFT JOIN person__person_first_name ON teacher.id = person__person_first_name.id
     LEFT JOIN person__person_middle_name ON teacher.id = person__person_middle_name.id
