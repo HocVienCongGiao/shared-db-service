@@ -1,7 +1,7 @@
  CREATE TABLE IF NOT EXISTS public.student__student
 (
     id                 UUID PRIMARY KEY,
-    person_id          UUID REFERENCES person__person(id) ON DELETE CASCADE
+    person_id          UUID NOT NULL REFERENCES person__person(id) ON DELETE CASCADE
 );
 
 -- Student: Nguyễn Hữu Chiến

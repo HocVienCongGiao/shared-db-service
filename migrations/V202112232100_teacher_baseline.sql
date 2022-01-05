@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS public.teacher__teacher
 (
     id        UUID PRIMARY KEY,
-    person_id UUID REFERENCES person__person (id) ON DELETE CASCADE
+    person_id UUID NOT NULL REFERENCES person__person (id) ON DELETE CASCADE
 );
 
 INSERT INTO public.teacher__teacher (id, person_id)

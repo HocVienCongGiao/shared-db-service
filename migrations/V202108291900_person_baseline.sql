@@ -56,7 +56,7 @@ CREATE TABLE IF NOT EXISTS public.person__person_race
 CREATE TABLE IF NOT EXISTS public.person__person_id_number
 (
     id                  UUID PRIMARY KEY,
-    person_id           UUID REFERENCES person__person(id) ON DELETE CASCADE,
+    person_id           UUID NOT NULL REFERENCES person__person(id) ON DELETE CASCADE,
     person_id_number    VARCHAR NOT NULL UNIQUE
 );
 
@@ -83,7 +83,7 @@ CREATE TABLE IF NOT EXISTS public.person__person_id_number_place_of_issue
 CREATE TABLE IF NOT EXISTS public.person__person_foreign_language
 (
     id                          UUID PRIMARY KEY,
-    person_id                   UUID REFERENCES person__person(id) ON DELETE CASCADE,
+    person_id                   UUID NOT NULL REFERENCES person__person(id) ON DELETE CASCADE,
     language                    VARCHAR NOT NULL
 );
 
