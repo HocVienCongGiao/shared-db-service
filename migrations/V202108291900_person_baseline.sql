@@ -124,16 +124,47 @@ CREATE TABLE IF NOT EXISTS public.person__person_address
     address              VARCHAR NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS public.person__educational_stage
+(
+    id                UUID PRIMARY KEY
+);
+
+CREATE TABLE IF NOT EXISTS public.person__educational_stage_educational_level
+(
+    id                UUID PRIMARY KEY REFERENCES person__educational_stage(id) ON DELETE CASCADE,
+    educational_level VARCHAR NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS public.person__educational_stage_school_name
+(
+    id          UUID PRIMARY KEY REFERENCES person__educational_stage (id) ON DELETE CASCADE,
+    school_name VARCHAR NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS public.person__educational_stage_major
+(
+    id          UUID PRIMARY KEY REFERENCES person__educational_stage (id) ON DELETE CASCADE,
+    major VARCHAR NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS public.person__educational_stage_graduate_year
+(
+    id            UUID PRIMARY KEY REFERENCES person__educational_stage (id) ON DELETE CASCADE,
+    graduate_year INT8 NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS public.person__person_educational_stage
 (
-    id                 UUID PRIMARY KEY REFERENCES person__person(id) ON DELETE CASCADE,
-    educational_stage              VARCHAR NOT NULL
+    id                   UUID PRIMARY KEY,
+    person_id            UUID REFERENCES person__person (id) ON DELETE CASCADE,
+    educational_stage_id UUID PRIMARY KEY REFERENCES person__educational_stage (id) ON DELETE CASCADE,
+    UNIQUE (person_id, educational_stage_id)
 );
 
 CREATE TABLE IF NOT EXISTS public.person__person_vow_progress
 (
-    id                  UUID PRIMARY KEY REFERENCES person__person(id) ON DELETE CASCADE,
-    progress            VARCHAR NOT NULL
+    id       UUID PRIMARY KEY REFERENCES person__person (id) ON DELETE CASCADE,
+    progress VARCHAR NOT NULL
 );
 
 
