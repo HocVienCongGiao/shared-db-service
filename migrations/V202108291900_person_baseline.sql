@@ -157,7 +157,7 @@ CREATE TABLE IF NOT EXISTS public.person__person_educational_stage
 (
     id                   UUID PRIMARY KEY,
     person_id            UUID REFERENCES person__person (id) ON DELETE CASCADE,
-    educational_stage_id UUID PRIMARY KEY REFERENCES person__educational_stage (id) ON DELETE CASCADE,
+    educational_stage_id UUID REFERENCES person__educational_stage (id) ON DELETE CASCADE,
     UNIQUE (person_id, educational_stage_id)
 );
 
