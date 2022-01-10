@@ -80,18 +80,24 @@ CREATE TABLE IF NOT EXISTS public.person__person_id_number_place_of_issue
     place_of_issue            VARCHAR NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS public.person__person_foreign_language
+CREATE TABLE IF NOT EXISTS public.person__language
 (
-    id                          UUID PRIMARY KEY,
-    person_id                   UUID NOT NULL REFERENCES person__person(id) ON DELETE CASCADE,
-    language                    VARCHAR NOT NULL,
-    UNIQUE (person_id, language)
+    id                      UUID PRIMARY KEY
 );
 
-CREATE TABLE IF NOT EXISTS public.person__person_foreign_language_level
+CREATE TABLE IF NOT EXISTS public.person__language_name
 (
-    id                          UUID PRIMARY KEY REFERENCES person__person_foreign_language(id),
-    code                        VARCHAR NOT NULL
+    id                      UUID PRIMARY KEY REFERENCES person__language(id) ON DELETE CASCADE,
+    name                    VARCHAR NOT NULL,
+    UNIQUE (name)
+);
+
+CREATE TABLE IF NOT EXISTS public.person__person_language
+(
+    language_id                 UUID REFERENCES person__language(id) ON DELETE CASCADE,
+    person_id                   UUID NOT NULL REFERENCES person__person(id) ON DELETE CASCADE,
+    level                       VARCHAR NOT NULL,
+    PRIMARY KEY (language_id, person_id, level)
 );
 
 CREATE TABLE IF NOT EXISTS public.person__person_date_of_birth
@@ -132,7 +138,7 @@ CREATE TABLE IF NOT EXISTS public.person__educational_stage
 CREATE TABLE IF NOT EXISTS public.person__educational_stage_educational_level
 (
     id                UUID PRIMARY KEY REFERENCES person__educational_stage(id) ON DELETE CASCADE,
-    educational_level VARCHAR NOT NULL
+    level             VARCHAR NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS public.person__educational_stage_school_name
@@ -144,21 +150,15 @@ CREATE TABLE IF NOT EXISTS public.person__educational_stage_school_name
 CREATE TABLE IF NOT EXISTS public.person__educational_stage_major
 (
     id          UUID PRIMARY KEY REFERENCES person__educational_stage (id) ON DELETE CASCADE,
-    major VARCHAR NOT NULL
-);
-
-CREATE TABLE IF NOT EXISTS public.person__educational_stage_graduate_year
-(
-    id            UUID PRIMARY KEY REFERENCES person__educational_stage (id) ON DELETE CASCADE,
-    graduate_year INT8 NOT NULL
+    major       VARCHAR NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS public.person__person_educational_stage
 (
-    id                   UUID PRIMARY KEY,
-    person_id            UUID REFERENCES person__person (id) ON DELETE CASCADE,
-    educational_stage_id UUID REFERENCES person__educational_stage (id) ON DELETE CASCADE,
-    UNIQUE (person_id, educational_stage_id)
+    person_id               UUID REFERENCES person__person (id) ON DELETE CASCADE,
+    educational_stage_id    UUID REFERENCES person__educational_stage (id) ON DELETE CASCADE,
+    graduate_year           INT NOT NULL,
+    PRIMARY KEY (person_id, educational_stage_id, graduate_year)
 );
 
 CREATE TABLE IF NOT EXISTS public.person__person_vow_progress
@@ -223,6 +223,17 @@ VALUES ('2f6c0dd3-f6c7-4504-aba3-de017ad33821', '2011-05-05');
 INSERT INTO public.person__person_id_number_place_of_issue (id, place_of_issue)
 VALUES ('2f6c0dd3-f6c7-4504-aba3-de017ad33821', 'TP.HCM');
 
+INSERT INTO public.person__educational_stage (id)
+VALUES ('56439ecf-99e9-469a-9dcf-f5f654878e1b');
+
+INSERT INTO public.person__educational_stage_educational_level (id, level)
+VALUES ('56439ecf-99e9-469a-9dcf-f5f654878e1b', 'HIGH_SCHOOL');
+
+INSERT INTO public.person__educational_stage_school_name (id, school_name)
+VALUES ('56439ecf-99e9-469a-9dcf-f5f654878e1b', 'THPT Nguyễn Du');
+
+INSERT INTO public.person__person_educational_stage (person_id, educational_stage_id, graduate_year)
+VALUES ('53f549b9-99bf-4e12-88e3-c2f868953283', '56439ecf-99e9-469a-9dcf-f5f654878e1b', 2000);
 
 -- Teacher: Đỗ Văn Ngân
 INSERT INTO public.person__person (id)
@@ -264,17 +275,23 @@ VALUES ('f0dacf1c-b728-4072-8ded-495bcb9e9c57', '2001-05-05');
 INSERT INTO public.person__person_id_number_place_of_issue (id, place_of_issue)
 VALUES ('f0dacf1c-b728-4072-8ded-495bcb9e9c57', 'TP.HCM');
 
-INSERT INTO public.person__person_foreign_language (id, person_id, language)
-VALUES ('ff45da19-8bae-4367-9d85-ac9b8dbe0b97', '938c9343-2f5e-4517-8d2e-8f251403d350', 'English');
+INSERT INTO public.person__language (id)
+VALUES ('ff45da19-8bae-4367-9d85-ac9b8dbe0b97');
 
-INSERT INTO public.person__person_foreign_language_level (id, code)
-VALUES ('ff45da19-8bae-4367-9d85-ac9b8dbe0b97', 'ADVANCED');
+INSERT INTO public.person__language_name (id, name)
+VALUES ('ff45da19-8bae-4367-9d85-ac9b8dbe0b97', 'English');
 
-INSERT INTO public.person__person_foreign_language (id, person_id, language)
-VALUES ('bdbca191-867f-4933-aa1a-eec10050e5bf', '938c9343-2f5e-4517-8d2e-8f251403d350', 'Latin');
+INSERT INTO public.person__person_language (language_id, person_id, level)
+VALUES ('ff45da19-8bae-4367-9d85-ac9b8dbe0b97', '938c9343-2f5e-4517-8d2e-8f251403d350', 'ADVANCED');
 
-INSERT INTO public.person__person_foreign_language_level (id, code)
-VALUES ('bdbca191-867f-4933-aa1a-eec10050e5bf', 'ADVANCED');
+INSERT INTO public.person__language (id)
+VALUES ('bdbca191-867f-4933-aa1a-eec10050e5bf');
+
+INSERT INTO public.person__language_name (id, name)
+VALUES ('bdbca191-867f-4933-aa1a-eec10050e5bf', 'Latin');
+
+INSERT INTO public.person__person_language (language_id, person_id, level)
+VALUES ('bdbca191-867f-4933-aa1a-eec10050e5bf', '938c9343-2f5e-4517-8d2e-8f251403d350', 'ADVANCED');
 
 -- View
 CREATE VIEW person__person_christian_name_view AS
@@ -286,13 +303,20 @@ CREATE VIEW person__person_christian_name_view AS
     LEFT JOIN saint__saint_display_name ON person__person_christian_names.saint_id = saint__saint_display_name.id
     GROUP BY person.id;
 
-CREATE VIEW person__person_foreign_language_view AS
+CREATE VIEW person__language_view AS
+SELECT person__language.id, name
+FROM person__language
+LEFT JOIN person__language_name on person__language.id = person__language_name.id;
+
+
+CREATE VIEW person__person_language_view AS
 SELECT language.id,
-       language.language,
-       person__person_foreign_language_level.code as level,
-       language.person_id                         as person_id
-FROM person__person_foreign_language as language
-         LEFT JOIN person__person_foreign_language_level on language.id = person__person_foreign_language_level.id;
+       language.name,
+       ppl.level,
+       ppl.person_id
+FROM person__person_language as ppl
+         LEFT JOIN person__language_view as language on ppl.language_id = language.id;
+
 
 CREATE VIEW person__person_view AS
 SELECT person.*,
