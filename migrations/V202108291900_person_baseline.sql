@@ -304,9 +304,9 @@ CREATE VIEW person__person_christian_name_view AS
     GROUP BY person.id;
 
 CREATE VIEW person__language_view AS
-SELECT person__language.id, name
-FROM person__language
-LEFT JOIN person__language_name on person__language.id = person__language_name.id;
+    SELECT person__language.id, name
+    FROM person__language
+    LEFT JOIN person__language_name on person__language.id = person__language_name.id;
 
 
 CREATE VIEW person__person_language_view AS
@@ -316,6 +316,23 @@ SELECT language.id,
        ppl.person_id
 FROM person__person_language as ppl
          LEFT JOIN person__language_view as language on ppl.language_id = language.id;
+
+CREATE VIEW person__educational_stage_view AS
+SELECT person__educational_stage.id,
+       educational_level.level as educational_level,
+       school_name.school_name,
+       major.major
+FROM person__educational_stage
+         LEFT JOIN person__educational_stage_school_name school_name ON person__educational_stage.id = school_name.id
+         LEFT JOIN person__educational_stage_educational_level educational_level
+                   ON person__educational_stage.id = educational_level.id
+         LEFT JOIN person__educational_stage_major major ON person__educational_stage.id = major.id;
+
+CREATE VIEW person__person_education_stage_view AS
+SELECT educational_stage_id, educational_level, school_name, major, graduate_year, person_id
+FROM person__person_educational_stage
+         LEFT JOIN person__educational_stage_view stage
+                   ON person__person_educational_stage.educational_stage_id = stage.id;
 
 
 CREATE VIEW person__person_view AS
