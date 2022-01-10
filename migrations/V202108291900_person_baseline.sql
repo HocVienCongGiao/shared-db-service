@@ -80,24 +80,12 @@ CREATE TABLE IF NOT EXISTS public.person__person_id_number_place_of_issue
     place_of_issue            VARCHAR NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS public.person__language
-(
-    id                      UUID PRIMARY KEY
-);
-
-CREATE TABLE IF NOT EXISTS public.person__language_name
-(
-    id                      UUID PRIMARY KEY REFERENCES person__language(id) ON DELETE CASCADE,
-    name                    VARCHAR NOT NULL,
-    UNIQUE (name)
-);
-
 CREATE TABLE IF NOT EXISTS public.person__person_language
 (
-    language_id                 UUID REFERENCES person__language(id) ON DELETE CASCADE,
     person_id                   UUID NOT NULL REFERENCES person__person(id) ON DELETE CASCADE,
+    language                    VARCHAR NOT NULL,
     level                       VARCHAR NOT NULL,
-    PRIMARY KEY (language_id, person_id, level)
+    PRIMARY KEY (person_id, language, level)
 );
 
 CREATE TABLE IF NOT EXISTS public.person__person_date_of_birth
@@ -275,23 +263,11 @@ VALUES ('f0dacf1c-b728-4072-8ded-495bcb9e9c57', '2001-05-05');
 INSERT INTO public.person__person_id_number_place_of_issue (id, place_of_issue)
 VALUES ('f0dacf1c-b728-4072-8ded-495bcb9e9c57', 'TP.HCM');
 
-INSERT INTO public.person__language (id)
-VALUES ('ff45da19-8bae-4367-9d85-ac9b8dbe0b97');
+INSERT INTO public.person__person_language (person_id, language, level)
+VALUES ('938c9343-2f5e-4517-8d2e-8f251403d350', 'English', 'ADVANCED');
 
-INSERT INTO public.person__language_name (id, name)
-VALUES ('ff45da19-8bae-4367-9d85-ac9b8dbe0b97', 'English');
-
-INSERT INTO public.person__person_language (language_id, person_id, level)
-VALUES ('ff45da19-8bae-4367-9d85-ac9b8dbe0b97', '938c9343-2f5e-4517-8d2e-8f251403d350', 'ADVANCED');
-
-INSERT INTO public.person__language (id)
-VALUES ('bdbca191-867f-4933-aa1a-eec10050e5bf');
-
-INSERT INTO public.person__language_name (id, name)
-VALUES ('bdbca191-867f-4933-aa1a-eec10050e5bf', 'Latin');
-
-INSERT INTO public.person__person_language (language_id, person_id, level)
-VALUES ('bdbca191-867f-4933-aa1a-eec10050e5bf', '938c9343-2f5e-4517-8d2e-8f251403d350', 'ADVANCED');
+INSERT INTO public.person__person_language (person_id, language_id, level)
+VALUES ('938c9343-2f5e-4517-8d2e-8f251403d350', 'Latin', 'ADVANCED');
 
 -- View
 CREATE VIEW person__person_christian_name_view AS
@@ -302,20 +278,6 @@ CREATE VIEW person__person_christian_name_view AS
     LEFT JOIN person__person_christian_names ON person.id = person__person_christian_names.person_id
     LEFT JOIN saint__saint_display_name ON person__person_christian_names.saint_id = saint__saint_display_name.id
     GROUP BY person.id;
-
-CREATE VIEW person__language_view AS
-    SELECT person__language.id, name
-    FROM person__language
-    LEFT JOIN person__language_name on person__language.id = person__language_name.id;
-
-
-CREATE VIEW person__person_language_view AS
-SELECT language.id,
-       language.name,
-       ppl.level,
-       ppl.person_id
-FROM person__person_language as ppl
-         LEFT JOIN person__language_view as language on ppl.language_id = language.id;
 
 CREATE VIEW person__educational_stage_view AS
 SELECT person__educational_stage.id,
@@ -339,41 +301,46 @@ CREATE VIEW person__person_view AS
 SELECT person.*,
        person__person_title.title,
        person__person_christian_name_view.saint_ids,
-    person__person_christian_name_view.christian_name,
+       person__person_christian_name_view.christian_name,
 
-    person__person_first_name.first_name,
-    person__person_middle_name.middle_name,
-    person__person_last_name.last_name,
-    person__person_date_of_birth.date_of_birth,
-    person__person_place_of_birth.place_of_birth,
-    person__person_email.email,
-    person__person_phone.phone,
-    person__person_nationality.nationality,
-    person__person_race.race,
-    person__person_polity.polity_id,
-    polity.name polity_name,
-    polity.location_address polity_location_address,
-    polity.location_name polity_location_name,
-    polity.location_email polity_location_email
-    FROM person__person person
+       person__person_first_name.first_name,
+       person__person_middle_name.middle_name,
+       person__person_last_name.last_name,
+       person__person_date_of_birth.date_of_birth,
+       person__person_place_of_birth.place_of_birth,
+       person__person_email.email,
+       person__person_phone.phone,
+       person__person_nationality.nationality,
+       person__person_race.race,
+       person__person_polity.polity_id,
+       polity.name             polity_name,
+       polity.location_address polity_location_address,
+       polity.location_name    polity_location_name,
+       polity.location_email   polity_location_email,
 
-    LEFT JOIN person__person_date_of_birth ON person.id = person__person_date_of_birth.id
-    LEFT JOIN person__person_place_of_birth ON person.id = person__person_place_of_birth.id
-    LEFT JOIN person__person_email ON person.id = person__person_email.id
-    LEFT JOIN person__person_phone ON person.id = person__person_phone.id
+       language.language,
+       language.level
+FROM person__person person
 
-    LEFT JOIN person__person_title ON person.id = person__person_title.id
-    LEFT JOIN person__person_first_name ON person.id = person__person_first_name.id
-    LEFT JOIN person__person_middle_name ON person.id = person__person_middle_name.id
-    LEFT JOIN person__person_last_name ON person.id = person__person_last_name.id
-    LEFT JOIN person__person_christian_name_view ON person.id = person__person_christian_name_view.person_id
-    LEFT JOIN person__person_nationality ON person.id = person__person_nationality.id
-    LEFT JOIN person__person_race ON person.id = person__person_race.id
+         LEFT JOIN person__person_date_of_birth ON person.id = person__person_date_of_birth.id
+         LEFT JOIN person__person_place_of_birth ON person.id = person__person_place_of_birth.id
+         LEFT JOIN person__person_email ON person.id = person__person_email.id
+         LEFT JOIN person__person_phone ON person.id = person__person_phone.id
 
-    LEFT JOIN person__person_id_number ppin on person.id = ppin.person_id
-    LEFT JOIN person__person_id_number_provider on ppin.id = person__person_id_number_provider.id
-    LEFT JOIN person__person_id_number_date_of_issue on ppin.id = person__person_id_number_date_of_issue.id
-    LEFT JOIN person__person_id_number_place_of_issue on ppin.id = person__person_id_number_place_of_issue.id
+         LEFT JOIN person__person_title ON person.id = person__person_title.id
+         LEFT JOIN person__person_first_name ON person.id = person__person_first_name.id
+         LEFT JOIN person__person_middle_name ON person.id = person__person_middle_name.id
+         LEFT JOIN person__person_last_name ON person.id = person__person_last_name.id
+         LEFT JOIN person__person_christian_name_view ON person.id = person__person_christian_name_view.person_id
+         LEFT JOIN person__person_nationality ON person.id = person__person_nationality.id
+         LEFT JOIN person__person_race ON person.id = person__person_race.id
 
-    LEFT JOIN person__person_polity ON person.id = person__person_polity.id
-    LEFT JOIN polity__polity_view polity ON person__person_polity.polity_id = polity.id
+         LEFT JOIN person__person_id_number ppin on person.id = ppin.person_id
+         LEFT JOIN person__person_id_number_provider on ppin.id = person__person_id_number_provider.id
+         LEFT JOIN person__person_id_number_date_of_issue on ppin.id = person__person_id_number_date_of_issue.id
+         LEFT JOIN person__person_id_number_place_of_issue on ppin.id = person__person_id_number_place_of_issue.id
+
+         LEFT JOIN person__person_polity ON person.id = person__person_polity.id
+         LEFT JOIN polity__polity_view polity ON person__person_polity.polity_id = polity.id
+
+         LEFT JOIN person__person_language language ON person.id = language.person_id
