@@ -80,7 +80,7 @@ CREATE TABLE IF NOT EXISTS public.person__person_id_number_place_of_issue
     place_of_issue            VARCHAR NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS public.person__person_language
+CREATE TABLE IF NOT EXISTS public.person__person_languages
 (
     person_id                   UUID NOT NULL REFERENCES person__person(id) ON DELETE CASCADE,
     language                    VARCHAR NOT NULL,
@@ -141,7 +141,7 @@ CREATE TABLE IF NOT EXISTS public.person__educational_stage_major
     major       VARCHAR NOT NULL
 );
 
-CREATE TABLE IF NOT EXISTS public.person__person_educational_stage
+CREATE TABLE IF NOT EXISTS public.person__person_educational_stages
 (
     person_id               UUID REFERENCES person__person (id) ON DELETE CASCADE,
     educational_stage_id    UUID REFERENCES person__educational_stage (id) ON DELETE CASCADE,
@@ -220,7 +220,7 @@ VALUES ('56439ecf-99e9-469a-9dcf-f5f654878e1b', 'HIGH_SCHOOL');
 INSERT INTO public.person__educational_stage_school_name (id, school_name)
 VALUES ('56439ecf-99e9-469a-9dcf-f5f654878e1b', 'THPT Nguyễn Du');
 
-INSERT INTO public.person__person_educational_stage (person_id, educational_stage_id, graduate_year)
+INSERT INTO public.person__person_educational_stages (person_id, educational_stage_id, graduate_year)
 VALUES ('53f549b9-99bf-4e12-88e3-c2f868953283', '56439ecf-99e9-469a-9dcf-f5f654878e1b', 2000);
 
 -- Teacher: Đỗ Văn Ngân
@@ -263,10 +263,10 @@ VALUES ('f0dacf1c-b728-4072-8ded-495bcb9e9c57', '2001-05-05');
 INSERT INTO public.person__person_id_number_place_of_issue (id, place_of_issue)
 VALUES ('f0dacf1c-b728-4072-8ded-495bcb9e9c57', 'TP.HCM');
 
-INSERT INTO public.person__person_language (person_id, language, level)
+INSERT INTO public.person__person_languages (person_id, language, level)
 VALUES ('938c9343-2f5e-4517-8d2e-8f251403d350', 'English', 'ADVANCED');
 
-INSERT INTO public.person__person_language (person_id, language, level)
+INSERT INTO public.person__person_languages (person_id, language, level)
 VALUES ('938c9343-2f5e-4517-8d2e-8f251403d350', 'Latin', 'ADVANCED');
 
 -- View
@@ -292,9 +292,9 @@ FROM person__educational_stage
 
 CREATE VIEW person__person_education_stage_view AS
 SELECT educational_stage_id, educational_level, school_name, major, graduate_year, person_id
-FROM person__person_educational_stage
+FROM person__person_educational_stages
          LEFT JOIN person__educational_stage_view stage
-                   ON person__person_educational_stage.educational_stage_id = stage.id;
+                   ON person__person_educational_stages.educational_stage_id = stage.id;
 
 
 CREATE VIEW person__person_view AS
@@ -343,4 +343,4 @@ FROM person__person person
          LEFT JOIN person__person_polity ON person.id = person__person_polity.id
          LEFT JOIN polity__polity_view polity ON person__person_polity.polity_id = polity.id
 
-         LEFT JOIN person__person_language language ON person.id = language.person_id
+         LEFT JOIN person__person_languages language ON person.id = language.person_id
