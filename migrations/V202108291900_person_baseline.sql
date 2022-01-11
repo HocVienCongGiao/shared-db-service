@@ -85,7 +85,7 @@ CREATE TABLE IF NOT EXISTS public.person__person_language
     person_id                   UUID NOT NULL REFERENCES person__person(id) ON DELETE CASCADE,
     language                    VARCHAR NOT NULL,
     level                       VARCHAR NOT NULL,
-    PRIMARY KEY (person_id, language, level)
+    PRIMARY KEY (person_id, language)
 );
 
 CREATE TABLE IF NOT EXISTS public.person__person_date_of_birth
@@ -266,7 +266,7 @@ VALUES ('f0dacf1c-b728-4072-8ded-495bcb9e9c57', 'TP.HCM');
 INSERT INTO public.person__person_language (person_id, language, level)
 VALUES ('938c9343-2f5e-4517-8d2e-8f251403d350', 'English', 'ADVANCED');
 
-INSERT INTO public.person__person_language (person_id, language_id, level)
+INSERT INTO public.person__person_language (person_id, language, level)
 VALUES ('938c9343-2f5e-4517-8d2e-8f251403d350', 'Latin', 'ADVANCED');
 
 -- View
