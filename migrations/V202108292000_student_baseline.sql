@@ -28,7 +28,7 @@ CREATE VIEW student__student_view AS
     polity.location_name as polity_location_name,
     polity.location_email as polity_location_email
     FROM student__student student
-    LEFT JOIN person__person_view person ON student.id = person.id
-    LEFT JOIN person__person_christian_name_view as christian_name ON student.id = christian_name.person_id
-    LEFT JOIN person__person_polity ON student.id = person__person_polity.id
+    LEFT JOIN person__person_view person ON student.person_id = person.id
+    LEFT JOIN person__person_christian_name_view as christian_name ON student.person_id = christian_name.person_id
+    LEFT JOIN person__person_polity ON student.person_id = person__person_polity.id
     LEFT JOIN polity__polity_view polity ON person__person_polity.polity_id = polity.id
