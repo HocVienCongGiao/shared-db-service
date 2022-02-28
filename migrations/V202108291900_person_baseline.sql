@@ -296,6 +296,20 @@ FROM person__person_educational_stages
          LEFT JOIN person__educational_stage_view stage
                    ON person__person_educational_stages.educational_stage_id = stage.id;
 
+CREATE VIEW person__personal_id_number_view AS
+SELECT ppin.id,
+       person.id person_id,
+       ppin.person_id_number,
+       person__person_id_number_provider.code,
+       person__person_id_number_date_of_issue.date_of_issue,
+       person__person_id_number_place_of_issue.place_of_issue
+FROM person__person as person
+         LEFT JOIN person__person_id_number ppin on person.id = ppin.person_id
+         LEFT JOIN person__person_id_number_provider on ppin.id = person__person_id_number_provider.id
+         LEFT JOIN person__person_id_number_date_of_issue on ppin.id = person__person_id_number_date_of_issue.id
+         LEFT JOIN person__person_id_number_place_of_issue on ppin.id = person__person_id_number_place_of_issue.id;
+
+
 
 CREATE VIEW person__person_view AS
 SELECT person.*,
@@ -334,11 +348,6 @@ FROM person__person person
          LEFT JOIN person__person_christian_name_view ON person.id = person__person_christian_name_view.person_id
          LEFT JOIN person__person_nationality ON person.id = person__person_nationality.id
          LEFT JOIN person__person_race ON person.id = person__person_race.id
-
-         LEFT JOIN person__person_id_number ppin on person.id = ppin.person_id
-         LEFT JOIN person__person_id_number_provider on ppin.id = person__person_id_number_provider.id
-         LEFT JOIN person__person_id_number_date_of_issue on ppin.id = person__person_id_number_date_of_issue.id
-         LEFT JOIN person__person_id_number_place_of_issue on ppin.id = person__person_id_number_place_of_issue.id
 
          LEFT JOIN person__person_polity ON person.id = person__person_polity.id
          LEFT JOIN polity__polity_view polity ON person__person_polity.polity_id = polity.id
