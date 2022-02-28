@@ -307,7 +307,7 @@ FROM person__person as person
          LEFT JOIN person__person_id_number ppin on person.id = ppin.person_id
          LEFT JOIN person__person_id_number_provider on ppin.id = person__person_id_number_provider.id
          LEFT JOIN person__person_id_number_date_of_issue on ppin.id = person__person_id_number_date_of_issue.id
-         LEFT JOIN person__person_id_number_place_of_issue on ppin.id = person__person_id_number_place_of_issue.id
+         LEFT JOIN person__person_id_number_place_of_issue on ppin.id = person__person_id_number_place_of_issue.id;
 
 
 
