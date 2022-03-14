@@ -185,13 +185,13 @@ INSERT INTO public.person__person_title (id, title)
 VALUES ('53f549b9-99bf-4e12-88e3-c2f868953283', 'PRIEST');
 
 INSERT INTO public.person__person_first_name (id, first_name)
-VALUES ('53f549b9-99bf-4e12-88e3-c2f868953283', 'Nguyễn');
+VALUES ('53f549b9-99bf-4e12-88e3-c2f868953283', 'Chiến');
 
 INSERT INTO public.person__person_middle_name (id, middle_name)
 VALUES ('53f549b9-99bf-4e12-88e3-c2f868953283', 'Hữu');
 
 INSERT INTO public.person__person_last_name (id, last_name)
-VALUES ('53f549b9-99bf-4e12-88e3-c2f868953283', 'Chiến');
+VALUES ('53f549b9-99bf-4e12-88e3-c2f868953283', 'Nguyễn');
 
 INSERT INTO public.person__person_nationality (id, nationality)
 VALUES ('53f549b9-99bf-4e12-88e3-c2f868953283', 'Vietnamese');
@@ -237,13 +237,13 @@ INSERT INTO public.person__person_title (id, title)
 VALUES ('938c9343-2f5e-4517-8d2e-8f251403d350', 'PRIEST');
 
 INSERT INTO public.person__person_first_name (id, first_name)
-VALUES ('938c9343-2f5e-4517-8d2e-8f251403d350', 'Đỗ');
+VALUES ('938c9343-2f5e-4517-8d2e-8f251403d350', 'Ngân');
 
 INSERT INTO public.person__person_middle_name (id, middle_name)
 VALUES ('938c9343-2f5e-4517-8d2e-8f251403d350', 'Văn');
 
 INSERT INTO public.person__person_last_name (id, last_name)
-VALUES ('938c9343-2f5e-4517-8d2e-8f251403d350', 'Ngân');
+VALUES ('938c9343-2f5e-4517-8d2e-8f251403d350', 'Đỗ');
 
 INSERT INTO public.person__person_nationality (id, nationality)
 VALUES ('938c9343-2f5e-4517-8d2e-8f251403d350', 'Vietnamese');
