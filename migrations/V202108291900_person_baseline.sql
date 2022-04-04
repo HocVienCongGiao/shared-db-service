@@ -194,7 +194,7 @@ INSERT INTO public.person__person_last_name (id, last_name)
 VALUES ('53f549b9-99bf-4e12-88e3-c2f868953283', 'Nguyễn');
 
 INSERT INTO public.person__person_nationality (id, nationality)
-VALUES ('53f549b9-99bf-4e12-88e3-c2f868953283', 'VIETNAMESE');
+VALUES ('53f549b9-99bf-4e12-88e3-c2f868953283', 'Vietnamese');
 
 INSERT INTO public.person__person_race (id, race)
 VALUES ('53f549b9-99bf-4e12-88e3-c2f868953283', 'Kinh');
@@ -245,29 +245,11 @@ VALUES ('938c9343-2f5e-4517-8d2e-8f251403d350', 'Văn');
 INSERT INTO public.person__person_last_name (id, last_name)
 VALUES ('938c9343-2f5e-4517-8d2e-8f251403d350', 'Đỗ');
 
-INSERT INTO public.person__person_date_of_birth (id, date_of_birth)
-VALUES ('938c9343-2f5e-4517-8d2e-8f251403d350', '1983-05-16');
-
-INSERT INTO public.person__person_place_of_birth (id, place_of_birth)
-VALUES ('938c9343-2f5e-4517-8d2e-8f251403d350', 'Đồng Nai');
-
 INSERT INTO public.person__person_nationality (id, nationality)
-VALUES ('938c9343-2f5e-4517-8d2e-8f251403d350', 'VIETNAMESE');
+VALUES ('938c9343-2f5e-4517-8d2e-8f251403d350', 'Vietnamese');
 
 INSERT INTO public.person__person_race (id, race)
 VALUES ('938c9343-2f5e-4517-8d2e-8f251403d350', 'Kinh');
-
-INSERT INTO public.person__person_languages (person_id, language, level)
-VALUES ('938c9343-2f5e-4517-8d2e-8f251403d350', 'English', 'ADVANCED');
-
-INSERT INTO public.person__person_languages (person_id, language, level)
-VALUES ('938c9343-2f5e-4517-8d2e-8f251403d350', 'Latin', 'ADVANCED');
-
-INSERT INTO public.person__person_email (id, email)
-VALUES ('938c9343-2f5e-4517-8d2e-8f251403d350', 'ngando@gmail.vn');
-
-INSERT INTO public.person__person_phone (id, phone)
-VALUES ('938c9343-2f5e-4517-8d2e-8f251403d350', '+84 1208019700');
 
 INSERT INTO public.person__person_id_number (id, person_id, person_id_number)
 VALUES ('f0dacf1c-b728-4072-8ded-495bcb9e9c57', '938c9343-2f5e-4517-8d2e-8f251403d350', '673487263555');
@@ -280,6 +262,12 @@ VALUES ('f0dacf1c-b728-4072-8ded-495bcb9e9c57', '2001-05-05');
 
 INSERT INTO public.person__person_id_number_place_of_issue (id, place_of_issue)
 VALUES ('f0dacf1c-b728-4072-8ded-495bcb9e9c57', 'TP.HCM');
+
+INSERT INTO public.person__person_languages (person_id, language, level)
+VALUES ('938c9343-2f5e-4517-8d2e-8f251403d350', 'English', 'ADVANCED');
+
+INSERT INTO public.person__person_languages (person_id, language, level)
+VALUES ('938c9343-2f5e-4517-8d2e-8f251403d350', 'Latin', 'ADVANCED');
 
 -- View
 CREATE VIEW person__person_christian_name_view AS
@@ -310,7 +298,7 @@ FROM person__person_educational_stages
 
 CREATE VIEW person__personal_id_number_view AS
 SELECT ppin.id,
-       person_id,
+       person.id person_id,
        ppin.person_id_number,
        person__person_id_number_provider.code,
        person__person_id_number_date_of_issue.date_of_issue,
@@ -342,7 +330,10 @@ SELECT person.*,
        polity.name             polity_name,
        polity.location_address polity_location_address,
        polity.location_name    polity_location_name,
-       polity.location_email   polity_location_email
+       polity.location_email   polity_location_email,
+
+       language.language,
+       language.level
 FROM person__person person
 
          LEFT JOIN person__person_date_of_birth ON person.id = person__person_date_of_birth.id
@@ -359,4 +350,6 @@ FROM person__person person
          LEFT JOIN person__person_race ON person.id = person__person_race.id
 
          LEFT JOIN person__person_polity ON person.id = person__person_polity.id
-         LEFT JOIN polity__polity_view polity ON person__person_polity.polity_id = polity.id;
+         LEFT JOIN polity__polity_view polity ON person__person_polity.polity_id = polity.id
+
+         LEFT JOIN person__person_languages language ON person.id = language.person_id
