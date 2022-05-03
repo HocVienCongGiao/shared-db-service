@@ -175,8 +175,14 @@ VALUES ('53f549b9-99bf-4e12-88e3-c2f868953283', '+84 1228019700');
 INSERT INTO public.person__person_address (id, address)
 VALUES ('53f549b9-99bf-4e12-88e3-c2f868953283', '1000 CMT8 phường 3 quận Tân Bình, TP HCM');
 
+INSERT INTO public.person__person_vow_progress (id, progress)
+VALUES ('53f549b9-99bf-4e12-88e3-c2f868953283', 'SIMPLE_VOW');
+
+INSERT INTO public.person__person_languages (person_id, language, level)
+VALUES ('53f549b9-99bf-4e12-88e3-c2f868953283', 'English', 'BEGINNER');
+
 INSERT INTO public.person__person_polity (id, polity_id)
-VALUES ('53f549b9-99bf-4e12-88e3-c2f868953283', '4d084b56-54e1-4bd2-878e-c52675497c2b');
+VALUES ('53f549b9-99bf-4e12-88e3-c2f868953283', '369769b1-96ee-4e11-95e9-a9ed1409c043');
 
 INSERT INTO public.person__person_christian_names (person_id, saint_id, ordering)
 VALUES ('53f549b9-99bf-4e12-88e3-c2f868953283', '40e6215d-b5c6-4896-987c-f30f3678f608', 1);
@@ -233,6 +239,9 @@ VALUES ('938c9343-2f5e-4517-8d2e-8f251403d350', '4d084b56-54e1-4bd2-878e-c526754
 INSERT INTO public.person__person_christian_names (person_id, saint_id, ordering)
 VALUES ('938c9343-2f5e-4517-8d2e-8f251403d350', '40e6215d-b5c6-4896-987c-f30f3678f608', 1);
 
+INSERT INTO public.person__person_vow_progress (id, progress)
+VALUES ('938c9343-2f5e-4517-8d2e-8f251403d350', 'SOLEMN_VOW');
+
 INSERT INTO public.person__person_title (id, title)
 VALUES ('938c9343-2f5e-4517-8d2e-8f251403d350', 'PRIEST');
 
@@ -283,13 +292,13 @@ VALUES ('f0dacf1c-b728-4072-8ded-495bcb9e9c57', 'TP.HCM');
 
 -- View
 CREATE VIEW person__person_christian_name_view AS
-    SELECT person.id as person_id,
-    array_agg(saint__saint_display_name.id ORDER BY person__person_christian_names.ordering) as saint_ids,
-    string_agg(saint__saint_display_name.display_name, ' ' ORDER BY person__person_christian_names.ordering) as christian_name
-    FROM person__person person
-    LEFT JOIN person__person_christian_names ON person.id = person__person_christian_names.person_id
-    LEFT JOIN saint__saint_display_name ON person__person_christian_names.saint_id = saint__saint_display_name.id
-    GROUP BY person.id;
+SELECT person.id                                                                                                as person_id,
+       array_agg(saint__saint_display_name.id ORDER BY person__person_christian_names.ordering)                 as saint_ids,
+       string_agg(saint__saint_display_name.display_name, ' ' ORDER BY person__person_christian_names.ordering) as christian_name
+FROM person__person person
+         LEFT JOIN person__person_christian_names ON person.id = person__person_christian_names.person_id
+         LEFT JOIN saint__saint_display_name ON person__person_christian_names.saint_id = saint__saint_display_name.id
+GROUP BY person.id;
 
 CREATE VIEW person__educational_stage_view AS
 SELECT person__educational_stage.id,
@@ -339,6 +348,9 @@ SELECT person.*,
        person__person_nationality.nationality,
        person__person_race.race,
        person__person_polity.polity_id,
+       person__person_vow_progress.progress,
+       person__person_address.address,
+
        polity.name             polity_name,
        polity.location_address polity_location_address,
        polity.location_name    polity_location_name,
@@ -349,7 +361,7 @@ FROM person__person person
          LEFT JOIN person__person_place_of_birth ON person.id = person__person_place_of_birth.id
          LEFT JOIN person__person_email ON person.id = person__person_email.id
          LEFT JOIN person__person_phone ON person.id = person__person_phone.id
-
+         LEFT JOIN person__person_address on person.id = person__person_address.id
          LEFT JOIN person__person_title ON person.id = person__person_title.id
          LEFT JOIN person__person_first_name ON person.id = person__person_first_name.id
          LEFT JOIN person__person_middle_name ON person.id = person__person_middle_name.id
@@ -357,6 +369,6 @@ FROM person__person person
          LEFT JOIN person__person_christian_name_view ON person.id = person__person_christian_name_view.person_id
          LEFT JOIN person__person_nationality ON person.id = person__person_nationality.id
          LEFT JOIN person__person_race ON person.id = person__person_race.id
-
+         LEFT JOIN person__person_vow_progress ON person.id = person__person_vow_progress.id
          LEFT JOIN person__person_polity ON person.id = person__person_polity.id
          LEFT JOIN polity__polity_view polity ON person__person_polity.polity_id = polity.id;
